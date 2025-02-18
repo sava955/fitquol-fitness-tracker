@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  DestroyRef,
   HostListener,
   inject,
   OnInit,
@@ -13,8 +12,8 @@ import {
   MatDrawerMode,
   MatSidenavModule,
 } from '@angular/material/sidenav';
-import { SidebarComponent } from '../../core/sidebar/sidebar.component';
-import { HeaderComponent } from '../../core/header/header.component';
+import { SidebarComponent } from '../../core/components/sidebar/sidebar.component';
+import { HeaderComponent } from '../../core/components/header/header.component';
 import { RouterOutlet } from '@angular/router';
 import { map } from 'rxjs';
 import { DrawerContentScrollService } from '../../core/services/drawer-content-scroll/drawer-content-scroll.service';
@@ -32,6 +31,10 @@ import { DrawerContentScrollService } from '../../core/services/drawer-content-s
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit, AfterViewInit {
+  private readonly drawerContentScrollService = inject(
+    DrawerContentScrollService
+  );
+
   @ViewChild(MatDrawerContent) drawerContent!: MatDrawerContent;
   private innerWidth!: number;
   sideNavMode: MatDrawerMode = 'side';
@@ -40,10 +43,6 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   onResize(event: Event) {
     this.setSidenavMode();
   }
-
-  private readonly drawerContentScrollService = inject(
-    DrawerContentScrollService
-  );
 
   ngOnInit(): void {
     this.setSidenavMode();
@@ -58,7 +57,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
       });
   }
 
-  setSidenavMode(): void {
+  private setSidenavMode(): void {
     this.innerWidth = window.innerWidth;
 
     if (this.innerWidth < 767) {

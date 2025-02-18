@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Exercise, ExerciseGroup, ExerciseParams } from '../../models/exercises/exercise.interface';
 import { environment } from '../../../../environments/environment.development';
-import { ResponseObj } from '../../../shared/models/http-response.interface';
+import { ResponseObj } from '../../models/http-response/http-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,8 @@ export class ExerciseService {
     return this.httpClient.get<ResponseObj<Exercise[]>>(this.url, {params: httpParams});
   }
 
-  getExercise(id: string): Observable<Exercise> {
-    return this.httpClient.get<Exercise>(this.url + `/${id}`);
+  getExercise(id: string): Observable<ResponseObj<Exercise>> {
+    return this.httpClient.get<ResponseObj<Exercise>>(this.url + `/${id}`);
   }
 
   addExercises(exerciseGrpup: ExerciseGroup[]): Observable<ExerciseGroup[]> {

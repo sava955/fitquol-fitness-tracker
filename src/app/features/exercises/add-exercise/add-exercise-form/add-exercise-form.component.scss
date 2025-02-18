@@ -30,6 +30,12 @@
   }
 
   ::ng-deep {
+    app-form-base {
+      mat-card {
+        padding: 0 !important;
+      }
+    }
+    
     .highlight-selected-days {
       .mat-calendar-body-cell-content {
         background-color: var(--dsVars-primary-light-color);

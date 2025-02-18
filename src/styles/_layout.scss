@@ -1,0 +1,42 @@
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.title-underline {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 5px;
+    left: 0;
+    bottom: 0;
+    background-color: var(--dsVars-primary-color);
+  }
+}
+
+.container {
+  max-width: 100%;
+  padding: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px; 
+  row-gap: 30px;
+}
+
+.full-col {
+  flex: 1;
+}
+
+.col-gap-2 {
+  column-gap: 2em;
+}

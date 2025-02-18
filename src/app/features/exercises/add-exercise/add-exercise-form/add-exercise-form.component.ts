@@ -40,6 +40,7 @@ import {
   ExerciseStatus,
   ScheduleRange,
 } from '../../../../core/enums/exercises/exercise-planer.enum';
+import { FormBaseComponent } from '../../../../shared/components/form-base/form-base.component';
 
 @Component({
   selector: 'app-add-exercise-form',
@@ -56,6 +57,7 @@ import {
     MatInputModule,
     MatCheckboxModule,
     CommonModule,
+    FormBaseComponent
   ],
   templateUrl: './add-exercise-form.component.html',
   styleUrl: './add-exercise-form.component.scss',

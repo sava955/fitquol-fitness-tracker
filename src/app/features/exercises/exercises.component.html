@@ -6,7 +6,6 @@
       <mat-label>Search exercises</mat-label>
       <input
         type="text"
-        class="text-capitalize"
         matInput
         [formControl]="searchControl"
       />
@@ -15,7 +14,7 @@
 
   <div class="row py-4" appDsInfiniteScroll (scrolled)="loadMore($event)">
     @for (exercise of exercises; track exercise) {
-    <article class="col col-4">
+    <article class="col-12 col-4-md col-6-sm">
       <mat-card
         class="card flex flex-column justify-content-between"
         appearance="outlined"
@@ -26,7 +25,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <span>{{ exercise.description }}</span>
+          <span class="exercise-description">{{ exercise.description }}</span>
         </mat-card-content>
         <mat-card-footer class="card-footer flex justify-content-end">
           <a routerLink="add-exercise/{{exercise._id}}" class="accent btn-sm" mat-flat-button>Add exercise</a>
