@@ -3,10 +3,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDrawerMode } from '@angular/material/sidenav';
-import { AuthService } from '../services/auth/auth.service';
-import { UserService } from '../services/users/user.service';
-import { ResponseObj } from '../../shared/models/http-response.interface';
-import { User } from '../models/user/user.interface';
+import { AuthService } from '../../services/auth/auth.service';
+import { UserService } from '../../services/users/user.service';
+import { ResponseObj } from '../../models/http-response/http-response.interface';
+import { User } from '../../models/user/user.interface';
 
 @Component({
   selector: 'app-header',

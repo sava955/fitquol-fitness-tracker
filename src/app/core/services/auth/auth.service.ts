@@ -2,9 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Login } from '../../models/auth/login.interface';
 import { Observable } from 'rxjs';
-import { ResponseObj } from '../../../shared/models/http-response.interface';
+import { ResponseObj } from '../../models/http-response/http-response.interface';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { User } from '../../models/user/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class AuthService {
   private token!: string | null;
 
   constructor() { }
+
+  registerUser(params: User): Observable<ResponseObj<any>> {
+    return this.httpClient.post<ResponseObj<any>>(`${this.url}/register`, params);
+  }
 
   login(params: Login): Observable<ResponseObj<string>> {
     return this.httpClient.post<ResponseObj<string>>(`${this.url}/login`, params);

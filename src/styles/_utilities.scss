@@ -1,0 +1,27 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+// Global Utility Classes
+@include flex-utilities();
+@include column-utilities();
+@include spacing-utilities("m", "margin");
+@include spacing-utilities("p", "padding");
+@include justify-utilities();
+@include align-utilities("items");
+@include align-utilities("self");
+@include align-utilities("content");
+@include font-weight-utilities();
+
+// Generate Responsive Utilities
+@each $breakpoint, $size in $breakpoints {
+  @include responsive($breakpoint) {
+    @include flex-utilities("-#{$breakpoint}");
+    @include column-utilities("-#{$breakpoint}");
+    @include spacing-utilities("m", "margin", "-#{$breakpoint}");
+    @include spacing-utilities("p", "padding", "-#{$breakpoint}");
+    @include justify-utilities("-#{$breakpoint}");
+    @include align-utilities("items", "-#{$breakpoint}");
+    @include align-utilities("self", "-#{$breakpoint}");
+    @include align-utilities("content", "-#{$breakpoint}");
+  }
+}

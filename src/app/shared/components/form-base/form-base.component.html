@@ -1,0 +1,30 @@
+<mat-card
+  class="card flex flex-column justify-content-between p-1 p-4-md"
+  
+>
+  @if (formTitle) {
+    <mat-card-header class="mb-4">
+      <mat-card-title>
+        <span class="title title-underline pb-2">{{ formTitle }}</span>
+      </mat-card-title>
+    </mat-card-header>
+  }
+
+  <mat-card-content class="flex flex-column p-1 p-4-md">
+    <form [formGroup]="formGroup">
+      <ng-content></ng-content>
+    </form>
+  </mat-card-content>
+
+  <mat-card-footer class="card-footer flex justify-content-between">
+    @for (btn of actionBtns; track $index) {
+        <button 
+        (click)="btn.action()"
+        mat-flat-button
+        class="{{btn.style}}"
+      >
+        {{ btn.label }}
+      </button>
+    }
+  </mat-card-footer>
+</mat-card>

@@ -1,3 +1,5 @@
+@use '../../../styles/mixins' as *;
+
 .example-form {
   min-width: 150px;
   max-width: 500px;
@@ -37,6 +39,14 @@
   .title, span, .card-footer {
     position: relative;
     z-index: 1;
+  }
+
+  .exercise-description {
+    font-size: 14px;
+
+    @include responsive(md) {
+      font-size: 16px;
+    }
   }
 
   .card-footer {

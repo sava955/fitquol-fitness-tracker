@@ -1,0 +1,18 @@
+@use "../../../../styles/mixins" as *;
+
+.login-form {
+  min-height: 100vh;
+  background-color: var(--dsVars-background-gray-color);
+
+  .login-form-container {
+    width: 100%;
+
+    .title {
+      font-size: 24px;
+    }
+
+    @include responsive(md) {
+      width: 30vw;
+    }
+  }
+}

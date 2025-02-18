@@ -7,7 +7,7 @@ import { DrawerContentScrollService } from '../services/drawer-content-scroll/dr
 export class DsInfiniteScrollDirective {
   @Output() scrolled = new EventEmitter<boolean>(false);
 
-  readonly drawerContentScroll = inject(DrawerContentScrollService);
+  private readonly drawerContentScroll = inject(DrawerContentScrollService);
 
   constructor() {
     effect(() => {

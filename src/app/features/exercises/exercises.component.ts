@@ -24,7 +24,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ResponseObj } from '../../shared/models/http-response.interface';
+import { ResponseObj } from '../../core/models/http-response/http-response.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({

@@ -1,21 +1,30 @@
-import { ExerciseGroup } from "../exercises/exercise.interface";
+import { ExerciseGroup } from '../exercises/exercise.interface';
 
-export interface User {
+export interface UserData {
   firstName: string;
   lastName: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   gender: string;
   email: string;
   password: string;
-  profileImage: string;
+  passwordConfirmation?: string;
+  profileImage?: string;
+}
+
+export interface UserGoals {
+  measurementSystem: string;
   weight: number;
   height: number;
-  days: [
-    {
-      day: Date;
-      exercisesGroup: ExerciseGroup[];
-      nutrition: [];
-      caloriesBalance: number;
-    }
-  ];
+  goal: string;
+  weightPerWeek: number;
+  days?: Day[];
 }
+
+export interface Day {
+  day: Date;
+  exercisesGroup: ExerciseGroup[];
+  nutrition: [];
+  caloriesBalance: number;
+}
+
+export interface User extends UserData, UserGoals {}

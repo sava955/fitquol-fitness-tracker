@@ -3,39 +3,26 @@
     {{ exercise.category }}
   </h2>
 
-  <div>
-    {{ exercise.description }}
+  <p>{{ exercise.description }}</p>
 
-    <form [formGroup]="exerciseForm">
-      <div class="mt-4">
-        <h4>Add exercise</h4>
-
+  <div class="my-2">
+    <app-form-base [formTitle]="'Add exercise'" [formGroup]="exerciseForm">
+      <div>
         <div class="mb-3">
-          <span class="semi-bold ft-16">Select planner type</span>
+          <span class="font-semi-bold ft-16">Select planner type</span>
         </div>
 
         <div class="mb-3">
           <mat-radio-group formControlName="plannerType">
-            <mat-radio-button value="DAILY_PLANNER"
-              >Daily planner</mat-radio-button
-            >
-            <mat-radio-button value="WEEKLY_PLANNER"
-              >Weekly planner</mat-radio-button
-            >
+            <mat-radio-button value="DAILY_PLANNER">Daily planner</mat-radio-button>
+            <mat-radio-button value="WEEKLY_PLANNER">Weekly planner</mat-radio-button>
           </mat-radio-group>
         </div>
 
-        <ng-container
-          *ngIf="plannerType?.value === 'DAILY_PLANNER'; else weeklyPlanner"
-        >
+        <ng-container *ngIf="plannerType?.value === 'DAILY_PLANNER'; else weeklyPlanner">
           <div class="p-2 days-wrapper">
-            <mat-calendar
-              #calendar
-              [dateClass]="highlightSelectedDays"
-              [minDate]="minDate"
-              [maxDate]="maxDate"
-              (selectedChange)="toggleDate($event)"
-            >
+            <mat-calendar #calendar [dateClass]="highlightSelectedDays" [minDate]="minDate" [maxDate]="maxDate"
+              (selectedChange)="toggleDate($event)">
             </mat-calendar>
 
             @if (daysFormArray.hasError('required')) {
@@ -49,20 +36,13 @@
         <ng-template #weeklyPlanner>
           <div class="mt-2 days-wrapper px-3 py-2" formArrayName="days">
             <div class="my-3">
-              <span class="semi-bold my-3">Select days</span>
+              <span class="font-semi-bold my-3">Select days</span>
             </div>
 
-            <div class="flex flex-wrap">
+            <div class="flex flex-column flex-row-md flex-wrap">
               <div *ngFor="let d of days; let i = index">
-                <mat-checkbox
-                  #dayCheckbox
-                  (change)="addDay($event.checked, i)"
-                  value="{{i}}"
-                  disabled="{{
-                      isNoDaysLeft(dayCheckbox)
-                  }}"
-                  >{{ days[i] }}</mat-checkbox
-                >
+                <mat-checkbox #dayCheckbox (change)="addDay($event.checked, i)" value="{{ i }}"
+                  disabled="{{ isNoDaysLeft(dayCheckbox) }}">{{ days[i] }}</mat-checkbox>
               </div>
             </div>
 
@@ -75,21 +55,17 @@
 
           <div>
             <div class="my-3">
-              <span class="semi-bold ft-16">Schedule range</span>
+              <span class="font-semi-bold ft-16">Schedule range</span>
             </div>
 
             <mat-radio-group formControlName="currentMonthScheduleRange">
               <mat-radio-button value="FROM_TODAY">From today</mat-radio-button>
-              <mat-radio-button value="WHOLE_MONTH"
-                >Whole month</mat-radio-button
-              >
+              <mat-radio-button value="WHOLE_MONTH">Whole month</mat-radio-button>
             </mat-radio-group>
           </div>
 
           <div>
-            <mat-checkbox formControlName="nextMonthIncluded"
-              >Include next month</mat-checkbox
-            >
+            <mat-checkbox formControlName="nextMonthIncluded">Include next month</mat-checkbox>
           </div>
         </ng-template>
       </div>
@@ -97,8 +73,8 @@
       <div>
         <h4>Set program</h4>
 
-        <div class="flex">
-          <mat-form-field class="full-col pr-1">
+        <div class="flex flex-column flex-row-md col-gap-2">
+          <mat-form-field class="full-col">
             <mat-label>Sets</mat-label>
             <input matInput type="number" formControlName="sets" />
 
@@ -107,7 +83,7 @@
             }
           </mat-form-field>
 
-          <mat-form-field class="full-col pl-1">
+          <mat-form-field class="full-col">
             <mat-label>Set Duration</mat-label>
             <input matInput type="number" formControlName="setDuration" />
             <span matTextSuffix>seconds</span>
@@ -121,9 +97,9 @@
 
       <div class="mt-2">
         <span class="ft-16">Calories burned per exercise: </span>
-        <span class="semi-bold ft-16">{{ caloriesBurned }}kCal</span>
+        <span class="font-semi-bold ft-16">{{ caloriesBurned }}kCal</span>
       </div>
-    </form>
+    </app-form-base>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

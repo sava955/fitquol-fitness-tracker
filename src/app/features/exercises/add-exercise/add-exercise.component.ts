@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ExerciseService } from '../../../core/services/exercises/exercise.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Exercise } from '../../../core/models/exercises/exercise.interface';
+import { ResponseObj } from '../../../core/models/http-response/http-response.interface';
 
 @Component({
   selector: 'app-add-exercise',
@@ -23,8 +24,8 @@ export class AddExerciseComponent implements OnInit {
     
     this.exerciseService.getExercise(id).pipe(
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe((response: Exercise) => {
-      this.openDialog(response);
+    ).subscribe((response: ResponseObj<Exercise>) => {
+      this.openDialog(response.data);
     });
   }
 
@@ -32,8 +33,7 @@ export class AddExerciseComponent implements OnInit {
     this.dialog.open(AddExerciseFormComponent, {
       data: {
        ...exercise 
-      },
-      width: '600px',
+      }
     });
   }
 
