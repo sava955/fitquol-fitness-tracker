@@ -1,0 +1,108 @@
+<mat-dialog-content class="dialog-content">
+  <h2>
+    {{ exercise.category }}
+  </h2>
+
+  <p>{{ exercise.description }}</p>
+
+  <div class="my-2">
+    <app-form-base [formTitle]="'Add exercise'" [formGroup]="exerciseForm">
+      <div>
+        <div class="mb-3">
+          <span class="font-semi-bold ft-16">Select planner type</span>
+        </div>
+
+        <div class="mb-3">
+          <mat-radio-group formControlName="plannerType">
+            <mat-radio-button value="DAILY_PLANNER">Daily planner</mat-radio-button>
+            <mat-radio-button value="WEEKLY_PLANNER">Weekly planner</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <ng-container *ngIf="plannerType?.value === 'DAILY_PLANNER'; else weeklyPlanner">
+          <div class="p-2 days-wrapper">
+            <mat-calendar #calendar [dateClass]="highlightSelectedDays" [minDate]="minDate" [maxDate]="maxDate"
+              (selectedChange)="toggleDate($event)">
+            </mat-calendar>
+
+            @if (daysFormArray.hasError('required')) {
+            <div class="my-3">
+              <span>You need to select at least one day.</span>
+            </div>
+            }
+          </div>
+        </ng-container>
+
+        <ng-template #weeklyPlanner>
+          <div class="mt-2 days-wrapper px-3 py-2" formArrayName="days">
+            <div class="my-3">
+              <span class="font-semi-bold my-3">Select days</span>
+            </div>
+
+            <div class="flex flex-column flex-row-md flex-wrap">
+              <div *ngFor="let d of days; let i = index">
+                <mat-checkbox #dayCheckbox (change)="addDay($event.checked, i)" value="{{ i }}"
+                  disabled="{{ isNoDaysLeft(dayCheckbox) }}">{{ days[i] }}</mat-checkbox>
+              </div>
+            </div>
+
+            @if (daysFormArray.invalid) {
+            <div class="my-3">
+              <span>You need to select at least one day per week.</span>
+            </div>
+            }
+          </div>
+
+          <div>
+            <div class="my-3">
+              <span class="font-semi-bold ft-16">Schedule range</span>
+            </div>
+
+            <mat-radio-group formControlName="currentMonthScheduleRange">
+              <mat-radio-button value="FROM_TODAY">From today</mat-radio-button>
+              <mat-radio-button value="WHOLE_MONTH">Whole month</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div>
+            <mat-checkbox formControlName="nextMonthIncluded">Include next month</mat-checkbox>
+          </div>
+        </ng-template>
+      </div>
+
+      <div>
+        <h4>Set program</h4>
+
+        <div class="flex flex-column flex-row-md col-gap-2">
+          <mat-form-field class="full-col">
+            <mat-label>Sets</mat-label>
+            <input matInput type="number" formControlName="sets" />
+
+            @if (sets?.invalid) {
+            <mat-error>This field is mandatory</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="full-col">
+            <mat-label>Set Duration</mat-label>
+            <input matInput type="number" formControlName="setDuration" />
+            <span matTextSuffix>seconds</span>
+
+            @if (setDuration?.invalid) {
+            <mat-error>This field is mandatory</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="mt-2">
+        <span class="ft-16">Calories burned per exercise: </span>
+        <span class="font-semi-bold ft-16">{{ caloriesBurned }}kCal</span>
+      </div>
+    </app-form-base>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button (click)="addExercise(exerciseForm.value)">Add</button>
+</mat-dialog-actions>

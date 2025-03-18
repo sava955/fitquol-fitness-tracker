@@ -1,0 +1,93 @@
+:root {
+  --dsVars-primary-color: #f06b46;
+  --dsVars-tertiary-color: #8e58fb;
+  --dsVars-tertiary-color-light: #ffe6c6;
+  --dsVars-white: #ffffff;
+
+  --dsVars-primary-dark: #180f2a;
+
+  --dsVars-background-light-color: #f4f6f5;
+  --dsVars-background-gray-color: #efefef;
+  --dsVars-background-dark-color: #1b1b1b;
+
+  --dsVars-primary-light-color: #f8af8a;
+  --dsVars-mandatory-element: #fde5d4;
+
+  --dsVars-icon-inactive-color: #cbcbcb;
+}
+
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+) !default;
+
+$spacers: (
+  0: 0,
+  1: 0.25rem,
+  // 4px
+  2: 0.5rem,
+  // 8px
+  3: 1rem,
+  // 16px
+  4: 1.5rem,
+  // 24px
+  5: 3rem // 48px,,,,,
+);
+
+$directions: (
+  "": (
+    all,
+  ),
+  "t": (
+    top,
+  ),
+  "r": (
+    right,
+  ),
+  "b": (
+    bottom,
+  ),
+  "l": (
+    left,
+  ),
+  "x": (
+    left,
+    right,
+  ),
+  "y": (
+    top,
+    bottom,
+  ),
+);
+
+$flex-start: "flex-start";
+$flex-end: "flex-end";
+$center: "center";
+
+$justify-postions: (
+  "start": $flex-start,
+  "center": $center,
+  "end": $flex-end,
+  "between": space-between,
+  "around": space-around,
+  "evenly": space-evenly,
+);
+
+$alignment-postions: (
+  "start": $flex-start,
+  "center": $center,
+  "end": $flex-end,
+);
+
+$font-weights: (
+  "normal": 400,
+  "semi-bold": 500,
+  "bold": 700
+);
+
+// Grid System
+$grid-columns: 12;

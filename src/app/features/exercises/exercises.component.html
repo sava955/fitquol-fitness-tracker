@@ -1,0 +1,32 @@
+<section class="container py-4">
+  <h2>Exercises</h2>
+
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Search exercises</mat-label>
+      <input
+        type="text"
+        matInput
+        [formControl]="searchControl"
+      />
+    </mat-form-field>
+  </form>
+
+  <div class="row py-4" appDsInfiniteScroll (scrolled)="loadMore($event)">
+    @for (exercise of exercises; track exercise) {
+    <article class="col-12 col-4-md col-6-sm">
+      <app-card-item [data]="exercise" (onOpen)="openDetails($event)" class="card">
+        <span ngProjectAs="card-title" class="title title-underline pb-2">{{ exercise.category }}</span>
+        <span ngProjectAs="card-content" class="exercise-description">{{ exercise.description }}</span>
+      </app-card-item>
+    </article>
+    }
+  </div>
+  @if (loading$ | async) {
+    <div class="flex justify-content-center">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+</section>
+
+<router-outlet></router-outlet>

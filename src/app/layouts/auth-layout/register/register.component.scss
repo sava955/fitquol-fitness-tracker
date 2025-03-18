@@ -1,0 +1,21 @@
+@use "../../../../styles/mixins" as *;
+
+.register-form {
+    background-color: var(--dsVars-background-gray-color);
+    min-height: 100vh;
+  
+    .register-form-container {
+      width: 100%;
+
+      @include responsive(lg) {
+        width: 80vw;
+      }
+
+      ::ng-deep {
+        .mat-horizontal-stepper-header-container {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+  

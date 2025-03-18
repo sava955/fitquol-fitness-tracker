@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sk-fitness-tracker": {
+    "devsofteon-fitness-tracker": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/sk-fitness-tracker",
+            "outputPath": "dist/devsofteon-fitness-tracker",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -55,7 +55,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -64,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "sk-fitness-tracker:build:production"
+              "buildTarget": "devsofteon-fitness-tracker:build:production"
             },
             "development": {
-              "buildTarget": "sk-fitness-tracker:build:development"
+              "buildTarget": "devsofteon-fitness-tracker:build:development"
             }
           },
           "defaultConfiguration": "development"

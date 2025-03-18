@@ -1,0 +1,27 @@
+<mat-drawer-container class="drawer-container" autosize>
+  <mat-drawer
+    #drawer
+    class="sidenav"
+    [mode]="sideNavMode"
+    [opened]="sideNavMode === 'side'"
+    [attr.inert]="!drawer.opened ? '' : null"
+  >
+    <app-sidebar
+      [sideNavMode]="sideNavMode"
+      (sideNavClosed)="drawer.close()"
+    ></app-sidebar>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="sidenav-content">
+      <app-header
+        [sideNavMode]="sideNavMode"
+        (sidebarToggled)="drawer.toggle()"
+      ></app-header>
+      <router-outlet></router-outlet>
+      <!--main class="container py-4">
+        <router-outlet></router-outlet>
+      </main-->
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

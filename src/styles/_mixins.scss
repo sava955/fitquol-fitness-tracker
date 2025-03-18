@@ -1,0 +1,110 @@
+@use "variables" as *;
+
+// Mixin for Media Queries
+@mixin responsive($key) {
+  @each $name, $size in $breakpoints {
+    @if $key == $name {
+      @media (min-width: $size) {
+        @content;
+      }
+    }
+  }
+}
+
+// Mixin for Flexbox Utilities
+@mixin flex-utilities($breakpoint: "") {
+  .flex#{$breakpoint} {
+    display: flex !important;
+  }
+  .inline-flex#{$breakpoint} {
+    display: inline-flex !important;
+  }
+  .flex-row#{$breakpoint} {
+    flex-direction: row !important;
+  }
+  .flex-column#{$breakpoint} {
+    flex-direction: column !important;
+  }
+  .flex-wrap#{$breakpoint} {
+    flex-wrap: wrap !important;
+  }
+}
+
+// Mixin for Grid (Row & Column)
+@mixin column-utilities($breakpoint: "") {
+  @for $i from 1 through $grid-columns {
+    .col-#{$i}#{$breakpoint} {
+      flex: 0 0 calc(100% / #{$grid-columns} * #{$i}) !important;
+      max-width: calc(100% / #{$grid-columns} * #{$i}) !important;
+      padding-left: 15px;
+      padding-right: 15px;
+      box-sizing: border-box;
+    }
+  }
+
+  .col-auto#{$breakpoint} {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+
+  .col#{$breakpoint} {
+    flex: 1 1 0% !important;
+  }
+}
+
+@mixin spacing-utilities($class, $property, $breakpoint: "") {
+  @each $key, $value in $spacers {
+    // Base spacing
+    .#{$class}-#{$key}#{$breakpoint} {
+      #{$property}: #{$value} !important;
+    }
+
+    // Directional spacing
+    @each $abbr, $dirs in $directions {
+      .#{$class}#{$abbr}-#{$key}#{$breakpoint} {
+        @each $dir in $dirs {
+          @if $dir == all {
+            #{$property}: #{$value} !important;
+          } @else {
+            #{$property}-#{$dir}: #{$value} !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Auto margin support
+  .#{$property}-auto#{$breakpoint} {
+    #{$property}: auto !important;
+  }
+
+  .mx-auto#{$breakpoint} {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@mixin justify-utilities($breakpoint: "") {
+  @each $key, $value in $justify-postions {
+    .justify-content-#{$key}#{$breakpoint} {
+      justify-content: #{$value} !important;
+    }
+  }
+}
+
+@mixin align-utilities($target, $breakpoint: "") {
+  @each $key, $value in $alignment-postions {
+    .align-#{$target}-#{$key}#{$breakpoint} {
+      align-#{$target}: #{$value} !important;
+    }
+  }
+}
+
+@mixin font-weight-utilities() {
+  @each $key, $value in $font-weights {
+    .font-#{$key} {
+      font-weight: #{$value};
+    }
+  }
+}
