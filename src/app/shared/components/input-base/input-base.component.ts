@@ -23,7 +23,7 @@ export class InputBaseComponent implements ControlValueAccessor {
   @Input() suffixValue: string = '';
   @Input() warning: string = '';
 
-  @Input() formControl = new FormControl('');
+  @Input() formControl = new FormControl();
 
   onChange = (_: any) => {};
   onTouched = () => {};

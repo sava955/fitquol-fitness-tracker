@@ -14,6 +14,7 @@ export class AuthService {
   private readonly httpClient = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly url = environment.beUrl + '/api/auth';
+  
   private token!: string | null;
 
   constructor() { }

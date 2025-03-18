@@ -1,4 +1,4 @@
-<section>
+<section class="container py-4">
   <h2>Exercises</h2>
 
   <form class="example-form">
@@ -15,22 +15,10 @@
   <div class="row py-4" appDsInfiniteScroll (scrolled)="loadMore($event)">
     @for (exercise of exercises; track exercise) {
     <article class="col-12 col-4-md col-6-sm">
-      <mat-card
-        class="card flex flex-column justify-content-between"
-        appearance="outlined"
-      >
-        <mat-card-header>
-          <mat-card-title>
-            <span class="title title-underline pb-2">{{ exercise.category }}</span>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <span class="exercise-description">{{ exercise.description }}</span>
-        </mat-card-content>
-        <mat-card-footer class="card-footer flex justify-content-end">
-          <a routerLink="add-exercise/{{exercise._id}}" class="accent btn-sm" mat-flat-button>Add exercise</a>
-        </mat-card-footer>
-      </mat-card>
+      <app-card-item [data]="exercise" (onOpen)="openDetails($event)" class="card">
+        <span ngProjectAs="card-title" class="title title-underline pb-2">{{ exercise.category }}</span>
+        <span ngProjectAs="card-content" class="exercise-description">{{ exercise.description }}</span>
+      </app-card-item>
     </article>
     }
   </div>
@@ -41,4 +29,4 @@
   }
 </section>
 
-<router-outlet>
+<router-outlet></router-outlet>

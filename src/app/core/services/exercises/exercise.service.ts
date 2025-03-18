@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Exercise, ExerciseGroup, ExerciseParams } from '../../models/exercises/exercise.interface';
 import { environment } from '../../../../environments/environment.development';
 import { ResponseObj } from '../../models/http-response/http-response.interface';

@@ -17,6 +17,7 @@ export interface UserGoals {
   height: number;
   goal: string;
   weightPerWeek: number;
+  activityLevel: string;
   days?: Day[];
 }
 

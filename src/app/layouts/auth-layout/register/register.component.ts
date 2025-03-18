@@ -53,6 +53,7 @@ export class RegisterComponent {
       weight: goalData.weight,
       goal: goalData.goal,
       weightPerWeek: goalData.weightPerWeek,
+      activityLevel: goalData.activityLevel
     };
 
     this.registrationData = {

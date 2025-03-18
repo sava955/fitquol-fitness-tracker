@@ -20,7 +20,10 @@ import { FormBaseComponent } from '../../../../shared/components/form-base/form-
 import { goal, measurementSystem } from '../../../../core/const/user';
 import { oneDecimalValidator } from '../../../../shared/utils/one-decimal-validator';
 import { ActionButtons } from '../../../../core/models/action-buttons/action.buttons.interface';
-import { UnitMeasurment } from '../../../../core/enums/user/user.enum';
+import {
+  ActivityLevel,
+  UnitMeasurment,
+} from '../../../../core/enums/user/user.enum';
 
 @Component({
   selector: 'app-user-goals-form',
@@ -56,10 +59,19 @@ export class UserGoalsFormComponent implements OnInit {
     ],
     goal: [goal, Validators.required],
     weightPerWeek: [null, Validators.required],
+    activityLevel: [null, Validators.required],
   });
 
   weightOptionsKg = [0.5, 1, 1.5, 2];
   weightOptions: number[] = [...this.weightOptionsKg];
+
+  activityLevelOptions = [
+    { value: ActivityLevel.SEDENTARY, label: 'Sedentary' },
+    { value: ActivityLevel.LIGHTLY_ACTIVE, label: 'Lightly active' },
+    { value: ActivityLevel.MODERATELY_ACTIVE, label: 'Moderately active' },
+    { value: ActivityLevel.VERY_ACTIVE, label: 'Very active' },
+    { value: ActivityLevel.SUPER_ACTIVE, label: 'Super active' },
+  ];
 
   weightPerWeekWarningMessage = signal<string | null>(null);
 
@@ -71,7 +83,7 @@ export class UserGoalsFormComponent implements OnInit {
     },
     {
       label: 'Sign up',
-      action: () => this.signUp()
+      action: () => this.signUp(),
     },
   ];
 
@@ -190,11 +202,17 @@ export class UserGoalsFormComponent implements OnInit {
     });
 
     this.weightPerWeek?.valueChanges.subscribe((value: any) => {
-      if (this.measurementSystem?.value === UnitMeasurment.METRIC && value > 1) {
+      if (
+        this.measurementSystem?.value === UnitMeasurment.METRIC &&
+        value > 1
+      ) {
         this.weightPerWeekWarningMessage.set(
           'It is not healthy to lose more the 1 kg per week'
         );
-      } else if (this.measurementSystem?.value === UnitMeasurment.IMPERIAL && value > 2.2) {
+      } else if (
+        this.measurementSystem?.value === UnitMeasurment.IMPERIAL &&
+        value > 2.2
+      ) {
         this.weightPerWeekWarningMessage.set(
           'It is not healthy to lose more the 2 lbs per week'
         );
@@ -235,6 +253,6 @@ export class UserGoalsFormComponent implements OnInit {
       return this.userGoals.markAllAsTouched();
     }
 
-    this.onSignUp.emit(this.userGoals.value)
+    this.onSignUp.emit(this.userGoals.value);
   }
 }

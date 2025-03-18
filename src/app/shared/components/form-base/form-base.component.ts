@@ -14,4 +14,5 @@ export class FormBaseComponent {
   @Input() formTitle!: string;
   @Input() formGroup!: FormGroup;
   @Input() actionBtns!: ActionButtons[];
+  @Input() error!: string;
 }

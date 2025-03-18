@@ -23,6 +23,11 @@ export class SidebarComponent {
       icon: 'dashboard'
     },
     {
+      path: 'diary',
+      label: 'Diary',
+      icon: 'local_library'
+    },
+    {
       path: 'exercises',
       label: 'Exercises',
       icon: 'fitness_center'
@@ -30,7 +35,7 @@ export class SidebarComponent {
     /*{
       path: 'nutrition',
       label: 'Nutrition',
-      icon: 'dashboard'
+      icon: 'restaurant'
     }*/
   ];
 

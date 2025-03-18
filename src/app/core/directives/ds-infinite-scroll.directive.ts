@@ -11,10 +11,15 @@ export class DsInfiniteScrollDirective {
 
   constructor() {
     effect(() => {
-      if (this.drawerContentScroll.scrollOffset() < 150) {
-        this.scrolled.emit(true);
+      if (this.drawerContentScroll.scrollOffset()) { 
+        if (this.drawerContentScroll.scrollOffset()! < 1 && this.drawerContentScroll.loadData()) {
+          this.drawerContentScroll.setLoadMore(true);
+        } else {
+          this.drawerContentScroll.setLoadMore(false);
+        }
+        
       } else {
-        this.scrolled.emit(false);
+        this.drawerContentScroll.setLoadMore(false);
       }
     });
   }

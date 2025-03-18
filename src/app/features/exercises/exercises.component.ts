@@ -21,11 +21,12 @@ import { Exercise, ExerciseParams } from '../../core/models/exercises/exercise.i
 import { DsInfiniteScrollDirective } from '../../core/directives/ds-infinite-scroll.directive';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ResponseObj } from '../../core/models/http-response/http-response.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CardItemComponent } from '../../shared/components/card-item/card-item.component';
 
 @Component({
   selector: 'app-exercises',
@@ -40,8 +41,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     DsInfiniteScrollDirective,
     MatProgressSpinnerModule,
-    RouterLink,
     RouterOutlet,
+    CardItemComponent
   ],
   templateUrl: './exercises.component.html',
   styleUrl: './exercises.component.scss',
@@ -57,6 +58,7 @@ export class ExercisesComponent implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly exerciseService = inject(ExerciseService);
+  private readonly router = inject(Router);
 
   private readonly dialog = inject(MatDialog);
 
@@ -109,9 +111,12 @@ export class ExercisesComponent implements OnInit {
 
           return this.getExercises({ description: value! }).pipe(
             catchError((error) => {
+              if (error.error.title === 'Token invalid') {
+                this.router.navigateByUrl('login');
+              }
               const errorData = {
-                title: 'Error',
-                message: 'Failed to load exercises',
+                title: error.error.title,
+                message: error.error.message,
               };
               this.openDialog(errorData);
               return of([]);
@@ -144,13 +149,13 @@ export class ExercisesComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.setLoading(false))
       )
-      .subscribe((respnse) => {
-        if (respnse.data.length === 0) {
-          this.message = respnse.message;
+      .subscribe((response) => {
+        if (response.data.length === 0) {
+          this.message = response.message;
           this.noMoreToLoad = true;
           this.openSnackBar(this.message);
         }
-        this.exercises = [...this.exercises, ...respnse.data];
+        this.exercises = [...this.exercises, ...response.data];
       });
   }
 
@@ -165,5 +170,9 @@ export class ExercisesComponent implements OnInit {
 
   private openSnackBar(message: string) {
     this._snackBar.open(message, 'close');
+  }
+
+  openDetails(id: string): void {
+    this.router.navigateByUrl(`exercises/add-exercise/${id}`)
   }
 }

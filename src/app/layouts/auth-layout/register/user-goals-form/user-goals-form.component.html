@@ -64,24 +64,39 @@
       </mat-radio-group>
     </div>
 
-    @if (goal?.value !== 'REMAIN_WEIGHT') {
-    <div class="flex col-gap-2 mb-4">
-      <mat-form-field class="full-col">
-        <mat-label
-          >How much
-          {{ measurementSystem?.value === "METRIC" ? "kg" : "lbs" }} you per
-          week do you wish to
-          {{ goal?.value === "LOSE_WEIGHT" ? "lose" : "gain" }}?</mat-label
-        >
-        <mat-select formControlName="weightPerWeek">
-          @for (weight of weightOptions; track weight) {
-          <mat-option [value]="weight">{{ weight }}</mat-option>
-          }
-        </mat-select>
+    <div class="flex flex-column flex-row-md col-gap-2">
+      @if (goal?.value !== 'REMAIN_WEIGHT') {
+        <div class="flex full-col mb-4">
+          <mat-form-field class="full-col">
+            <mat-label
+              >How much
+              {{ measurementSystem?.value === "METRIC" ? "kg" : "lbs" }} you per
+              week do you wish to
+              {{ goal?.value === "LOSE_WEIGHT" ? "lose" : "gain" }}?</mat-label
+            >
+            <mat-select formControlName="weightPerWeek">
+              @for (weight of weightOptions; track weight) {
+              <mat-option [value]="weight">{{ weight }}</mat-option>
+              }
+            </mat-select>
+    
+            <mat-hint>{{ weightPerWeekWarningMessage() }}</mat-hint>
+          </mat-form-field>
+        </div>
+        }
 
-        <mat-hint>{{ weightPerWeekWarningMessage() }}</mat-hint>
-      </mat-form-field>
+        <div class="flex full-col mb-4">
+          <mat-form-field class="full-col">
+            <mat-label
+              >Activity level</mat-label
+            >
+            <mat-select formControlName="activityLevel">
+              @for (level of activityLevelOptions; track level) {
+              <mat-option [value]="level.value">{{ level.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
     </div>
-    }
   </div></app-form-base
 >
