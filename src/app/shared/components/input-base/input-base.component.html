@@ -21,4 +21,7 @@
   @if (formControl.hasError('invalidNumberFormat')) {
     <mat-error>Only one decimal place is allowed (ex. 14.2)</mat-error>
   }
+  @if (formControl.hasError('min')) {
+    <mat-error>This value is not allowed.</mat-error>
+  }
 </mat-form-field>

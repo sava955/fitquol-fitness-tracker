@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   HostListener,
   inject,
   OnInit,
@@ -17,6 +18,7 @@ import { HeaderComponent } from '../../core/components/header/header.component';
 import { RouterOutlet } from '@angular/router';
 import { map } from 'rxjs';
 import { DrawerContentScrollService } from '../../core/services/drawer-content-scroll/drawer-content-scroll.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-main-layout',
@@ -34,6 +36,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   private readonly drawerContentScrollService = inject(
     DrawerContentScrollService
   );
+  private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild(MatDrawerContent) drawerContent!: MatDrawerContent;
   private innerWidth!: number;
@@ -51,9 +54,11 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.drawerContent
       .elementScrolled()
-      .pipe(map(() => this.drawerContent.measureScrollOffset('bottom')))
-      .subscribe((res) => {
-        this.drawerContentScrollService.scrollOffset.set(res);
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        map(() => this.drawerContent.measureScrollOffset('bottom')))
+      .subscribe((value) => {
+        this.drawerContentScrollService.scrollOffset.set(value);
       });
   }
 
@@ -62,8 +67,9 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
 
     if (this.innerWidth < 767) {
       this.sideNavMode = 'over';
-    } else {
-      this.sideNavMode = 'side';
-    }
+      return;
+    } 
+
+    this.sideNavMode = 'side';
   }
 }

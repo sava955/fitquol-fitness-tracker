@@ -1,10 +1,11 @@
-export interface ExerciseGroup {
+export interface DiaryExercise {
+  _id?: string;
   day: Date;
   exercise: Exercise;
   sets: number;
   setDuration: number;
-  status: string;
   caloriesBurned: number;
+  diary: string;
 }
 
 export interface Exercise {

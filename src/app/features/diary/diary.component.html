@@ -1,0 +1,229 @@
+<app-side-panel>
+  <section class="container py-4">
+    <div class="row">
+      <div class="col-12 col-5-lg">
+        <!--app-page-title [pageTitle]="'Diary'" [goBackButton]="false" /-->
+
+        <mat-card class="day-card">
+          <mat-card-content>
+            <div class="day-wrapper flex align-items-center">
+              <div class="full-col flex justify-content-center">
+                <span class="font-bold day"
+                  >{{ day | date : "EEEE, MMM.dd" }}
+                </span>
+              </div>
+
+              <div>
+                <button
+                  (click)="getNextDay()"
+                  mat-icon-button
+                  aria-label="Next day"
+                >
+                  <mat-icon>arrow_back_ios</mat-icon>
+                </button>
+              </div>
+
+              <div>
+                <button
+                  (click)="getPreviousDay()"
+                  mat-icon-button
+                  aria-label="Previous day"
+                >
+                  <mat-icon>arrow_forward_ios</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="col-12 col-7-lg flex col-gap-2 mb-4 justify-content-between">
+        <mat-card class="calories-data-card goal-calories full-col">
+          <mat-card-content>
+            <div
+              class="calory-wrapper flex flex-column align-items-center justify-content-center"
+            >
+              <div>
+                <span>Goal</span>
+              </div>
+
+              <div class="py-2">
+                <span class="font-bold calories-data">{{
+                  diary.user.diet.dailyCalories
+                }}</span>
+              </div>
+
+              <div>
+                <span>kCal</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="calories-data-card food-calories full-col">
+          <mat-card-content>
+            <div
+              class="calory-wrapper flex flex-column align-items-center justify-content-center"
+            >
+              <div>
+                <span>Food</span>
+              </div>
+
+              <div class="py-2">
+                <span class="font-bold calories-data">{{
+                  diary.takenCalories
+                }}</span>
+              </div>
+
+              <div>
+                <span>kCal</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="calories-data-card exercise-calories full-col">
+          <mat-card-content>
+            <div
+              class="calory-wrapper flex flex-column align-items-center justify-content-center"
+            >
+              <div>
+                <span>Exercise</span>
+              </div>
+
+              <div class="py-2">
+                <span class="font-bold calories-data">{{
+                  diary.burnedCalories
+                }}</span>
+              </div>
+
+              <div>
+                <span>kCal</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="calories-data-card remaining-calories full-col">
+          <mat-card-content>
+            <div
+              class="calory-wrapper flex flex-column align-items-center justify-content-center"
+            >
+              <div>
+                <span>Remaining</span>
+              </div>
+
+              <div class="py-2">
+                <span class="font-bold calories-data">{{
+                  diary.user.diet.dailyCalories - diary.caloriesBalance
+                }}</span>
+              </div>
+
+              <div>
+                <span>kCal</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="my-4">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Nutrients</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          @if (diary.nutrients) {
+            <app-nutrients [data]="diary.nutrients" />
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="row">
+      <div class="col col-6-lg">
+        <mat-card appearance="raised" class="my-4">
+          <mat-card-content>
+            @for (item of meals; track $index) { @if (item.columns.length > 0) {
+            <div class="mb-4">
+              <app-table-data
+                [data]="item.data"
+                [displayedColumns]="item.columns"
+                [searchData]="false"
+              >
+              </app-table-data>
+              <button
+                  (click)="addMeal(item.meal)"
+                  class="btn-sm mt-4"
+                  mat-raised-button
+                >
+                  <span>Add</span>
+                  <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            } }
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="col col-6-lg">
+        <mat-card appearance="raised" class="my-4">
+          <mat-card-content>
+            <app-table-data
+              [data]="exercises"
+              [displayedColumns]="exercisesColumns"
+              [searchData]="false"
+            >
+            </app-table-data
+            >
+            <button (click)="addExercises()" class="btn-sm mt-4" mat-raised-button>
+              <span>Add</span>
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="mat-elevation-z8">
+      <!--table mat-table [dataSource]="meals" multiTemplateDataRows>
+
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{element.position}}</td>
+        </ng-container>
+    
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+    
+
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef>Weight</th>
+          <td mat-cell *matCellDef="let element">{{element.weight}}</td>
+        </ng-container>
+    
+ 
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef>Symbol</th>
+          <td mat-cell *matCellDef="let element">{{element.symbol}}</td>
+        </ng-container>
+    
+
+        <ng-container matColumnDef="secondary">
+          <td mat-cell [attr.colspan]="displayedColumns.length" *matCellDef="let element">
+            Secondary row for the element {{element.name}}
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['secondary'];"></tr>
+      </table-->
+    </div>
+  </section>
+</app-side-panel>

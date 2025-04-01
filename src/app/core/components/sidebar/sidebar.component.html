@@ -8,7 +8,7 @@
 
   </div>
   <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let item of navItems">
+    <mat-list-item role="listitem" *ngFor="let item of navItems" class="mb-2">
       <a mat-button class="nav-btn" [routerLink]="item.path" routerLinkActive="active-link">
         <mat-icon>{{item.icon}}</mat-icon>
         {{ item.label }}

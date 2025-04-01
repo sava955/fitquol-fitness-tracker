@@ -1,0 +1,25 @@
+.nutritient-label, .nutritient-value {
+    font-size: 12px;
+  }
+  
+  .nutritient-label {
+    min-width: 100px;
+  }
+  
+  .nutritient-value {
+    min-width: 50px;
+  }
+  
+  .nutritient-percentage {
+    font-size: 12px;
+  }
+  
+  ::ng-deep {
+    .mat-mdc-progress-bar {
+      &.danger {
+        .mdc-linear-progress__bar-inner {
+          border-color: red !important;
+        }
+      }
+    }
+  }

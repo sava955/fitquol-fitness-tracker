@@ -1,44 +1,22 @@
-<section>
-  <h2>Exercises</h2>
+<app-side-panel appDsInfiniteScroll>
+  <app-page-title [pageTitle]="'Exercises'" (onGoBack)="goBack()" />
 
-  <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Search exercises</mat-label>
-      <input
-        type="text"
-        matInput
-        [formControl]="searchControl"
-      />
-    </mat-form-field>
+  <form class="search-form">
+    <app-input-base
+      [formControl]="searchMeal"
+      [inputLabel]="'Search exercise'"
+      class="flex full-col mb-4" />
   </form>
 
-  <div class="row py-4" appDsInfiniteScroll (scrolled)="loadMore($event)">
-    @for (exercise of exercises; track exercise) {
-    <article class="col-12 col-4-md col-6-sm">
-      <mat-card
-        class="card flex flex-column justify-content-between"
-        appearance="outlined"
-      >
-        <mat-card-header>
-          <mat-card-title>
-            <span class="title title-underline pb-2">{{ exercise.category }}</span>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <span class="exercise-description">{{ exercise.description }}</span>
-        </mat-card-content>
-        <mat-card-footer class="card-footer flex justify-content-end">
-          <a routerLink="add-exercise/{{exercise._id}}" class="accent btn-sm" mat-flat-button>Add exercise</a>
-        </mat-card-footer>
-      </mat-card>
-    </article>
-    }
-  </div>
-  @if (loading$ | async) {
-    <div class="flex justify-content-center">
-      <mat-spinner></mat-spinner>
-    </div>
-  }
-</section>
+  <div class="table-container">
+    <mat-card appearance="outlined" class="my-4">
+      <mat-card-content>
+        <app-table-data
+          [data]="exercises"
+          [displayedColumns]="exercisesColumns" />
 
-<router-outlet>
+        <app-local-spinner /> 
+      </mat-card-content>
+    </mat-card>
+  </div>
+</app-side-panel>

@@ -1,4 +1,4 @@
-import { ExerciseGroup } from '../exercises/exercise.interface';
+import { DiaryExercise } from '../exercises/exercise.interface';
 
 export interface UserData {
   firstName: string;
@@ -17,12 +17,14 @@ export interface UserGoals {
   height: number;
   goal: string;
   weightPerWeek: number;
+  activityLevel: string;
+  caloriesRequiredPerDay?: number;
   days?: Day[];
 }
 
 export interface Day {
   day: Date;
-  exercisesGroup: ExerciseGroup[];
+  exercisesGroup: DiaryExercise[];
   nutrition: [];
   caloriesBalance: number;
 }

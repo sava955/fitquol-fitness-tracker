@@ -1,21 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { Exercise, ExerciseGroup } from '../../../../core/models/exercises/exercise.interface';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { DiaryExercise } from '../../../../core/models/exercises/exercise.interface';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   FormArray,
   FormBuilder,
@@ -41,13 +27,16 @@ import {
   ScheduleRange,
 } from '../../../../core/enums/exercises/exercise-planer.enum';
 import { FormBaseComponent } from '../../../../shared/components/form-base/form-base.component';
+import { SidePanelService } from '../../../../shared/services/side-panel/side-panel.service';
+import { MatIcon } from '@angular/material/icon';
+import { ActionButtons } from '../../../../core/models/action-buttons/action.buttons.interface';
+import { AddEdit } from '../../../../core/enums/add-edit/add-edit.enum';
+import { days } from '../../../../core/const/exercises/exercises.const';
+import { DiaryService } from '../../../../core/services/diary/diary.service';
 
 @Component({
   selector: 'app-add-exercise-form',
   imports: [
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
     MatButtonModule,
     ReactiveFormsModule,
     MatCardModule,
@@ -57,29 +46,21 @@ import { FormBaseComponent } from '../../../../shared/components/form-base/form-
     MatInputModule,
     MatCheckboxModule,
     CommonModule,
-    FormBaseComponent
+    FormBaseComponent,
+    MatIcon,
   ],
   templateUrl: './add-exercise-form.component.html',
   styleUrl: './add-exercise-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
 })
 export class AddExerciseFormComponent implements OnInit {
-  private readonly dialogRef = inject(MatDialogRef<AddExerciseFormComponent>);
-  private readonly location = inject(Location);
   private readonly fb = inject(FormBuilder);
+  private readonly sidePanelService = inject(SidePanelService);
+  private readonly diaryService = inject(DiaryService);
 
   exerciseForm!: FormGroup;
 
-  days = [
-    'Sonday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
+  days = days;
 
   private duration = 0;
   caloriesBurned = 0;
@@ -95,6 +76,27 @@ export class AddExerciseFormComponent implements OnInit {
   maxDate!: Date;
 
   @ViewChild(MatCalendar) calendar!: MatCalendar<Date>;
+
+  mode =
+    this.sidePanelService.drawerStack()[
+      this.sidePanelService.drawerStack().length - 1
+    ]?.data.data?.mode;
+
+  actionBtns: ActionButtons[] = [
+    {
+      label: 'Cancel',
+      action: () => {
+        this.sidePanelService.closeTopComponent();
+      },
+      style: 'secondary',
+    },
+    {
+      label: this.mode === AddEdit.ADD ? 'Add exercise' : 'Update exercise',
+      action: () => {
+        this.mode === AddEdit.ADD ? this.addExercise() : this.updateExercise();
+      },
+    },
+  ];
 
   get plannerType() {
     return this.exerciseForm.get('plannerType');
@@ -120,18 +122,27 @@ export class AddExerciseFormComponent implements OnInit {
     return this.exerciseForm.get('nextMonthIncluded');
   }
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public exercise: Exercise,
-    private readonly dateAdapter: DateAdapter<Date>
-  ) {
-    this.dialogRef.afterClosed().subscribe(() => this.location.back());
-  }
+  exercise =
+    this.sidePanelService.drawerStack()[
+      this.sidePanelService.drawerStack().length - 1
+    ]?.data.data?.exercise;
+
+  constructor(private readonly dateAdapter: DateAdapter<Date>) {}
 
   ngOnInit(): void {
-    this.minDate = this.getPreviousMonthFirstDay();
-    this.maxDate = this.getNextMonthLastDay();
-
     this.initExerciseForm();
+
+    if (this.mode === AddEdit.ADD) {
+      this.minDate = this.getPreviousMonthFirstDay();
+      this.maxDate = this.getNextMonthLastDay();
+    } else {
+      // this.minDate = this.getPreviousMonthFirstDay();
+      // this.maxDate = this.getNextMonthLastDay();
+
+      this.sets?.setValue(this.exercise.sets);
+      this.setDuration?.setValue(this.exercise.setDuration);
+    }
+    
     this.initFormEvent();
   }
 
@@ -176,7 +187,7 @@ export class AddExerciseFormComponent implements OnInit {
         const previousDates = this.daysFormArray.value
           .map((date: Date, index: number) => (date < new Date() ? index : -1))
           .filter((index: number) => index !== -1)
-          .sort((a: any, b: any) => {
+          .sort((a: number, b: number) => {
             return b - a;
           });
 
@@ -195,7 +206,7 @@ export class AddExerciseFormComponent implements OnInit {
             date.getMonth() !== new Date().getMonth() ? index : -1
           )
           .filter((index: number) => index !== -1)
-          .sort((a: any, b: any) => {
+          .sort((a: number, b: number) => {
             return b - a;
           });
 
@@ -220,16 +231,16 @@ export class AddExerciseFormComponent implements OnInit {
     });
   }
 
-  private getPreviousMonthFirstDay(): Date {
-    const now = new Date();
-    const previousMonth = now.getMonth() - 1;
-    return new Date(now.getFullYear(), previousMonth, 1);
+  private getPreviousMonthFirstDay(now?: Date): Date {
+    const nowDate = now ?? new Date();
+    const previousMonth = nowDate.getMonth() - 1;
+    return new Date(nowDate.getFullYear(), previousMonth, 1);
   }
 
-  private getNextMonthLastDay(): Date {
-    const now = new Date();
-    const nextMonth = now.getMonth() + 1;
-    return new Date(now.getFullYear(), nextMonth + 1, 0);
+  private getNextMonthLastDay(now?: Date): Date {
+    const nowDate = now ?? new Date();
+    const nextMonth = nowDate.getMonth() + 1;
+    return new Date(nowDate.getFullYear(), nextMonth + 1, 0);
   }
 
   toggleDate(date: Date | null): void {
@@ -322,7 +333,7 @@ export class AddExerciseFormComponent implements OnInit {
       .map((d: Date, index: number) =>
         d.getDay() === this.days.indexOf(day) ? index : -1
       )
-      .sort((a: any, b: any) => {
+      .sort((a: number, b: number) => {
         return b - a;
       })
       .filter((index: number) => index !== -1);
@@ -375,30 +386,50 @@ export class AddExerciseFormComponent implements OnInit {
     );
   }
 
-  addExercise(value: ExerciseGroup): void {
+  addExercise(): void {
     if (this.exerciseForm.invalid) {
       return;
     }
 
-    let exerciseGroup: ExerciseGroup[] = [];
+    const value = this.exerciseForm.value;
+
+    let exerciseProgram = {
+      days: this.daysFormArray.value,
+      plannerType: this.plannerType?.value,
+      exercises: [],
+    } as any;
+    // let diaryExercises: ExerciseGroup[] = [];
 
     this.daysFormArray.value.forEach((day: Date) => {
-      const singleExercise: ExerciseGroup = {
+      const singleExercise: any = {
         day: day,
-        exercise: this.exercise,
+        exercise: this.exercise._id,
         sets: value.sets,
         setDuration: value.setDuration,
         status: ExerciseStatus.TO_DO,
         caloriesBurned: this.caloriesBurned,
       };
 
-      exerciseGroup.push(singleExercise);
+      exerciseProgram.exercises.push(singleExercise);
     });
 
-    this.submitForm(exerciseGroup);
+    console.log(exerciseProgram);
+
+    this.diaryService.addDiaryExerciseProgram(exerciseProgram).subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: () => {},
+    });
   }
 
-  private submitForm(exerciseGroup: ExerciseGroup[]): void {
+  updateExercise(): void {}
+
+  private submitForm(exerciseGroup: DiaryExercise[]): void {
     console.log(exerciseGroup);
+  }
+
+  goBack(): void {
+    this.sidePanelService.closeTopComponent();
   }
 }

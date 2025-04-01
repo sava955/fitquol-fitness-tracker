@@ -12,6 +12,8 @@ import { ActionButtons } from '../../../core/models/action-buttons/action.button
 })
 export class FormBaseComponent {
   @Input() formTitle!: string;
+  @Input() formSubtitle!: string;
   @Input() formGroup!: FormGroup;
   @Input() actionBtns!: ActionButtons[];
+  @Input() error!: string;
 }

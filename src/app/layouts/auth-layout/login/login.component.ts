@@ -9,7 +9,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { FormBaseComponent } from '../../../shared/components/form-base/form-base.component';
 import { InputBaseComponent } from '../../../shared/components/input-base/input-base.component';
 import { AuthService } from '../../../core/services/auth/auth.service';
@@ -17,7 +16,6 @@ import { SpinnerService } from '../../../shared/services/spinner/spinner-service
 import { ActionButtons } from '../../../core/models/action-buttons/action.buttons.interface';
 import { withGlobalAppSpinner } from '../../../shared/utils/with-global-spinner';
 import { ResponseObj } from '../../../core/models/http-response/http-response.interface';
-import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +34,6 @@ import { DialogComponent } from '../../../shared/components/dialog/dialog.compon
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
-  private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private readonly spinnerService = inject(SpinnerService);
 
@@ -44,6 +41,8 @@ export class LoginComponent {
     email: [null, Validators.required],
     password: [null, Validators.required],
   });
+
+  errorMessage!: string;
 
   actionBtns: ActionButtons[] = [
     { label: 'Sign up', action: () => {this.router.navigateByUrl('register')}, style: 'secondary',},
@@ -74,21 +73,12 @@ export class LoginComponent {
           'Signing in a user...',
         )).subscribe({
       next: (response: ResponseObj<string>) => {
-        this.authService.setToken(response);
+        this.authService.setToken(response.data);
         this.router.navigateByUrl('');
       },
       error: (err) => {
-        this.openDialog(err.error)
+        this.errorMessage = err.error.message;
       }
     });
   }
-
-  private openDialog(data: any): void {
-      this.dialog.open(DialogComponent, {
-        data: {
-          ...data,
-        },
-        width: '300px',
-      });
-    }
 }

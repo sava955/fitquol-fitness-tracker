@@ -1,0 +1,38 @@
+<div class="container">
+  <app-page-title [pageTitle]="mode + ' Exercise'" (onGoBack)="goBack()" />
+
+  @if (exercise) {
+  <div class="my-2">
+    <app-form-base
+      [formTitle]="exercise.exercise.category"
+      [formSubtitle]="exercise.exercise.description"
+      [formGroup]="exerciseForm"
+      [actionBtns]="actionBtns"
+    >
+      <div class="my-3">
+        <span class="font-semi-bold">Set program</span>
+      </div>
+
+      <div class="flex flex-row-md flex-column col-gap-2">
+        <app-input-base
+          [formControl]="exerciseForm.controls.sets"
+          [inputLabel]="'Sets'"
+          type="number"
+          class="flex full-col mb-4" />
+
+        <app-input-base
+          [formControl]="exerciseForm.controls.setDuration"
+          [inputLabel]="'Set Duration'"
+          suffixValue="minutes"
+          type="number"
+          class="flex full-col mb-4" />
+      </div>
+
+      <div class="mt-2">
+        <span class="ft-16">Calories burned per exercise: </span>
+        <span class="font-semi-bold ft-16">{{ caloriesBurned }}kCal</span>
+      </div>
+    </app-form-base>
+  </div>
+  }
+</div>

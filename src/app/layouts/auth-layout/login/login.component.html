@@ -1,11 +1,12 @@
 <div class="login-form flex justify-content-center align-items-center">
-  <div class="login-form-container p-4">
+  <div class="login-form-container">
     <app-form-base
       [formTitle]="'Login'"
       [formGroup]="loginForm"
       [actionBtns]="actionBtns"
+      [error]="errorMessage"
     >
-      <div class="flex flex-column justify-content-between p-2">
+      <div class="flex flex-column justify-content-between">
         <app-input-base
           [formControl]="loginForm.controls.email"
           [inputLabel]="'Email'"

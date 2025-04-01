@@ -10,11 +10,11 @@ export class SpinnerService {
 
   show(message: string): void {
     this.dialog.open(GlobalSpinnerComponent, {
-          width: '300px',
-          data: {
-            message: message
-          }
-        });
+      width: '300px',
+      data: {
+        message: message,
+      },
+    });
   }
 
   hide(): void {

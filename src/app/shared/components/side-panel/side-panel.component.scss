@@ -1,0 +1,20 @@
+@use '../../../../styles/mixins' as *;
+
+.drawer-container {
+  width: 100%;
+  height: calc(100vh - 64px);
+
+  .sidenav {
+    width: 100%;
+    border-radius: 0;
+
+    @include responsive(lg) {
+      width: 70vw;
+    }
+  }
+
+  .sidenav-content, .sidenav {
+    min-height: 100%;
+    // background-color: var(--dsVars-background-gray-color);
+  }
+}
