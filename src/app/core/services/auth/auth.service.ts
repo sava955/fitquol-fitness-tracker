@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { Login } from '../../models/auth/login.interface';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { ResponseObj } from '../../models/http-response/http-response.interface';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ export class AuthService {
   private readonly router = inject(Router);
   private readonly url = environment.beUrl + '/api/auth';
   
-  private token!: string | null;
+  private token!: string;
 
   constructor() { }
 
@@ -24,12 +24,12 @@ export class AuthService {
   }
 
   login(params: Login): Observable<ResponseObj<string>> {
-    return this.httpClient.post<ResponseObj<string>>(`${this.url}/login`, params);
+    return this.httpClient.post<ResponseObj<any>>(`${this.url}/login`, params);
   }
 
-  setToken(user: any): void {
-    this.token = user.data;
-    localStorage.setItem('access_token', this.token!);
+  setToken(token: string): void {
+    this.token = token;
+    localStorage.setItem('access_token', this.token);
   }
 
   logout(): void {

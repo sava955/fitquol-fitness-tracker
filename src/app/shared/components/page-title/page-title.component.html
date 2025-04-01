@@ -1,0 +1,8 @@
+<div class="flex align-items-center">
+  @if (goBackButton) {
+    <button (click)="goBack()" mat-icon-button class="mr-2" aria-label="Go Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  }
+  <h2 class="title title-underline pb-2">{{ pageTitle }}</h2>
+</div>

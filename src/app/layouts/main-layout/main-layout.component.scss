@@ -5,10 +5,10 @@
   .sidenav {
     max-width: 200px;
     border-radius: 0;
+    background-color: var(--dsVars-background-light-color);
   }
 
   .sidenav-content {
     min-height: 100%;
-    background-color: var(--dsVars-background-gray-color);
   }
 }

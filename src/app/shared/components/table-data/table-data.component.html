@@ -14,7 +14,7 @@
     } @else {
     <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 1%">
       <div class="p-2 class flex justify-content-end">
-        <mat-icon>settings</mat-icon>
+        <ng-content></ng-content>
       </div>
     </th>
     } @if (col.id !== 'action') {
@@ -37,7 +37,7 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumnKeys"></tr>
 </table>
 
-@if (data.length === 0) {
+@if (searchData && data.length === 0) {
 <div class="flex justify-content-center align-items-center my-4">
   <mat-icon fontSet="material-icons text-3xl">search_off</mat-icon>
   <span>No data found</span>

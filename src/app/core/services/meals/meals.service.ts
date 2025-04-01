@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class MealsService {
-  readonly url = environment.beUrl + '/api/meals';
+  readonly url = environment.beUrl + '/api/food';
   readonly httpClient = inject(HttpClient);
   private readonly _snackBar = inject(MatSnackBar);
 

@@ -8,7 +8,6 @@ import { TableDataComponent } from '../../shared/components/table-data/table-dat
 import { SidePanelComponent } from '../../shared/components/side-panel/side-panel.component';
 import { SidePanelService } from '../../shared/services/side-panel/side-panel.service';
 import { AddEditMealComponent } from './add-edit-meal/add-edit-meal.component';
-import { MatIcon } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Meal, MealParams } from '../../core/models/meals/meal.interface';
 import { mealColumns } from '../../core/const/meals/meals.const';
@@ -22,6 +21,7 @@ import { resetParams, setParams } from '../../shared/utils/handle-params';
 import { LocalSpinnerComponent } from '../../shared/components/local-spinner/local-spinner.component';
 import { withLocalAppSpinner } from '../../shared/utils/with-local-spinner';
 import { LocalSpinnerService } from '../../shared/services/local-spinner/local-spinner.service';
+import { PageTitleComponent } from '../../shared/components/page-title/page-title.component';
 
 @Component({
   selector: 'app-nutrition',
@@ -31,12 +31,12 @@ import { LocalSpinnerService } from '../../shared/services/local-spinner/local-s
     MatTableModule,
     MatCardModule,
     MatButtonModule,
-    MatIcon,
     TableDataComponent,
     SidePanelComponent,
     DsInfiniteScrollDirective,
     InputBaseComponent,
-    LocalSpinnerComponent
+    LocalSpinnerComponent,
+    PageTitleComponent
   ],
   templateUrl: './meals.component.html',
   styleUrl: './meals.component.scss',
@@ -106,7 +106,7 @@ export class MealsComponent implements OnInit {
       .subscribe((value) => {
         this.meals = [];
         this.params = resetParams();
-        this.params = setParams(this.params, { name: value });
+        this.params = setParams(this.params, { food: value });
         this.getMeals();
       });
   }

@@ -1,17 +1,11 @@
 <app-side-panel appDsInfiniteScroll>
-  <div class="flex align-items-center">
-    <button (click)="goBack()" mat-icon-button aria-label="Go Back">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <h2 class="ml-2">{{mealType}}</h2>
-  </div>
+  <app-page-title [pageTitle]="mealType" (onGoBack)="goBack()" />
 
   <form class="search-form">
     <app-input-base
         [formControl]="searchMeal"
         [inputLabel]="'Search food'"
-        class="flex full-col mb-4"
-      ></app-input-base>
+        class="flex full-col mb-4" />
   </form>
   
   <div class="table-container">
@@ -19,10 +13,9 @@
       <mat-card-content>
         <app-table-data
           [data]="meals"
-          [displayedColumns]="mealColumns"
-        ></app-table-data>
+          [displayedColumns]="mealColumns" />
 
-        <app-local-spinner></app-local-spinner>
+        <app-local-spinner />
       </mat-card-content>
     </mat-card>
   </div>

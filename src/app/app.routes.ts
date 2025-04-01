@@ -19,7 +19,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'diary', component: DiaryComponent },
+      { path: 'diary', component: DiaryComponent, children: [
+        { path: 'meals', component: MealsComponent
+        }
+      ] },
       {
         path: 'exercises',
         component: ExercisesComponent,

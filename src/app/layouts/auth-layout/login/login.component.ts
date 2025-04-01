@@ -73,7 +73,7 @@ export class LoginComponent {
           'Signing in a user...',
         )).subscribe({
       next: (response: ResponseObj<string>) => {
-        this.authService.setToken(response);
+        this.authService.setToken(response.data);
         this.router.navigateByUrl('');
       },
       error: (err) => {

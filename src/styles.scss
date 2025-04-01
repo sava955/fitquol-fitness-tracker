@@ -8,7 +8,7 @@
 @use "./styles/typography";
 
 
-$orange-palette: map.set(mat.$orange-palette, 40, var(--dsVars-primary-color));
+$azure-palette: map.set(mat.$azure-palette, 40, var(--dsVars-primary-color));
 $violet-palette: map.set(mat.$violet-palette, 40, var(--dsVars-tertiary-color));
 
 html {
@@ -16,7 +16,7 @@ html {
     (
       color: (
         theme-type: light,
-        primary: $orange-palette,
+        primary: $azure-palette,
         tertiary: $violet-palette,
       ),
       typography: Roboto,

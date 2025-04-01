@@ -5,7 +5,7 @@ export const mealColumns = (openDetails: (row: Meal) => void): Column<Meal>[] =>
   {
     id: 'food',
     label: 'Food',
-    value: 'name',
+    value: 'food',
   },
   {
     id: 'calories',

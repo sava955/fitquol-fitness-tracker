@@ -1,178 +1,155 @@
-import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  finalize,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { ExerciseService } from '../../core/services/exercises/exercise.service';
-import { Exercise, ExerciseParams } from '../../core/models/exercises/exercise.interface';
+import {
+  Exercise,
+  ExerciseParams,
+} from '../../core/models/exercises/exercise.interface';
 import { DsInfiniteScrollDirective } from '../../core/directives/ds-infinite-scroll.directive';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RouterOutlet } from '@angular/router';
-import { DialogComponent } from '../../shared/components/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ResponseObj } from '../../core/models/http-response/http-response.interface';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CardItemComponent } from '../../shared/components/card-item/card-item.component';
+import { SidePanelService } from '../../shared/services/side-panel/side-panel.service';
+import { LocalSpinnerService } from '../../shared/services/local-spinner/local-spinner.service';
+import { DrawerContentScrollService } from '../../core/services/drawer-content-scroll/drawer-content-scroll.service';
+import { exercisesColumns } from '../../core/const/exercises/exercises.const';
+import { PaginationData } from '../../core/models/pagination/pagination-data';
+import { resetParams, setParams } from '../../shared/utils/handle-params';
+import { withLocalAppSpinner } from '../../shared/utils/with-local-spinner';
+import { isMoreDataToLoad } from '../../shared/utils/load-data-on-scroll';
+import { MatTableModule } from '@angular/material/table';
+import { TableDataComponent } from '../../shared/components/table-data/table-data.component';
+import { SidePanelComponent } from '../../shared/components/side-panel/side-panel.component';
+import { InputBaseComponent } from '../../shared/components/input-base/input-base.component';
+import { LocalSpinnerComponent } from '../../shared/components/local-spinner/local-spinner.component';
+import { AddEditExerciseComponent } from './add-edit-exercise/add-edit-exercise.component';
+import { PageTitleComponent } from '../../shared/components/page-title/page-title.component';
 
 @Component({
   selector: 'app-exercises',
   imports: [
-    CommonModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatTableModule,
     MatCardModule,
     MatButtonModule,
-    MatGridListModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
+    TableDataComponent,
+    SidePanelComponent,
     DsInfiniteScrollDirective,
-    MatProgressSpinnerModule,
-    RouterOutlet,
-    CardItemComponent
+    InputBaseComponent,
+    LocalSpinnerComponent,
+    PageTitleComponent
   ],
   templateUrl: './exercises.component.html',
   styleUrl: './exercises.component.scss',
 })
 export class ExercisesComponent implements OnInit {
-  private params!: ExerciseParams;
-  private start!: number;
-  private limit!: number;
-  exercises: Exercise[] = [];
-  loading$ = new BehaviorSubject<boolean>(false);
-
-  searchControl = new FormControl<string>('');
-
+  private readonly exercisesService = inject(ExerciseService);
+  private readonly sidePanelService = inject(SidePanelService);
+  private readonly spinnerService = inject(LocalSpinnerService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly exerciseService = inject(ExerciseService);
-  private readonly router = inject(Router);
+  private readonly drawerContentScrollService = inject(
+    DrawerContentScrollService
+  );
 
-  private readonly dialog = inject(MatDialog);
+  day =
+    this.sidePanelService.drawerStack()[
+      this.sidePanelService.drawerStack().length - 1
+    ]?.data.data?.day;
+  mealType =
+    this.sidePanelService.drawerStack()[
+      this.sidePanelService.drawerStack().length - 1
+    ]?.data.data?.mealType;
+  diary =
+    this.sidePanelService.drawerStack()[
+      this.sidePanelService.drawerStack().length - 1
+    ]?.data.data?.diary;
 
-  private message!: string;
-  private noMoreToLoad: boolean = false;
+  exercises: Exercise[] = [];
+  exercisesColumns = exercisesColumns(this.openDetails.bind(this));
 
-  private readonly _snackBar = inject(MatSnackBar);
+  searchMeal = new FormControl('');
+
+  private readonly paginationData: PaginationData = {
+    start: 1,
+    limit: 10,
+  };
+
+  private params!: ExerciseParams;
 
   ngOnInit(): void {
-    this.resetParams();
-    this.searchExercises();
+    this.params = setParams(this.paginationData);
+    this.getExercises();
+    this.loadMeals();
+    this.onSearchEvent();
   }
 
-  private setLoading(state: boolean): void {
-    this.loading$.next(state);
-  }
+  private loadMeals(): void {
+    this.drawerContentScrollService
+      .onLoadMore()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((load) => {
+        if (load) {
+          if (!this.params) {
+            this.params = setParams(this.paginationData);
+          } else {
+            this.params.start = this.params.start + 1;
+          }
 
-  private resetParams(): void {
-    this.start = 0;
-    this.limit = 18;
-    this.setParams();
-  }
-
-  private setParams(extraParams: Partial<ExerciseParams> = {}): void {
-    this.params = {
-      start: this.start,
-      limit: this.limit,
-      ...extraParams,
-    };
-  }
-
-  private getExercises(
-    extraParams: Partial<ExerciseParams> = {}
-  ): Observable<ResponseObj<Exercise[]>> {
-    this.setParams(extraParams);
-    return this.exerciseService.getExercises(this.params);
-  }
-
-  private searchExercises(): void {
-    this.searchControl.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        startWith(''),
-        debounceTime(500),
-        distinctUntilChanged(),
-        tap(() => this.setLoading(true)),
-        switchMap((value) => {
-          this.resetParams();
-          this.noMoreToLoad = false;
-
-          return this.getExercises({ description: value! }).pipe(
-            catchError((error) => {
-              if (error.error.title === 'Token invalid') {
-                this.router.navigateByUrl('login');
-              }
-              const errorData = {
-                title: error.error.title,
-                message: error.error.message,
-              };
-              this.openDialog(errorData);
-              return of([]);
-            }),
-            finalize(() => this.setLoading(false))
-          );
-        })
-      )
-      .subscribe((response: any) => {
-        if (response.data.length === 0) {
-          this.message = response.message;
-          this.noMoreToLoad = true;
-          this.openSnackBar(this.message);
+          this.getExercises();
         }
-        this.exercises = response.data;
       });
   }
 
-  loadMore(scrolled: boolean): void {
-    if (!scrolled || this.noMoreToLoad) {
-      return;
-    }
-
-    this.setLoading(true);
-    this.start = this.start + 1;
-
-    this.setParams();
-    this.getExercises()
+  private onSearchEvent(): void {
+    this.searchMeal.valueChanges
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.setLoading(false))
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((value) => {
+        this.exercises = [];
+        this.params = resetParams();
+        this.params = setParams(this.params, { description: value });
+        this.getExercises();
+      });
+  }
+
+  private getExercises(): void {
+    this.exercisesService
+      .getExercises(this.params)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        withLocalAppSpinner(this.spinnerService),
+        tap((response) =>
+          isMoreDataToLoad(this.drawerContentScrollService, response)
+        )
       )
       .subscribe((response) => {
-        if (response.data.length === 0) {
-          this.message = response.message;
-          this.noMoreToLoad = true;
-          this.openSnackBar(this.message);
-        }
-        this.exercises = [...this.exercises, ...response.data];
+        this.exercises = [...this.exercises, ...response];
       });
   }
 
-  private openDialog(data: any): void {
-    this.dialog.open(DialogComponent, {
+  openDetails(row: Exercise): void {
+    this.sidePanelService.openSidePanel(AddEditExerciseComponent, {
       data: {
-        ...data,
+        exercise: {
+          sets: 0,
+          setDuration: 0,
+          caloriesBurned: 0,
+          exercise: row,
+        },
+        day: this.day,
+        diary: this.diary,
+        mode: 'ADD',
       },
-      width: '300px',
+      pageTitle: row.description,
     });
   }
 
-  private openSnackBar(message: string) {
-    this._snackBar.open(message, 'close');
-  }
-
-  openDetails(id: string): void {
-    this.router.navigateByUrl(`exercises/add-exercise/${id}`)
+  goBack(): void {
+    this.sidePanelService.closeTopComponent();
   }
 }

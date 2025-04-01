@@ -1,14 +1,18 @@
-import { DiaryMeal } from "../meals/meal.interface"
+import { DiaryExercise } from "../exercises/exercise.interface";
+import { Meal, Nutrients } from "../meals/meal.interface"
 import { User } from "../user/user.interface";
 
 export interface Diary {
     _id: string;
     day: string;
-    breakfast: DiaryMeal[];
-    lunch: DiaryMeal[];
-    dinner: DiaryMeal[];
-    snacks: DiaryMeal[];
+    breakfast: Meal[];
+    lunch: Meal[];
+    dinner: Meal[];
+    snacks: Meal[];
+    exercises: DiaryExercise[];
+    takenCalories: number;
+    burnedCalories: number;
     caloriesBalance: number;
-    exercisesGroup: [];
+    nutrients: Nutrients;
     user: User;
 }

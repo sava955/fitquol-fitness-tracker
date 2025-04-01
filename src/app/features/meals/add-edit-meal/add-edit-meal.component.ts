@@ -18,14 +18,13 @@ import {
   ChartComponent,
   NgApexchartsModule,
 } from 'ng-apexcharts';
-import { MatIcon } from '@angular/material/icon';
-import {
-  DiaryMeal,
-  Meal,
-  Nutritients,
-} from '../../../core/models/meals/meal.interface';
+import { Meal, NutrientData, Nutrients } from '../../../core/models/meals/meal.interface';
 import { AddEdit } from '../../../core/enums/add-edit/add-edit.enum';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PageTitleComponent } from '../../../shared/components/page-title/page-title.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NutrientsComponent } from '../../../shared/components/nutrients/nutrients.component';
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -48,7 +47,10 @@ export type ChartOptions = {
     MatOption,
     InputBaseComponent,
     ReactiveFormsModule,
-    MatIcon,
+    MatExpansionModule,
+    PageTitleComponent,
+    MatCheckboxModule,
+    NutrientsComponent,
   ],
   templateUrl: './add-edit-meal.component.html',
   styleUrl: './add-edit-meal.component.scss',
@@ -64,11 +66,6 @@ export class AddEditMealComponent {
   public chartOptions: Partial<ChartOptions>;
 
   mealOptions = ['breakfast', 'lunch', 'dinner', 'snacks'];
-
-  carbohydrates!: number;
-  protein!: number;
-  fat!: number;
-  calories!: number;
 
   mealForm = this.fb.group({
     quantity: [100, [Validators.required, Validators.max(999)]],
@@ -91,14 +88,16 @@ export class AddEditMealComponent {
     this.sidePanelService.drawerStack()[
       this.sidePanelService.drawerStack().length - 1
     ]?.data.data?.mode;
-
   diary =
     this.sidePanelService.drawerStack()[
       this.sidePanelService.drawerStack().length - 1
     ]?.data.data?.diary;
 
-  meal: any;
+  meal!: Meal;
+  currentQuantity!: number;
   errorMessage!: string;
+
+  nutrients!: Nutrients;
 
   actionBtns: ActionButtons[] = [
     {
@@ -130,6 +129,11 @@ export class AddEditMealComponent {
         this.sidePanelService.drawerStack()[
           this.sidePanelService.drawerStack().length - 1
         ]?.data.data?.meal;
+      this.nutrients = {
+        calories: this.meal.nutrients.calories,
+        macronutrients: [...this.meal.nutrients.macronutrients],
+        micronutrients: [...this.meal.nutrients.micronutrients],
+      };
 
       this.mealForm.get('quantity')?.setValue(this.meal.quantity);
 
@@ -145,16 +149,12 @@ export class AddEditMealComponent {
   private onFormEvent(): void {
     this.quantity?.valueChanges.subscribe((value) => {
       if (value) {
-        this.calories = this.calculateNutritionForQuantity(value).calories;
-        this.carbohydrates =
-          this.calculateNutritionForQuantity(value).carbohydrates;
-        this.protein = this.calculateNutritionForQuantity(value).protein;
-        this.fat = this.calculateNutritionForQuantity(value).fat;
+        this.calculateNutritientsForQuantity(Number(value));
 
         this.chartOptions.labels = [
-          `Carbs ${this.carbohydrates}g`,
-          `Protein ${this.protein}g`,
-          `Fat ${this.fat}g`,
+          `Carbs ${this.nutrients.macronutrients.find((nutrient: NutrientData) => nutrient.key === 'carbohydrates')?.value}g`,
+          `Protein ${this.nutrients.macronutrients.find((nutrient: NutrientData) => nutrient.key === 'protein')?.value}g`,
+          `Fat ${this.nutrients.macronutrients.find((nutrient: NutrientData) => nutrient.key === 'fats')?.value}g`,
         ];
       }
     });
@@ -166,35 +166,46 @@ export class AddEditMealComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((res: Meal) => {
         this.meal = res;
+        this.nutrients = {
+          calories: this.meal.nutrients.calories,
+          macronutrients: [...this.meal.nutrients.macronutrients],
+          micronutrients: [...this.meal.nutrients.micronutrients],
+        };
         this.setChart();
       });
   }
 
   private setChart(): void {
-    this.carbohydrates = this.meal.carbohydrates;
-    this.protein = this.meal.protein;
-    this.fat = this.meal.fat;
-    this.calories = this.meal.calories;
+    const carbohydrates =
+      this.meal.nutrients.macronutrients.find(
+        (d: NutrientData) => d.key === 'carbohydrates'
+      )?.value ?? 0;
+      const protein =
+      this.meal.nutrients.macronutrients.find((d: NutrientData) => d.key === 'protein')
+        ?.value ?? 0;
+        const fats =
+      this.meal.nutrients.macronutrients.find((d: NutrientData) => d.key === 'fats')
+        ?.value ?? 0;
 
     this.chartOptions = {
-      series: [this.meal.carbohydrates, this.meal.protein, this.meal.fat],
+      series: [carbohydrates, protein, fats],
       chart: {
         type: 'pie',
         animations: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       labels: [
-        `Carbs ${this.carbohydrates}g`,
-        `Protein ${this.protein}g`,
-        `Fat ${this.fat}g`,
+        `Carbs ${carbohydrates}g`,
+        `Protein ${protein}g`,
+        `Fat ${fats}g`,
       ],
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 250,
+              width: 350,
             },
             legend: {
               position: 'bottom',
@@ -205,38 +216,69 @@ export class AddEditMealComponent {
     };
   }
 
-  calculateNutritionForQuantity(quantity: number): Nutritients {
-    if (this.mode === AddEdit.EDIT) {
-      return {
-        carbohydrates: Number(
-          ((this.meal.carbohydrates * quantity) / this.meal.quantity
-        ).toFixed(0)),
-        protein: Number(((this.meal.protein * quantity) / this.meal.quantity).toFixed(0)),
-        fat: Number(((this.meal.fat * quantity) / this.meal.quantity).toFixed(0)),
-        calories: Number(((this.meal.calories * quantity) / this.meal.quantity).toFixed(0)),
-      };
+  calculateNutritientsForQuantity(quantity: number) {
+    if (quantity == 0) {
+      return;
     }
 
-    return {
-      carbohydrates: Number(((this.meal.carbohydrates * quantity) / 100).toFixed(0)),
-      protein: Number(((this.meal.protein * quantity) / 100).toFixed(0)),
-      fat: Number(((this.meal.fat * quantity) / 100).toFixed(0)),
-      calories: Number(((this.meal.calories * quantity) / 100).toFixed(0)),
-    };
+    this.nutrients.calories = Number(
+      ((this.meal.nutrients.calories * quantity) / this.meal.quantity).toFixed(0)
+    );
+
+    this.meal.nutrients.macronutrients.forEach((macronutrient: NutrientData) => {
+      const baseValue = macronutrient.value / this.meal.quantity;
+
+      const value = parseFloat((baseValue * quantity).toFixed(2));
+
+      const dailyLimit = macronutrient.dailyLimit;
+
+      const percentageOfTotal =
+        dailyLimit > 0
+          ? parseFloat(((value / dailyLimit) * 100).toFixed(0))
+          : 0;
+
+      let macronutrientIndex = this.nutrients.macronutrients.findIndex(
+        (nutrient: NutrientData) => nutrient.key === macronutrient.key
+      );
+      this.nutrients.macronutrients[macronutrientIndex] = {
+        ...this.nutrients.macronutrients[macronutrientIndex],
+        value: value,
+        percentageOfTotal: percentageOfTotal,
+      };
+    });
+
+    this.meal.nutrients.micronutrients.forEach((micronutrient: NutrientData) => {
+      const baseValue = micronutrient.value / this.meal.quantity;
+
+      const value = parseFloat((baseValue * quantity).toFixed(2));
+
+      const dailyLimit = micronutrient.dailyLimit;
+
+      const percentageOfTotal =
+        dailyLimit > 0
+          ? parseFloat(((value / dailyLimit) * 100).toFixed(0))
+          : 0;
+
+      let micronutrientIndex = this.nutrients.micronutrients.findIndex(
+        (nutrient: NutrientData) => nutrient.key === micronutrient.key
+      );
+      this.nutrients.micronutrients[micronutrientIndex] = {
+        ...this.nutrients.micronutrients[micronutrientIndex],
+        value: value,
+        percentageOfTotal: percentageOfTotal,
+      };
+    });
   }
 
   addMeal(): void {
     const data = this.mealForm.value;
 
-    const meal: DiaryMeal = {
+    const meal: Meal = {
       name: this.meal.name,
       quantity: data.quantity!,
       measurementUnit: 'g',
-      nutritients: {
-        calories: this.calories,
-        carbohydrates: this.carbohydrates,
-        protein: this.protein,
-        fat: this.fat,
+      nutrients: {
+        ...this.nutrients
       },
       day: this.day,
       mealType: data.mealType!,
@@ -258,23 +300,19 @@ export class AddEditMealComponent {
   updateMeal(): void {
     const data = this.mealForm.value;
 
-    const meal: DiaryMeal = {
+    const meal: Meal = {
       name: this.meal.name,
       quantity: data.quantity!,
       measurementUnit: 'g',
-      nutritients: {
-        calories: this.calories,
-        carbohydrates: this.carbohydrates,
-        protein: this.protein,
-        fat: this.fat,
+      nutrients: {
+        ...this.nutrients
       },
       day: this.day,
       mealType: data.mealType!,
-      diary: this.meal.diary,
     };
 
     this.diaryService
-      .updateMeal(this.meal._id, meal)
+      .updateMeal(this.meal._id!, meal)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {

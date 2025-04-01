@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-12 col-6-xl">
+    <span class="font-bold">Macronutrients</span>
+    @for (macronutrient of data.macronutrients; track $index) {
+    <div class="row">
+      <div class="col-3 flex align-items-center">
+        <span class="nutritient-label">{{ macronutrient.name }}</span>
+      </div>
+
+      <div class="col-5 flex align-items-center">
+        <div class="col-11">
+          <mat-progress-bar
+          class="{{ macronutrient.percentageOfTotal > 100 ? 'danger' : '' }}"
+          [value]="macronutrient.percentageOfTotal"
+        >
+        </mat-progress-bar>
+        </div>
+        <div class="full-col">
+          <div class="nutritient-value">{{ macronutrient.percentageOfTotal }}%</div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="nutritient-value flex justify-content-between align-items-center">
+          <div>
+            ({{ macronutrient.value }} {{ macronutrient.unitOfMeasurement }})
+          </div>
+
+          <button
+          mat-icon-button
+          matTooltip="Your daily limit of {{ macronutrient.name }} is {{
+            macronutrient.dailyLimit
+          }} {{ macronutrient.unitOfMeasurement }}"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        >
+          <mat-icon>help</mat-icon>
+        </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="col-12 col-6-xl">
+    <span class="font-bold">Micronutrients</span>
+    @for (micronutrient of data.micronutrients; track $index) {
+    <div class="row">
+      <div class="col-3 flex align-items-center">
+        <span class="nutritient-label">{{ micronutrient.name }}</span>
+      </div>
+
+      <div class="col-5 flex align-items-center">
+        <div class="col-11">
+          <mat-progress-bar
+          class="{{ micronutrient.percentageOfTotal > 100 ? 'danger' : '' }}"
+          [value]="micronutrient.percentageOfTotal"
+        >
+        </mat-progress-bar>
+        </div>
+        <div class="full-col">
+          <div class="nutritient-value">{{ micronutrient.percentageOfTotal }}%</div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="nutritient-value flex justify-content-between align-items-center">
+          
+          <div>
+            ({{ micronutrient.value }} {{ micronutrient.unitOfMeasurement }})
+          </div>
+
+          <button
+          mat-icon-button
+          matTooltip="Your daily limit of {{ micronutrient.name }} is {{
+            micronutrient.dailyLimit
+          }} {{ micronutrient.unitOfMeasurement }}"
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        >
+          <mat-icon>help</mat-icon>
+        </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

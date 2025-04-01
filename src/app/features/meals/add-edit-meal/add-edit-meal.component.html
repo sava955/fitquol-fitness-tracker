@@ -1,10 +1,5 @@
 <div class="container">
-  <div class="flex align-items-center">
-    <button (click)="goBack()" mat-icon-button aria-label="Go Back">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <h2 class="ml-2">{{mode}} {{mealType}}</h2>
-  </div>
+  <app-page-title [pageTitle]="mode + ' ' + mealType" (onGoBack)="goBack()" />
 
   @if (meal) {
   <app-form-base
@@ -13,7 +8,9 @@
     [actionBtns]="actionBtns"
     [error]="errorMessage"
   >
-    <div class="flex flex-column flex-row-md justify-content-between col-gap-2 mb-4">
+    <div
+      class="flex flex-column flex-row-md justify-content-between col-gap-2 mb-4"
+    >
       <div id="chart">
         <apx-chart
           [series]="chartOptions.series!"
@@ -24,8 +21,20 @@
       </div>
 
       <div class="align-self-end-md">
-        <span class="calories-title font-bold">{{ this.calories }}kCal</span>
+        <span class="calories-title font-bold">{{ this.nutrients.calories }}kCal</span>
       </div>
+    </div>
+
+    <div class="mb-4">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Nutrients</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-nutrients [data]="nutrients" />
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
 
     <div class="flex flex-column flex-row-md col-gap-2 mb-4">
@@ -35,7 +44,7 @@
         suffixValue="g"
         type="number"
         class="flex full-col mb-4"
-      ></app-input-base>
+      />
 
       <div class="flex full-col mb-4">
         <mat-form-field class="full-col">

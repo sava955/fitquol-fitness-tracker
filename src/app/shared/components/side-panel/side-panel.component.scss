@@ -9,12 +9,12 @@
     border-radius: 0;
 
     @include responsive(lg) {
-      width: 60vw;
+      width: 70vw;
     }
   }
 
   .sidenav-content, .sidenav {
     min-height: 100%;
-    background-color: var(--dsVars-background-gray-color);
+    // background-color: var(--dsVars-background-gray-color);
   }
 }

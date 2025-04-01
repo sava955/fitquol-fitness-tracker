@@ -12,6 +12,7 @@ import { Column } from '../../../core/models/table/table';
 })
 export class TableDataComponent<T> implements OnInit {
   @Input() data!: T[];
+  @Input() searchData = true;
   @Input() displayedColumns!: Column<T>[];
   @Input() actionBtns!: void;
   displayedColumnKeys!: string[];

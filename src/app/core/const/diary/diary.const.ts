@@ -1,11 +1,11 @@
-import { DiaryMeal } from '../../models/meals/meal.interface';
+import { Meal } from '../../models/meals/meal.interface';
 import { Column } from '../../models/table/table';
 
 export const diaryMealColumns = (
   meal: { id: string, label: string },
-  editMeal: (row: DiaryMeal) => void,
-  deleteMeal: (row: DiaryMeal) => void
-): Column<DiaryMeal>[] => [
+  editMeal: (row: Meal) => void,
+  deleteMeal: (row: Meal) => void
+): Column<Meal>[] => [
   {
     id: meal.id,
     label: meal.label,
@@ -28,13 +28,13 @@ export const diaryMealColumns = (
     actions: [
       {
         label: 'edit',
-        action: (row: DiaryMeal) => {
+        action: (row: Meal) => {
           editMeal(row);
         },
       },
       {
         label: 'delete',
-        action: (row: DiaryMeal) => {
+        action: (row: Meal) => {
           deleteMeal(row);
         },
       },
@@ -42,14 +42,14 @@ export const diaryMealColumns = (
   },
 ];
 
-export const exercisesColumns = (
-  editExercise: (row: DiaryMeal) => void,
-  deleteExercise: (row: DiaryMeal) => void
-): Column<DiaryMeal>[] => [
+export const diaryExercisesColumns = (
+  editExercise: (row: Meal) => void,
+  deleteExercise: (row: Meal) => void
+): Column<Meal>[] => [
   {
-    id: 'name',
-    label: 'Exercise',
-    value: 'name',
+    id: 'description',
+    label: 'Exercises',
+    value: 'description',
   },
   {
     id: 'calories',
@@ -63,13 +63,13 @@ export const exercisesColumns = (
     actions: [
       {
         label: 'edit',
-        action: (row: DiaryMeal) => {
+        action: (row: Meal) => {
           editExercise(row);
         },
       },
       {
         label: 'delete',
-        action: (row: DiaryMeal) => {
+        action: (row: Meal) => {
           deleteExercise(row);
         },
       },
