@@ -3,7 +3,6 @@ export interface Column<T> {
     label: string;
     value: string;
     actions?: ColumnAction<T>[];
-    headerActions?: ColumnAction<T>[];
 }
 
 export interface ColumnAction<T> {

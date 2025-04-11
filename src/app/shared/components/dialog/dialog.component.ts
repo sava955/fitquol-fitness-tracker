@@ -6,7 +6,6 @@ import {
   MatDialogClose,
   MatDialogContent,
   MatDialogRef,
-  MatDialogTitle
 } from '@angular/material/dialog';
 
 @Component({
@@ -14,15 +13,17 @@ import {
   imports: [
     MatDialogActions,
     MatDialogClose,
-    MatDialogTitle,
     MatDialogContent,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './dialog.component.html',
-  styleUrl: './dialog.component.scss'
+  styleUrl: './dialog.component.scss',
 })
 export class DialogComponent {
   readonly dialogRef = inject(MatDialogRef<DialogComponent>);
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: { title: string; message: string; onConfirm: () => void }
+  ) {}
 }

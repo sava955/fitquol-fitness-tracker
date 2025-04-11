@@ -2,31 +2,36 @@
   <div class="col-12 col-6-xl">
     <span class="font-bold">Macronutrients</span>
     @for (macronutrient of data.macronutrients; track $index) {
-    <div class="row">
-      <div class="col-3 flex align-items-center">
-        <span class="nutritient-label">{{ macronutrient.name }}</span>
+    <div class="row my-4">
+      <div class="col-3-sm col-4 flex align-items-center">
+        <span class="nutrient-label">{{ macronutrient.name }}</span>
       </div>
 
-      <div class="col-5 flex align-items-center">
-        <div class="col-11">
+      <div class="col-8-sm col-7 flex align-items-center">
+        <div class="col-8-sm col-6">
           <mat-progress-bar
           class="{{ macronutrient.percentageOfTotal > 100 ? 'danger' : '' }}"
           [value]="macronutrient.percentageOfTotal"
         >
         </mat-progress-bar>
         </div>
-        <div class="full-col">
-          <div class="nutritient-value">{{ macronutrient.percentageOfTotal }}%</div>
+        <div class="col-4-sm col-6">
+          <div class="flex flex-column flex-row-sm align-items-center">
+            <div class="ml-2">
+              <span class="nutrient-value">{{ macronutrient.percentageOfTotal.toFixed() }}%</span>
+            </div>
+    
+            <div class="ml-2">
+              <span class="nutrient-value">
+                ({{ macronutrient.value.toFixed(2) }} {{ macronutrient.unitOfMeasurement }})
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-4">
-        <div class="nutritient-value flex justify-content-between align-items-center">
-          <div>
-            ({{ macronutrient.value }} {{ macronutrient.unitOfMeasurement }})
-          </div>
-
-          <button
+      <div class="col-1">
+        <button
           mat-icon-button
           matTooltip="Your daily limit of {{ macronutrient.name }} is {{
             macronutrient.dailyLimit
@@ -35,7 +40,6 @@
         >
           <mat-icon>help</mat-icon>
         </button>
-        </div>
       </div>
     </div>
     }
@@ -44,32 +48,36 @@
   <div class="col-12 col-6-xl">
     <span class="font-bold">Micronutrients</span>
     @for (micronutrient of data.micronutrients; track $index) {
-    <div class="row">
-      <div class="col-3 flex align-items-center">
-        <span class="nutritient-label">{{ micronutrient.name }}</span>
+    <div class="row my-4">
+      <div class="col-3-sm col-4 flex align-items-center">
+        <span class="nutrient-label">{{ micronutrient.name }}</span>
       </div>
 
-      <div class="col-5 flex align-items-center">
-        <div class="col-11">
+      <div class="col-8-sm col-7 flex align-items-center">
+        <div class="col-8-sm col-6">
           <mat-progress-bar
           class="{{ micronutrient.percentageOfTotal > 100 ? 'danger' : '' }}"
           [value]="micronutrient.percentageOfTotal"
         >
         </mat-progress-bar>
         </div>
-        <div class="full-col">
-          <div class="nutritient-value">{{ micronutrient.percentageOfTotal }}%</div>
+        <div class="col-4-sm col-6">
+          <div class="flex flex-column flex-row-sm align-items-center">
+            <div class="ml-2">
+              <span class="nutrient-value">{{ micronutrient.percentageOfTotal.toFixed() }}%</span>
+            </div>
+    
+            <div class="ml-2">
+              <span class="nutrient-value">
+                ({{ micronutrient.value.toFixed(2) }} {{ micronutrient.unitOfMeasurement }})
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-4">
-        <div class="nutritient-value flex justify-content-between align-items-center">
-          
-          <div>
-            ({{ micronutrient.value }} {{ micronutrient.unitOfMeasurement }})
-          </div>
-
-          <button
+      <div class="col-1">
+        <button
           mat-icon-button
           matTooltip="Your daily limit of {{ micronutrient.name }} is {{
             micronutrient.dailyLimit
@@ -78,7 +86,6 @@
         >
           <mat-icon>help</mat-icon>
         </button>
-        </div>
       </div>
     </div>
     }

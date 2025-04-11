@@ -1,27 +1,13 @@
+@if (control) {
 <mat-form-field class="full-col">
-  <mat-label>{{inputLabel}}</mat-label>
-  <input matInput [type]="type" [formControl]="formControl" (blur)="onTouched()" [step]="step" />
+  <mat-label>{{ inputLabel }}</mat-label>
+  <input matInput [type]="type" [formControl]="control" />
 
   @if (suffixValue) {
-    <span matTextSuffix>{{suffixValue}}</span>
+  <span matTextSuffix>{{ suffixValue }}</span>
   }
-
-  @if (warning) {
-    <mat-hint class="warning-text">
-        {{ formControl.getError('warning') }}
-    </mat-hint>
-  }
-
-  @if (formControl.hasError('required')) {
-    <mat-error>This field is mandatory</mat-error>
-  }
-  @if (formControl.hasError('passwordMismatch')) {
-    <mat-error>Password confirmation mismatched.</mat-error>
-  }
-  @if (formControl.hasError('invalidNumberFormat')) {
-    <mat-error>Only one decimal place is allowed (ex. 14.2)</mat-error>
-  }
-  @if (formControl.hasError('min')) {
-    <mat-error>This value is not allowed.</mat-error>
-  }
+  <mat-error>
+    <app-validation-errors [errors]="control.errors"></app-validation-errors>
+  </mat-error>
 </mat-form-field>
+}

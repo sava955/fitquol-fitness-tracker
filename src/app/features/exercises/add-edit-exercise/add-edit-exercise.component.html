@@ -15,14 +15,14 @@
 
       <div class="flex flex-row-md flex-column col-gap-2">
         <app-input-base
-          [formControl]="exerciseForm.controls.sets"
-          [inputLabel]="'Sets'"
+          formControlName="sets"
+          inputLabel="Sets"
           type="number"
           class="flex full-col mb-4" />
 
         <app-input-base
-          [formControl]="exerciseForm.controls.setDuration"
-          [inputLabel]="'Set Duration'"
+          formControlName="setDuration"
+          inputLabel="Set Duration"
           suffixValue="minutes"
           type="number"
           class="flex full-col mb-4" />

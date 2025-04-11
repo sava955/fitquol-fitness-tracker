@@ -1,3 +1,4 @@
+import { Diet } from '../diet/diet';
 import { DiaryExercise } from '../exercises/exercise.interface';
 
 export interface UserData {
@@ -29,4 +30,7 @@ export interface Day {
   caloriesBalance: number;
 }
 
-export interface User extends UserData, UserGoals {}
+export interface User extends UserData, UserGoals {
+  diet: Diet;
+  role: string;
+}

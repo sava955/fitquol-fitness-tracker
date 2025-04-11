@@ -1,0 +1,17 @@
+@if (control) {
+<mat-form-field class="full-col">
+  <mat-label>{{ inputLabel }}</mat-label>
+  <mat-select [formControl]="control">
+    @for (option of options; track $index) {
+    <mat-option [value]="option.value">{{ option.label }}</mat-option>
+    }
+  </mat-select>
+
+  @if (suffixValue) {
+  <span matTextSuffix>{{ suffixValue }}</span>
+  }
+  <mat-error>
+    <app-validation-errors [errors]="control.errors"></app-validation-errors>
+  </mat-error>
+</mat-form-field>
+}

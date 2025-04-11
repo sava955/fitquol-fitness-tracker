@@ -133,11 +133,13 @@ export class AddEditExerciseComponent implements OnInit {
       day: this.day,
       exercise: this.exercise.exercise._id,
       caloriesBurned: this.caloriesBurned,
-      ...this.exerciseForm.value,
+      diary: this.exercise.diary,
+      sets: this.exerciseForm.value.sets!,
+      setDuration: this.exerciseForm.value.setDuration!
     };
 
     this.diaryService.addDiaryExercise(exercise).subscribe({
-      next: (response: ResponseObj<DiaryExercise>) => { this.sidePanelService.closeTopComponent(response.success) },
+      next: (response: ResponseObj<{}>) => { this.sidePanelService.closeTopComponent(response.success) },
       error: (error) => { console.log(error) }
     })
   }
@@ -152,17 +154,14 @@ export class AddEditExerciseComponent implements OnInit {
       exercise: this.exercise.exercise._id,
       caloriesBurned: this.caloriesBurned,
       diary: this.exercise.diary,
-      ...this.exerciseForm.value,
+      sets: this.exerciseForm.value.sets!,
+      setDuration: this.exerciseForm.value.setDuration!
     };
 
     this.diaryService.updateDiaryExercise(this.exercise._id, exercise).subscribe({
-      next: (response: ResponseObj<DiaryExercise>) => { this.sidePanelService.closeTopComponent(response.success) },
+      next: (response: ResponseObj<{}>) => { this.sidePanelService.closeTopComponent(response.success) },
       error: (error) => { console.log(error) }
     })
-  }
-
-  private submitForm(exerciseGroup: DiaryExercise[]): void {
-    console.log(exerciseGroup);
   }
 
   goBack(): void {

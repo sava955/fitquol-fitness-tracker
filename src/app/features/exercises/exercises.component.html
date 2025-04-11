@@ -4,12 +4,12 @@
   <form class="search-form">
     <app-input-base
       [formControl]="searchMeal"
-      [inputLabel]="'Search exercise'"
+      inputLabel="Search exercise"
       class="flex full-col mb-4" />
   </form>
 
   <div class="table-container">
-    <mat-card appearance="outlined" class="my-4">
+    <mat-card class="my-4">
       <mat-card-content>
         <app-table-data
           [data]="exercises"

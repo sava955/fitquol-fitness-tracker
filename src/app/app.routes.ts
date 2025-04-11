@@ -8,6 +8,9 @@ import { authGuard } from './core/guards/auth.guard';
 import { MealsComponent } from './features/meals/meals.component';
 import { DiaryComponent } from './features/diary/diary.component';
 import { AddEditMealComponent } from './features/meals/add-edit-meal/add-edit-meal.component';
+import { RecipesComponent } from './features/recipes/recipes.component';
+import { RecipesListComponent } from './features/recipes/recipes-list/recipes-list.component';
+import { RepiceDetailsComponent } from './features/recipes/repice-details/repice-details.component';
 
 export const routes: Routes = [
   {
@@ -19,9 +22,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'diary', component: DiaryComponent, children: [
-        { path: 'meals', component: MealsComponent
-        }
+      { path: 'diary', component: DiaryComponent },
+      { path: 'recipes', component: RecipesComponent, children: [
+        { path: '', component: RecipesListComponent },
+        { path: ':id', component: RepiceDetailsComponent }
       ] },
       {
         path: 'exercises',

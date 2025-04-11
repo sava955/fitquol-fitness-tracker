@@ -36,9 +36,14 @@
     .col-#{$i}#{$breakpoint} {
       flex: 0 0 calc(100% / #{$grid-columns} * #{$i}) !important;
       max-width: calc(100% / #{$grid-columns} * #{$i}) !important;
-      padding-left: 15px;
-      padding-right: 15px;
       box-sizing: border-box;
+      padding-left: 5px;
+      padding-right: 5px;
+
+      @include responsive(lg) {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
     }
   }
 

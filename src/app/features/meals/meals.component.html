@@ -1,22 +1,16 @@
 <app-side-panel appDsInfiniteScroll>
   <app-page-title [pageTitle]="mealType" (onGoBack)="goBack()" />
 
-  <form class="search-form">
-    <app-input-base
-        [formControl]="searchMeal"
-        [inputLabel]="'Search food'"
-        class="flex full-col mb-4" />
-  </form>
-  
-  <div class="table-container">
-    <mat-card appearance="outlined" class="my-4">
-      <mat-card-content>
-        <app-table-data
-          [data]="meals"
-          [displayedColumns]="mealColumns" />
-
-        <app-local-spinner />
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <mat-tab-group>
+    <mat-tab label="Food"> 
+      <ng-template matTabContent>
+        <app-foods></app-foods>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Recipes">
+      <ng-template matTabContent>
+        <app-recipes-foods></app-recipes-foods>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </app-side-panel>

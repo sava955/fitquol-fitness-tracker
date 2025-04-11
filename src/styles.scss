@@ -25,6 +25,28 @@ html {
   );
 }
 
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: var(--dsVars-white),
+  ));
+
+  @include mat.stepper-overrides((
+    header-icon-foreground-color: var(--dsVars-white),
+  ));
+
+  @include mat.card-overrides((
+    elevated-container-color: var(--dsVars-white),
+  ));
+
+  @include mat.table-overrides((
+    background-color: var(--dsVars-white),
+  ));
+
+  @include mat.expansion-overrides((
+    container-background-color:  var(--dsVars-white),
+  ));
+}
+
 .btn-sm {
   @include mat.button-overrides(
     (

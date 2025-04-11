@@ -6,14 +6,14 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { SpinnerService } from '../../../shared/services/spinner/spinner-service.service';
+import { PopupSpinnerService } from '../../../shared/services/popup-spinner/popup-spinner-service.service';
 import {
   User,
   UserData,
   UserGoals,
 } from '../../../core/models/user/user.interface';
 import { UnitMeasurment } from '../../../core/enums/user/user.enum';
-import { withGlobalAppSpinner } from '../../../shared/utils/with-global-spinner';
+import { withPopupAppSpinner } from '../../../shared/utils/with-popup-spinner';
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -31,7 +31,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly spinnerService = inject(SpinnerService);
+  private readonly spinnerService = inject(PopupSpinnerService);
   private readonly dialog = inject(MatDialog);
 
   @ViewChild('stepper', { static: true }) stepper!: CdkStepper;
@@ -63,7 +63,7 @@ export class RegisterComponent {
 
     this.authService
       .registerUser(this.registrationData)
-      .pipe(withGlobalAppSpinner(this.spinnerService, 'Signing up new user...'))
+      .pipe(withPopupAppSpinner(this.spinnerService, 'Signing up new user...'))
       .subscribe({
         next: () => {
           this.router.navigateByUrl('login');

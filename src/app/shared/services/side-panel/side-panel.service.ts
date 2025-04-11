@@ -7,12 +7,19 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class SidePanelService {
   drawerStack = signal<{ component: any; data?: any }[]>([]);
   stackAdded = signal<boolean>(false);
-  // closeParams = signal<any>({})
   closeParams = new ReplaySubject();
 
   openSidePanel(component: any, data?: any): void {
     this.stackAdded.set(true);
     this.drawerStack.update((stack) => [...stack, { component, data }]);
+  }
+
+  replaceSidePanel(component: any, data?: any): void {
+    this.drawerStack.update((stack) => {
+      const newStack = [...stack]; // Copy the current stack
+      newStack[stack.length - 1] = { component, data }; // Replace the item at the specified index
+      return newStack;
+    });
   }
 
   closeTopComponent(params?: any): void {

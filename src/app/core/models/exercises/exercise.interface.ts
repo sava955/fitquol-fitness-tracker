@@ -17,7 +17,5 @@ export interface Exercise {
 }
 
 export interface ExerciseParams {
-  start: number;
-  limit: number;
   description?: string;
 }

@@ -1,18 +1,15 @@
-<app-form-base
-  [formGroup]="userData"
-  [actionBtns]="actionBtns"
->
+<app-form-base [formGroup]="userData" [actionBtns]="actionBtns">
   <div class="py-4">
     <div class="flex flex-column flex-row-md col-gap-2">
       <app-input-base
-        [formControl]="userData.controls.firstName"
-        [inputLabel]="'First Name'"
+        formControlName="firstName"
+        inputLabel="First Name"
         class="flex full-col mb-4"
       ></app-input-base>
 
       <app-input-base
-        [formControl]="userData.controls.lastName"
-        [inputLabel]="'Last Name'"
+        formControlName="lastName"
+        inputLabel="Last Name"
         class="flex full-col mb-4"
       ></app-input-base>
     </div>
@@ -46,23 +43,23 @@
 
     <div class="flex">
       <app-input-base
-        [formControl]="userData.controls.email"
-        [inputLabel]="'Email'"
+        formControlName="email"
+        inputLabel="Email"
         class="flex full-col mb-4"
       ></app-input-base>
     </div>
 
     <div class="flex flex-column flex-row-md col-gap-2">
       <app-input-base
-        [formControl]="userData.controls.password"
-        [inputLabel]="'Password'"
+        formControlName="password"
+        inputLabel="Password"
         type="password"
         class="flex full-col mb-4"
       ></app-input-base>
 
       <app-input-base
-        [formControl]="userData.controls.passwordConfirmation"
-        [inputLabel]="'Password Confirmation'"
+        formControlName="passwordConfirmation"
+        inputLabel="Password Confirmation"
         type="password"
         class="flex full-col mb-4"
       ></app-input-base>

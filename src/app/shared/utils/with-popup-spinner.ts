@@ -1,8 +1,8 @@
 import { Observable, finalize } from 'rxjs';
-import { SpinnerService } from '../services/spinner/spinner-service.service';
+import { PopupSpinnerService } from '../services/popup-spinner/popup-spinner-service.service';
 
-export function withGlobalAppSpinner(
-  spinnerService: SpinnerService,
+export function withPopupAppSpinner(
+  spinnerService: PopupSpinnerService,
   message: string
 ) {
   return <T>(source: Observable<T>): Observable<T> => {
