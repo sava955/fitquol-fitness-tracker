@@ -3,10 +3,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { Column } from '../../../core/models/table/table';
+import { ImageBoxComponent } from '../image-box/image-box.component';
 
 @Component({
   selector: 'app-table-data',
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatIconModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatIconModule, ImageBoxComponent],
   templateUrl: './table-data.component.html',
   styleUrl: './table-data.component.scss',
 })

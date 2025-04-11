@@ -1,3 +1,4 @@
+@use "./mixins" as *;
 
 body {
   margin: 0;
@@ -20,21 +21,34 @@ body {
 
 .container {
   max-width: 100%;
-  padding: 30px;
+  padding: 10px;
   margin-left: auto;
   margin-right: auto;
+
+  @include responsive(md) {
+    padding: 30px;
+  }
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px; 
   row-gap: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
+
+  @include responsive(lg) {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
 }
 
 .full-col {
   flex: 1;
+}
+
+.col-gap-1 {
+  column-gap: 1em;
 }
 
 .col-gap-2 {

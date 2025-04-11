@@ -415,12 +415,12 @@ export class AddExerciseFormComponent implements OnInit {
 
     console.log(exerciseProgram);
 
-    this.diaryService.addDiaryExerciseProgram(exerciseProgram).subscribe({
+    /*this.diaryService.addDiaryExerciseProgram(exerciseProgram).subscribe({
       next: (response) => {
         console.log(response);
       },
       error: () => {},
-    });
+    });*/
   }
 
   updateExercise(): void {}

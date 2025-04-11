@@ -22,122 +22,31 @@ import { LocalSpinnerComponent } from '../../shared/components/local-spinner/loc
 import { withLocalAppSpinner } from '../../shared/utils/with-local-spinner';
 import { LocalSpinnerService } from '../../shared/services/local-spinner/local-spinner.service';
 import { PageTitleComponent } from '../../shared/components/page-title/page-title.component';
+import { MatTab, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { FoodsComponent } from './foods/foods.component';
+import { RecipesListComponent } from '../recipes/recipes-list/recipes-list.component';
+import { RecipesFoodsComponent } from './recipes-foods/recipes-foods.component';
 
 @Component({
   selector: 'app-nutrition',
   imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatTableModule,
-    MatCardModule,
-    MatButtonModule,
-    TableDataComponent,
     SidePanelComponent,
     DsInfiniteScrollDirective,
-    InputBaseComponent,
-    LocalSpinnerComponent,
-    PageTitleComponent
+    PageTitleComponent,
+    MatTableModule,
+    MatTabsModule,
+    FoodsComponent,
+    RecipesFoodsComponent
   ],
   templateUrl: './meals.component.html',
   styleUrl: './meals.component.scss',
 })
-export class MealsComponent implements OnInit {
-  private readonly mealsService = inject(MealsService);
+export class MealsComponent {
   private readonly sidePanelService = inject(SidePanelService);
-  private readonly spinnerService = inject(LocalSpinnerService);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly drawerContentScrollService = inject(
-    DrawerContentScrollService
-  );
-
-  day =
-    this.sidePanelService.drawerStack()[
-      this.sidePanelService.drawerStack().length - 1
-    ]?.data.data?.day;
   mealType =
     this.sidePanelService.drawerStack()[
       this.sidePanelService.drawerStack().length - 1
     ]?.data.data?.mealType;
-  diary =
-    this.sidePanelService.drawerStack()[
-      this.sidePanelService.drawerStack().length - 1
-    ]?.data.data?.diary;
-
-  meals: Meal[] = [];
-  mealColumns = mealColumns(this.openDetails.bind(this));
-
-  searchMeal = new FormControl('');
-
-  private readonly paginationData: PaginationData = {
-    start: 1,
-    limit: 10,
-  };
-
-  private params!: MealParams;
-
-  ngOnInit(): void {
-    this.params = setParams(this.paginationData);
-    this.getMeals();
-    this.loadMeals();
-    this.onSearchEvent();
-  }
-
-  private loadMeals(): void {
-    this.drawerContentScrollService.onLoadMore().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((load) => {
-      if (load) {
-        if (!this.params) {
-          this.params = setParams(this.paginationData);
-        } else {
-          this.params.start = this.params.start + 1;
-        }
-
-        this.getMeals();
-      }
-    });
-  }
-
-  private onSearchEvent(): void {
-    this.searchMeal.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        debounceTime(500),
-        distinctUntilChanged()
-      )
-      .subscribe((value) => {
-        this.meals = [];
-        this.params = resetParams();
-        this.params = setParams(this.params, { food: value });
-        this.getMeals();
-      });
-  }
-
-  private getMeals(): void {
-    this.mealsService
-      .getMeals(this.params)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        withLocalAppSpinner(this.spinnerService),
-        tap((response) =>
-          isMoreDataToLoad(this.drawerContentScrollService, response)
-        )
-      )
-      .subscribe((response) => {
-        this.meals = [...this.meals, ...response];
-      });
-  }
-
-  openDetails(row: Meal): void {
-    this.sidePanelService.openSidePanel(AddEditMealComponent, {
-      data: {
-        id: row._id,
-        day: this.day,
-        mealType: this.mealType,
-        diary: this.diary,
-        mode: 'ADD',
-      },
-      pageTitle: row.name,
-    });
-  }
 
   goBack(): void {
     this.sidePanelService.closeTopComponent();

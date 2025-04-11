@@ -15,5 +15,5 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class GlobalSpinnerComponent {
   readonly dialogRef = inject(MatDialogRef<GlobalSpinnerComponent>);
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) {}
 }

@@ -71,16 +71,15 @@ export class ExercisesComponent implements OnInit {
 
   searchMeal = new FormControl('');
 
-  private readonly paginationData: PaginationData = {
+  private readonly paginationData: PaginationData<ExerciseParams> = {
     start: 1,
     limit: 10,
   };
 
-  private params!: ExerciseParams;
+  private params!: PaginationData<ExerciseParams>;
 
   ngOnInit(): void {
     this.params = setParams(this.paginationData);
-    this.getExercises();
     this.loadMeals();
     this.onSearchEvent();
   }
@@ -94,7 +93,7 @@ export class ExercisesComponent implements OnInit {
           if (!this.params) {
             this.params = setParams(this.paginationData);
           } else {
-            this.params.start = this.params.start + 1;
+            this.params.start = this.params.start! + 1;
           }
 
           this.getExercises();
@@ -111,8 +110,8 @@ export class ExercisesComponent implements OnInit {
       )
       .subscribe((value) => {
         this.exercises = [];
-        this.params = resetParams();
-        this.params = setParams(this.params, { description: value });
+        this.params = resetParams(this.paginationData);
+        this.params = setParams(this.params, { description: value! });
         this.getExercises();
       });
   }
@@ -124,7 +123,7 @@ export class ExercisesComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         withLocalAppSpinner(this.spinnerService),
         tap((response) =>
-          isMoreDataToLoad(this.drawerContentScrollService, response)
+          isMoreDataToLoad(this.drawerContentScrollService, response, this.params.limit!)
         )
       )
       .subscribe((response) => {

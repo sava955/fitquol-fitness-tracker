@@ -1,4 +1,5 @@
-export interface PaginationData {
-  start: number;
-  limit: number;
+export interface PaginationData<T> {
+  start?: number;
+  limit?: number;
+  extraParams?: T;
 }

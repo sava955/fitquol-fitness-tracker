@@ -1,31 +1,22 @@
-import { PaginationData } from '../pagination/pagination-data';
+import { Nutrients } from '../nutrients/nutrient.interface';
+import { Recipe } from '../recipes/recipes.interface';
 
-export interface MealParams extends PaginationData {
+export interface MealParams {
   food?: string;
 }
 
 export interface Meal {
   _id?: string;
+  image?: string;
   name: string;
   quantity: number;
+  servings?: number;
+  served?: number;
   measurementUnit: string;
   nutrients: Nutrients;
   day: string;
   mealType: string;
+  recipe?: Recipe;
   diary?: string;
 }
 
-export interface Nutrients {
-  calories: number;
-  macronutrients: NutrientData[];
-  micronutrients: NutrientData[];
-}
-
-export interface NutrientData {
-  name: string;
-  key: string;
-  value: number;
-  unitOfMeasurement: string;
-  percentageOfTotal: number;
-  dailyLimit: number;
-}

@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
 import { FormBaseComponent } from '../../../shared/components/form-base/form-base.component';
 import { InputBaseComponent } from '../../../shared/components/input-base/input-base.component';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { SpinnerService } from '../../../shared/services/spinner/spinner-service.service';
+import { PopupSpinnerService } from '../../../shared/services/popup-spinner/popup-spinner-service.service';
 import { ActionButtons } from '../../../core/models/action-buttons/action.buttons.interface';
-import { withGlobalAppSpinner } from '../../../shared/utils/with-global-spinner';
+import { withPopupAppSpinner } from '../../../shared/utils/with-popup-spinner';
 import { ResponseObj } from '../../../core/models/http-response/http-response.interface';
 
 @Component({
@@ -35,7 +35,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly spinnerService = inject(SpinnerService);
+  private readonly spinnerService = inject(PopupSpinnerService);
 
   loginForm = this.fb.group({
     email: [null, Validators.required],
@@ -68,7 +68,7 @@ export class LoginComponent {
       password: this.loginForm.value.password!
     };
     
-    this.authService.login(formData).pipe(withGlobalAppSpinner(
+    this.authService.login(formData).pipe(withPopupAppSpinner(
           this.spinnerService,
           'Signing in a user...',
         )).subscribe({

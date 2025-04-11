@@ -1,3 +1,5 @@
+import { MealTable } from '../../models/diary/diary';
+import { DiaryExercise } from '../../models/exercises/exercise.interface';
 import { Meal } from '../../models/meals/meal.interface';
 import { Column } from '../../models/table/table';
 
@@ -43,9 +45,9 @@ export const diaryMealColumns = (
 ];
 
 export const diaryExercisesColumns = (
-  editExercise: (row: Meal) => void,
-  deleteExercise: (row: Meal) => void
-): Column<Meal>[] => [
+  editExercise: (row: DiaryExercise) => void,
+  deleteExercise: (row: DiaryExercise) => void
+): Column<DiaryExercise>[] => [
   {
     id: 'description',
     label: 'Exercises',
@@ -63,16 +65,27 @@ export const diaryExercisesColumns = (
     actions: [
       {
         label: 'edit',
-        action: (row: Meal) => {
+        action: (row: DiaryExercise) => {
           editExercise(row);
         },
       },
       {
         label: 'delete',
-        action: (row: Meal) => {
+        action: (row: DiaryExercise) => {
           deleteExercise(row);
         },
       },
     ],
   },
+];
+
+export const meals: MealTable<Meal>[] = [
+  {
+    meal: 'breakfast',
+    columns: [],
+    data: [],
+  },
+  { meal: 'lunch', columns: [], data: [] },
+  { meal: 'dinner', columns: [], data: [] },
+  { meal: 'snacks', columns: [], data: [] },
 ];

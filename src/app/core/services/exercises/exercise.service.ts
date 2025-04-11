@@ -9,6 +9,7 @@ import {
 import { environment } from '../../../../environments/environment.development';
 import { ResponseObj } from '../../models/http-response/http-response.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PaginationData } from '../../models/pagination/pagination-data';
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +18,14 @@ export class ExerciseService {
   readonly url = environment.beUrl + '/api/exercises';
   readonly httpClient = inject(HttpClient);
   private readonly _snackBar = inject(MatSnackBar);
-  /*getExercises(params: ExerciseParams): Observable<ResponseObj<Exercise[]>> {
-    const httpParams = new HttpParams({fromObject: {...params}});
-    return this.httpClient.get<ResponseObj<Exercise[]>>(this.url, {params: httpParams});
-  }*/
 
-  getExercises(params: ExerciseParams): Observable<Exercise[]> {
-    const httpParams = new HttpParams({ fromObject: { ...params } });
+  getExercises(params: PaginationData<ExerciseParams>): Observable<Exercise[]> {
+    const { extraParams, ...paginationParams } = params;
+
+    const httpParams = new HttpParams({
+      fromObject: { ...paginationParams, ...extraParams },
+    });
+
     return this.httpClient
       .get<ResponseObj<Exercise[]>>(this.url, { params: httpParams })
       .pipe(

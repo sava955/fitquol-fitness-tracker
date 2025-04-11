@@ -17,9 +17,11 @@
         <ng-content></ng-content>
       </div>
     </th>
-    } @if (col.id !== 'action') {
-    <td mat-cell *matCellDef="let element">{{ element[col.value] }}</td>
-    } @else {
+    } @if (col.id === 'image') {
+    <td mat-cell *matCellDef="let element" class="image-td">
+      <app-image-box [src]="element[col.value]" [alt]="element[col.value]" [height]="150" class="p-1" />
+    </td>
+    } @else if (col.id === 'action') {
     <td mat-cell *matCellDef="let element">
       <div class="flex">
         @for(action of col.actions; track action) {
@@ -29,6 +31,8 @@
         }
       </div>
     </td>
+    } @else {
+    <td mat-cell *matCellDef="let element">{{ element[col.value] }}</td>
     }
   </ng-container>
   }

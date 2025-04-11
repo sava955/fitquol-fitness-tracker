@@ -39,7 +39,7 @@ export class SidePanelComponent implements AfterViewInit {
   container!: ViewContainerRef;
 
   activeComponent!: { component: any; data?: any } | null;
-
+  
   constructor() {
     effect(() => {
       const stack = this.sidePanelService.drawerStack();
@@ -56,6 +56,7 @@ export class SidePanelComponent implements AfterViewInit {
             this.drawer.close();
             this.activeComponent = null;
           }
+
           return;
         }
 

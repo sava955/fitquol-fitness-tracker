@@ -1,7 +1,7 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { Login } from '../../models/auth/login.interface';
-import { map, Observable, tap } from 'rxjs';
+import { LoginParams } from '../../models/auth/login-params.interface';
+import { Observable } from 'rxjs';
 import { ResponseObj } from '../../models/http-response/http-response.interface';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,12 +19,12 @@ export class AuthService {
 
   constructor() { }
 
-  registerUser(params: User): Observable<ResponseObj<any>> {
-    return this.httpClient.post<ResponseObj<any>>(`${this.url}/register`, params);
+  registerUser(params: User): Observable<ResponseObj<{}>> {
+    return this.httpClient.post<ResponseObj<{}>>(`${this.url}/register`, params);
   }
 
-  login(params: Login): Observable<ResponseObj<string>> {
-    return this.httpClient.post<ResponseObj<any>>(`${this.url}/login`, params);
+  login(params: LoginParams): Observable<ResponseObj<string>> {
+    return this.httpClient.post<ResponseObj<string>>(`${this.url}/login`, params);
   }
 
   setToken(token: string): void {

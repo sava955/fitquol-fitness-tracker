@@ -1,0 +1,23 @@
+.card-content {
+  font-size: 14px !important;
+
+  .meal-type {
+    border-right: 1px solid var(--dsVars-primary-dark);
+  }
+
+  .category-label {
+    font-size: 16px;
+  }
+
+  .carbs-percentage {
+    color: #f06b46;
+  }
+
+  .fats-percentage {
+    color: rgb(3, 173, 216);
+  }
+
+  .proteins-percentage {
+    color: rgb(32, 177, 95);
+  }
+}

@@ -8,7 +8,7 @@
     width: 100%;
     border-radius: 0;
 
-    @include responsive(lg) {
+    @include responsive(xl) {
       width: 70vw;
     }
   }

@@ -1,7 +1,4 @@
-<app-form-base
-  [formGroup]="userGoals"
-  [actionBtns]="actionBtns"
->
+<app-form-base [formGroup]="userGoals" [actionBtns]="actionBtns">
   <div class="py-4">
     <div class="flex flex-column mb-4">
       <span class="font-semi-bold">Measurement system</span>
@@ -17,16 +14,16 @@
     <div class="flex flex-column flex-row-xl col-gap-2">
       @if (measurementSystem?.value === "METRIC") {
       <app-input-base
-        [formControl]="userGoals.controls.height"
-        [inputLabel]="'Height'"
+        formControlName="height"
+        inputLabel="Height"
         suffixValue="cm"
         type="number"
         class="flex full-col mb-4"
       ></app-input-base>
       } @else {
       <app-input-base
-        [formControl]="userGoals.controls.heightFeet"
-        [inputLabel]="'Feet'"
+        formControlName="heightFeet"
+        inputLabel="Feet"
         suffixValue="ft"
         step="0.1"
         type="number"
@@ -34,8 +31,8 @@
       ></app-input-base>
 
       <app-input-base
-        [formControl]="userGoals.controls.heightInches"
-        [inputLabel]="'Inches'"
+        formControlName="heightInches"
+        inputLabel="Inches"
         suffixValue="in"
         step="0.1"
         type="number"
@@ -44,8 +41,8 @@
       }
 
       <app-input-base
-        [formControl]="userGoals.controls.weight"
-        [inputLabel]="'Weight'"
+        formControlName="weight"
+        inputLabel="Weight"
         [suffixValue]="measurementSystem?.value === 'METRIC' ? 'kg' : 'lbs'"
         step="0.1"
         type="number"
@@ -66,37 +63,28 @@
 
     <div class="flex flex-column flex-row-md col-gap-2">
       @if (goal?.value !== 'REMAIN_WEIGHT') {
-        <div class="flex full-col mb-4">
-          <mat-form-field class="full-col">
-            <mat-label
-              >How much
-              {{ measurementSystem?.value === "METRIC" ? "kg" : "lbs" }} you per
-              week do you wish to
-              {{ goal?.value === "LOSE_WEIGHT" ? "lose" : "gain" }}?</mat-label
-            >
-            <mat-select formControlName="weightPerWeek">
-              @for (weight of weightOptions; track weight) {
-              <mat-option [value]="weight">{{ weight }}</mat-option>
-              }
-            </mat-select>
-    
-            <mat-hint>{{ weightPerWeekWarningMessage() }}</mat-hint>
-          </mat-form-field>
-        </div>
-        }
+      <div class="flex full-col mb-4">
+        <app-select-base
+          formControlName="weightPerWeek"
+          [inputLabel]="
+            'How much ' + (measurementSystem?.value === 'METRIC'
+              ? 'kg'
+              : 'lbs') + ' per week do you wish to ' + (goal?.value ===
+                'LOSE_WEIGHT' ? 'lose': 'gain')
+          "
+          [options]="weightOptionsKg"
+          class="flex full-col"
+        />
+      </div>
+      }
 
-        <div class="flex full-col mb-4">
-          <mat-form-field class="full-col">
-            <mat-label
-              >Activity level</mat-label
-            >
-            <mat-select formControlName="activityLevel">
-              @for (level of activityLevelOptions; track level) {
-              <mat-option [value]="level.value">{{ level.label }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-    </div>
-  </div></app-form-base
->
+      <div class="flex full-col mb-4">
+        <app-select-base
+          formControlName="activityLevel"
+          inputLabel="Activity level"
+          [options]="activityLevelOptions"
+          class="flex full-col"
+        />
+      </div>
+    </div></div
+></app-form-base>

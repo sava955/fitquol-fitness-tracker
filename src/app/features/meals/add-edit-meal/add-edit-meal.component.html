@@ -1,5 +1,11 @@
-<div class="container">
-  <app-page-title [pageTitle]="mode + ' ' + mealType" (onGoBack)="goBack()" />
+<app-side-panel>
+  <app-page-title [pageTitle]="mode + ' ' + mealType" (onGoBack)="goBack()">
+    @if (meal.recipe) {
+      <button mat-flat-button (click)="openRecepeDetails(meal.recipe)">
+        See recipe
+      </button>
+    }
+  </app-page-title>
 
   @if (meal) {
   <app-form-base
@@ -15,13 +21,15 @@
         <apx-chart
           [series]="chartOptions.series!"
           [chart]="chartOptions.chart!"
-          [labels]="chartOptions.labels"
+          [labels]="chartOptions.labels!"
           [responsive]="chartOptions.responsive!"
         ></apx-chart>
       </div>
 
       <div class="align-self-end-md">
-        <span class="calories-title font-bold">{{ this.nutrients.calories }}kCal</span>
+        <span class="calories-title font-bold"
+          >{{ this.nutrients.calories.toFixed() }}kCal</span
+        >
       </div>
     </div>
 
@@ -38,27 +46,30 @@
     </div>
 
     <div class="flex flex-column flex-row-md col-gap-2 mb-4">
+      @if (meal.servings) {
+      <app-select-base
+        formControlName="served"
+        inputLabel="Servings"
+        [options]="servingsOptions"
+        class="flex full-col"
+      />
+      } @else {
       <app-input-base
-        [formControl]="mealForm.controls.quantity"
-        [inputLabel]="'Quantity'"
+        formControlName="quantity"
+        inputLabel="Quantity"
         suffixValue="g"
         type="number"
-        class="flex full-col mb-4"
+        class="flex full-col"
       />
+      }
 
-      <div class="flex full-col mb-4">
-        <mat-form-field class="full-col">
-          <mat-label>Meal</mat-label>
-          <mat-select formControlName="mealType">
-            @for (option of mealOptions; track option) {
-            <mat-option [value]="option | uppercase">{{
-              option | titlecase
-            }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
+      <app-select-base
+        formControlName="mealType"
+        inputLabel="Meal"
+        [options]="mealOptions"
+        class="flex full-col"
+      />
     </div>
   </app-form-base>
   }
-</div>
+</app-side-panel>

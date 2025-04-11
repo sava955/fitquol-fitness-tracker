@@ -1,0 +1,66 @@
+<div class="card-content">
+  <div class="flex justify-content-between full-col align-items-center mt-2">
+    <div class="meal-type full-col px-2 py-1">
+      <span>{{ recipe.mealType }}</span>
+    </div>
+
+    <div class="calories full-col px-2 py-1 flex justify-content-end">
+      <span
+        >Calories:
+        <span class="font-bold">{{
+          (recipe.nutrients.calories / recipe.servings).toFixed()
+        }}</span></span
+      >
+    </div>
+  </div>
+
+  <div class="flex mt-4 mb-2">
+    <div
+      class="flex flex-column full-col justify-content-center align-items-center"
+    >
+      <div>
+        <span class="font-bold carbs-percentage"
+          >{{
+            ((recipe.nutrients.macronutrients[0].value / 100) * 100).toFixed()
+          }}%</span
+        >
+      </div>
+
+      <div>
+        <span>Carbs</span>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-column full-col justify-content-center align-items-center"
+    >
+      <div>
+        <span class="font-bold fats-percentage"
+          >{{
+            ((recipe.nutrients.macronutrients[3].value / 100) * 100).toFixed()
+          }}%</span
+        >
+      </div>
+
+      <div>
+        <span>Fats</span>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-column full-col justify-content-center align-items-center"
+    >
+      <div>
+        <span class="font-bold proteins-percentage">
+          {{
+            ((recipe.nutrients.macronutrients[9].value / 100) * 100).toFixed()
+          }}%
+        </span>
+      </div>
+
+      <div>
+        <span>Proteins</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,8 @@ import { ResponseObj } from '../../models/http-response/http-response.interface'
 import { map, Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Meal } from '../../models/meals/meal.interface';
+import { Diary } from '../../models/diary/diary';
+import { DiaryExercise } from '../../models/exercises/exercise.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -14,21 +16,21 @@ export class DiaryService {
   readonly httpClient = inject(HttpClient);
   private readonly _snackBar = inject(MatSnackBar);
 
-  getDiaryByDay(day: Date): Observable<ResponseObj<any>> {
-    return this.httpClient.get<ResponseObj<any>>(`${this.diaryUrl}/meal/${day}`);
+  getDiaryByDay(day: Date): Observable<ResponseObj<Diary>> {
+    return this.httpClient.get<ResponseObj<Diary>>(`${this.diaryUrl}/meal/${day}`);
   }
 
-  addMeal(params: Meal): Observable<any> {
-    return this.httpClient.post<any>(`${this.diaryUrl}/meal`, params);
+  addMeal(params: Meal): Observable<ResponseObj<{}>> {
+    return this.httpClient.post<ResponseObj<{}>>(`${this.diaryUrl}/meal`, params);
   }
 
-  updateMeal(id: string, params: Meal): Observable<ResponseObj<Meal>> {
-    return this.httpClient.patch<ResponseObj<Meal>>(`${this.diaryUrl}/meal/${id}`, params);
+  updateMeal(id: string, params: Meal): Observable<ResponseObj<{}>> {
+    return this.httpClient.patch<ResponseObj<{}>>(`${this.diaryUrl}/meal/${id}`, params);
   }
 
-  deleteDiaryMeal(id: string): Observable<ResponseObj<Meal>> {
+  deleteDiaryMeal(id: string): Observable<Meal> {
     return this.httpClient.delete<ResponseObj<Meal>>(`${this.diaryUrl}/meal/${id}`).pipe(
-      map((response: ResponseObj<any>) => {
+      map((response: ResponseObj<Meal>) => {
         if (!response.success) {
           this._snackBar.open(response.message, 'close');
         }
@@ -38,21 +40,17 @@ export class DiaryService {
     );
   }
 
-  addDiaryExercise(params: any): Observable<ResponseObj<any>> {
-    return this.httpClient.post<ResponseObj<any>>(`${this.diaryUrl}/exercise`, params)
+  addDiaryExercise(params: DiaryExercise): Observable<ResponseObj<{}>> {
+    return this.httpClient.post<ResponseObj<{}>>(`${this.diaryUrl}/exercise`, params)
   }
 
-  updateDiaryExercise(id: string, params: any): Observable<ResponseObj<any>> {
-    return this.httpClient.patch<ResponseObj<any>>(`${this.diaryUrl}/exercise/${id}`, params);
+  updateDiaryExercise(id: string, params: DiaryExercise): Observable<ResponseObj<{}>> {
+    return this.httpClient.patch<ResponseObj<{}>>(`${this.diaryUrl}/exercise/${id}`, params);
   }
 
-  addDiaryExerciseProgram(params: any): Observable<ResponseObj<any>> {
-    return this.httpClient.post<ResponseObj<any>>(`${this.diaryUrl}/exercise-program`, params)
-  }
-
-  deleteDiaryExercise(id: string): Observable<ResponseObj<any>> {
-    return this.httpClient.delete<ResponseObj<any>>(`${this.diaryUrl}/exercise/${id}`).pipe(
-      map((response: ResponseObj<any>) => {
+  deleteDiaryExercise(id: string): Observable<DiaryExercise> {
+    return this.httpClient.delete<ResponseObj<DiaryExercise>>(`${this.diaryUrl}/exercise/${id}`).pipe(
+      map((response: ResponseObj<DiaryExercise>) => {
         if (!response.success) {
           this._snackBar.open(response.message, 'close');
         }

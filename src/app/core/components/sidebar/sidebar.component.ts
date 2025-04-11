@@ -28,11 +28,16 @@ export class SidebarComponent {
       icon: 'local_library'
     },
     {
+      path: 'recipes',
+      label: 'Recipes',
+      icon: 'restaurant'
+    }
+    /*{
       path: 'exercises',
       label: 'Exercises',
       icon: 'fitness_center'
     },
-    /*{
+    {
       path: 'nutrition',
       label: 'Nutrition',
       icon: 'restaurant'

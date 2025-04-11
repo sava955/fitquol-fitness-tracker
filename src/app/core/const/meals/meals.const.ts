@@ -3,9 +3,9 @@ import { Column } from '../../models/table/table';
 
 export const mealColumns = (openDetails: (row: Meal) => void): Column<Meal>[] => [
   {
-    id: 'food',
+    id: 'name',
     label: 'Food',
-    value: 'food',
+    value: 'name',
   },
   {
     id: 'calories',

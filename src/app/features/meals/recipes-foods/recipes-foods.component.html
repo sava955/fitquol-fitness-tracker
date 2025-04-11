@@ -1,0 +1,18 @@
+<form class="search-form my-4">
+    <app-input-base
+      [formControl]="searchRecipe"
+      inputLabel="Search recipes"
+      class="flex full-col"
+    />
+  </form>
+  
+  <div class="table-container">
+    <mat-card class="my-4">
+      <mat-card-content>
+        <app-table-data [data]="recipes" [displayedColumns]="recipeColumns" />
+  
+        <app-local-spinner />
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

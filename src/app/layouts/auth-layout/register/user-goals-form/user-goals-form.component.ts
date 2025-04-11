@@ -7,13 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
-import {
-  MatFormField,
-  MatHint,
-  MatLabel,
-  MatOption,
-  MatSelect,
-} from '@angular/material/select';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputBaseComponent } from '../../../../shared/components/input-base/input-base.component';
 import { FormBaseComponent } from '../../../../shared/components/form-base/form-base.component';
@@ -24,20 +17,18 @@ import {
   ActivityLevel,
   UnitMeasurment,
 } from '../../../../core/enums/user/user.enum';
+import { SelectBaseComponent } from '../../../../shared/components/select-base/select-base.component';
+import { SelectOptions } from '../../../../core/models/select-base/selet-options.interface';
 
 @Component({
   selector: 'app-user-goals-form',
   imports: [
     MatRadioGroup,
     MatRadioButton,
-    MatSelect,
-    MatHint,
     InputBaseComponent,
-    MatFormField,
-    MatOption,
-    MatLabel,
     ReactiveFormsModule,
     FormBaseComponent,
+    SelectBaseComponent
   ],
   templateUrl: './user-goals-form.component.html',
   styleUrl: './user-goals-form.component.scss',
@@ -62,18 +53,19 @@ export class UserGoalsFormComponent implements OnInit {
     activityLevel: [null, Validators.required],
   });
 
-  weightOptionsKg = [0.5, 1, 1.5, 2];
-  weightOptions: number[] = [...this.weightOptionsKg];
+  weightOptionsKg: SelectOptions[] = [
+    { label: '0.5', value: 0.5 },
+    { label: '1', value: 1 }];
 
-  activityLevelOptions = [
+  weightOptions: SelectOptions[] = [...this.weightOptionsKg];
+
+  activityLevelOptions: SelectOptions[] = [
     { value: ActivityLevel.SEDENTARY, label: 'Sedentary' },
     { value: ActivityLevel.LIGHTLY_ACTIVE, label: 'Lightly active' },
     { value: ActivityLevel.MODERATELY_ACTIVE, label: 'Moderately active' },
     { value: ActivityLevel.VERY_ACTIVE, label: 'Very active' },
     { value: ActivityLevel.SUPER_ACTIVE, label: 'Super active' },
   ];
-
-  weightPerWeekWarningMessage = signal<string | null>(null);
 
   actionBtns: ActionButtons[] = [
     {
@@ -141,12 +133,6 @@ export class UserGoalsFormComponent implements OnInit {
           );
 
           this.weightPerWeek.patchValue(metricValue);
-
-          if (this.weightPerWeek?.value > 1) {
-            this.weightPerWeekWarningMessage.set(
-              'It is not healthy to lose more the 1 kg per week'
-            );
-          }
         }
 
         this.heightFeet?.clearValidators();
@@ -176,12 +162,6 @@ export class UserGoalsFormComponent implements OnInit {
           );
 
           this.weightPerWeek.patchValue(imperialValue);
-
-          if (this.weightPerWeek?.value > 2.2) {
-            this.weightPerWeekWarningMessage.set(
-              'It is not healthy to lose more the 2 lbs per week'
-            );
-          }
         }
 
         this.heightFeet?.setValidators([
@@ -199,26 +179,6 @@ export class UserGoalsFormComponent implements OnInit {
       this.heightInches?.updateValueAndValidity();
       this.height?.updateValueAndValidity();
       this.updateWeightOptions(system!);
-    });
-
-    this.weightPerWeek?.valueChanges.subscribe((value: any) => {
-      if (
-        this.measurementSystem?.value === UnitMeasurment.METRIC &&
-        value > 1
-      ) {
-        this.weightPerWeekWarningMessage.set(
-          'It is not healthy to lose more the 1 kg per week'
-        );
-      } else if (
-        this.measurementSystem?.value === UnitMeasurment.IMPERIAL &&
-        value > 2.2
-      ) {
-        this.weightPerWeekWarningMessage.set(
-          'It is not healthy to lose more the 2 lbs per week'
-        );
-      } else {
-        this.weightPerWeekWarningMessage.set(null);
-      }
     });
   }
 
@@ -244,7 +204,9 @@ export class UserGoalsFormComponent implements OnInit {
   private updateWeightOptions(system: string) {
     this.weightOptions =
       system === UnitMeasurment.IMPERIAL
-        ? this.weightOptionsKg.map((kg) => this.convertKgToPounds(kg))
+        ? this.weightOptionsKg.map((option) => ({
+          label: this.convertKgToPounds(Number(option.label)).toFixed(),
+          value: this.convertKgToPounds(Number(option.value))}))
         : [...this.weightOptionsKg];
   }
 

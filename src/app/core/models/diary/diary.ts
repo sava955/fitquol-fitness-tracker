@@ -1,5 +1,7 @@
 import { DiaryExercise } from "../exercises/exercise.interface";
-import { Meal, Nutrients } from "../meals/meal.interface"
+import { Meal } from "../meals/meal.interface"
+import { Nutrients } from "../nutrients/nutrient.interface";
+import { Column } from "../table/table";
 import { User } from "../user/user.interface";
 
 export interface Diary {
@@ -15,4 +17,12 @@ export interface Diary {
     caloriesBalance: number;
     nutrients: Nutrients;
     user: User;
+}
+
+export type MealKey = 'breakfast' | 'lunch' | 'dinner' | 'snacks';
+
+export interface MealTable<T> {
+    meal: string;
+    columns: Column<T>[];
+    data: Meal[];
 }

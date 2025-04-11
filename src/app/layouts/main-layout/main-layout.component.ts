@@ -65,7 +65,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   private setSidenavMode(): void {
     this.innerWidth = window.innerWidth;
 
-    if (this.innerWidth < 767) {
+    if (this.innerWidth < 1200) {
       this.sideNavMode = 'over';
       return;
     } 

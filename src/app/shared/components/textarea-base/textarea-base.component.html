@@ -1,0 +1,16 @@
+@if (control) {
+<mat-form-field class="full-col">
+  <mat-label>Description</mat-label>
+  <textarea
+    matInput
+    [formControl]="control"
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="10"
+    cdkAutosizeMaxRows="10"
+  ></textarea>
+  <mat-error>
+    <app-validation-errors [errors]="control.errors"></app-validation-errors>
+  </mat-error>
+</mat-form-field>
+}

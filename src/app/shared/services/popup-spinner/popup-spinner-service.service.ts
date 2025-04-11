@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Injectable({
   providedIn: 'root',
 })
-export class SpinnerService {
+export class PopupSpinnerService {
   private readonly dialog = inject(MatDialog);
 
   show(message: string): void {
