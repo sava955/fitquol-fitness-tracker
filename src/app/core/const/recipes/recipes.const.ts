@@ -8,28 +8,24 @@ export const recipeColumns = (
     id: 'image',
     label: 'Photo',
     value: 'image',
+    openDetails: (row: Recipe) => {
+      openDetails(row);
+    },
   },
   {
     id: 'name',
     label: 'Food',
     value: 'name',
+    openDetails: (row: Recipe) => {
+      openDetails(row);
+    },
   },
   {
     id: 'calories',
     label: 'Calories per serving',
-    value: 'calories'
-  },
-  {
-    id: 'action',
-    label: 'action',
-    value: 'action',
-    actions: [
-      {
-        label: 'add',
-        action: (row: Recipe) => {
-          openDetails(row);
-        },
-      },
-    ],
+    value: 'calories',
+    openDetails: (row: Recipe) => {
+      openDetails(row);
+    }
   },
 ];

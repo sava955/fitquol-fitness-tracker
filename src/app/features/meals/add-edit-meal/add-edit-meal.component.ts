@@ -159,10 +159,11 @@ export class AddEditMealComponent {
     });
 
     this.quantity?.valueChanges.subscribe((value) => {
-      if (value) {
+      const quantity = Number(value);
+      if (quantity > 0) {
         this.nutrients = calculateNutritientsForQuantity(
           this.meal,
-          Number(value)
+          quantity
         )!;
 
         this.chartOptions.labels = [

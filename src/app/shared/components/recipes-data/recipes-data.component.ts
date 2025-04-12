@@ -92,6 +92,10 @@ export abstract class RecipesData implements OnInit {
       )
       .subscribe((response) => {
         this.recipes = [...this.recipes, ...response];
+        this.recipes = this.recipes.map((recipe: Recipe) => ({
+          calories: recipe.nutrients.calories.toFixed(),
+          ...recipe
+        }))
       });
   }
 }

@@ -1,10 +1,27 @@
+@use '../../../styles/mixins' as *;
+
 .day-card {
   background: linear-gradient(to right, rgb(29, 153, 235), rgb(0, 180, 162));
   color: var(--dsVars-white);
-
+  
   .day-wrapper {
+    input {
+      visibility: hidden;
+      width: 0;
+    }
+
+    ::ng-deep {
+      .mat-mdc-icon-button {
+        color: var(--dsVars-white) !important;
+      }
+    }
+
     .day {
-      font-size: 30px;
+      font-size: 20px;
+
+      @include responsive(md) {
+        font-size: 30px;
+      }
     }
 
     button {
@@ -15,12 +32,28 @@
 
 .day-wrapper,
 .calory-wrapper {
-  min-height: 120px;
+  min-height: auto;
+
+  @include responsive (md) {
+    min-height: 120px;
+  }
 }
 
 .calories-data-card {
+  .calories-label {
+    font-size: 12px;
+
+    @include responsive(md) {
+      font-size: 16px;
+    }
+  }
+
   .calories-data {
-    font-size: 30px;
+    font-size: 16px;
+
+    @include responsive(md) {
+      font-size: 30px;
+    }
   }
 
   &.goal-calories {

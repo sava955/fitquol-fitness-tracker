@@ -59,7 +59,7 @@ export class UserDataFormComponent {
   actionBtns: ActionButtons[] = [
     {
       label: 'Sign in',
-      action: () => this.router.navigateByUrl('login'),
+      action: () => { this.router.navigateByUrl('login') },
       style: 'secondary',
     },
     {

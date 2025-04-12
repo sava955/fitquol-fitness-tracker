@@ -1,11 +1,12 @@
 export interface Column<T> {
-    id: string;
-    label: string;
-    value: string;
-    actions?: ColumnAction<T>[];
+  id: string;
+  label: string;
+  value: string;
+  openDetails?: (item: T) => void;
+  actions?: ColumnAction<T>[];
 }
 
 export interface ColumnAction<T> {
-    label: string;
-    action: (item: T) => void;
+  label: string;
+  action: (item: T) => void;
 }

@@ -119,6 +119,10 @@ export class FoodsComponent {
       )
       .subscribe((response) => {
         this.meals = [...this.meals, ...response];
+        this.meals = this.meals.map((meal: Meal) => ({
+          calories: meal.nutrients.calories,
+          ...meal
+        }));
       });
   }
 

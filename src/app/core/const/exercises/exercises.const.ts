@@ -8,19 +8,9 @@ export const exercisesColumns = (
     id: 'description',
     label: 'Exercises',
     value: 'description',
-  },
-  {
-    id: 'action',
-    label: 'action',
-    value: 'action',
-    actions: [
-      {
-        label: 'add',
-        action: (row: Exercise) => {
-          openDetails(row);
-        },
-      },
-    ],
+    openDetails: (row: Exercise) => {
+      openDetails(row);
+    },
   },
 ];
 
