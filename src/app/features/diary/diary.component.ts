@@ -25,9 +25,13 @@ import { Meal } from '../../core/models/meals/meal.interface';
 import { LocalSpinnerComponent } from '../../shared/components/local-spinner/local-spinner.component';
 import { LocalSpinnerService } from '../../shared/services/local-spinner/local-spinner.service';
 import { withLocalAppSpinner } from '../../shared/utils/with-local-spinner';
-import { Diary, MealKey, MealTable } from '../../core/models/diary/diary';
+import { Diary, MealKey } from '../../core/models/diary/diary';
 import { DiaryExercise } from '../../core/models/exercises/exercise.interface';
 import { Column } from '../../core/models/table/table';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-diary',
@@ -42,19 +46,26 @@ import { Column } from '../../core/models/table/table';
     MatIcon,
     MatExpansionModule,
     NutrientsComponent,
-    LocalSpinnerComponent
+    LocalSpinnerComponent,
+    MatDatepickerModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './diary.component.html',
   styleUrl: './diary.component.scss',
+  providers: [provideNativeDateAdapter()],
 })
 export class DiaryComponent implements OnInit {
   private readonly sidePanelService = inject(SidePanelService);
   private readonly diaryService = inject(DiaryService);
   private readonly spinnerService = inject(LocalSpinnerService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   diary!: Diary;
+
   day = new Date();
+  dayCtrl = new FormControl();
 
   meals = meals;
 
@@ -65,13 +76,32 @@ export class DiaryComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.getDailyDiary();
+    this.route.queryParamMap.subscribe((params: any) => {
+      if (params.get('day')) {
+        this.day = params.get('day');
+        this.dayCtrl.setValue(this.day);
+      }
+
+      this.getDailyDiary();
+    });
 
     this.sidePanelService.onCloseSidePanel().subscribe((response) => {
       if (response) {
         this.getDailyDiary();
       }
     });
+
+    this.dayCtrl.valueChanges.subscribe((value) => {
+      if (value) {
+        this.day = value;
+
+        this.setDayParams();
+      }
+    });
+  }
+
+  private setDayParams(): void {
+    this.router.navigate(['diary'], { queryParams: { day: this.day } });
   }
 
   private getDailyDiary(): void {
@@ -84,65 +114,88 @@ export class DiaryComponent implements OnInit {
       .subscribe((response) => {
         this.diary = response.data;
 
-        for (let m of this.meals) {
-          m.columns = [
-            ...diaryMealColumns(
-              { id: m.meal, label: m.meal },
-              this.editMeal.bind(this),
-              this.deleteMeal.bind(this),
-              
-            ),
-          ];
-
-          if (this.diary[m.meal as MealKey]) {
-            const meal = this.diary[m.meal as MealKey].map((item: Meal) => ({
-              ...item,
-              quantity: Math.round(item.quantity),
-              calories: Math.round(item.nutrients.calories)
-            }));
-
-            let caloriesLabel = m.columns.find(
-              (item: Column<Meal>) => item.id === 'calories'
-            )!;
-
-            caloriesLabel.label = String(
-              meal.reduce(
-                (sum: number, item: Meal) =>
-                  sum + Math.round(item.nutrients.calories),
-                0
-              )
-            );
-
-            m.data = [...meal];
-          }
-        }
-
-        this.exercises = this.diary.exercises.map((exercise: DiaryExercise) => ({
-          name: exercise.exercise.category,
-          description: exercise.exercise.description,
-          ...exercise,
-        }));
+        this.handleDiaryMeals();
+        this.handleDiaryExercises();
       });
+  }
+
+  private handleDiaryMeals(): void {
+    for (let m of this.meals) {
+      m.columns = [
+        ...diaryMealColumns(
+          { id: m.meal, label: m.meal },
+          this.editMeal.bind(this),
+          this.deleteMeal.bind(this)
+        ),
+      ];
+
+      if (this.diary[m.meal as MealKey]) {
+        const meal = this.diary[m.meal as MealKey].map((item: Meal) => ({
+          ...item,
+          quantity: Math.round(item.quantity),
+          calories: Math.round(item.nutrients.calories),
+        }));
+
+        let caloriesLabel = m.columns.find(
+          (item: Column<Meal>) => item.id === 'calories'
+        )!;
+
+        caloriesLabel.label = String(
+          meal.reduce(
+            (sum: number, item: Meal) =>
+              sum + Math.round(item.nutrients.calories),
+            0
+          )
+        );
+
+        m.data = [...meal];
+      }
+    }
+  }
+
+  private handleDiaryExercises(): void {
+    let caloriesLabel = this.exercisesColumns.find(
+      (item: Column<DiaryExercise>) => item.id === 'calories'
+    )!;
+
+    caloriesLabel.label = String(
+      this.diary.exercises.reduce(
+        (sum: number, item: DiaryExercise) =>
+          sum + Math.round(item.caloriesBurned),
+        0
+      )
+    );
+
+    this.exercises = this.diary.exercises.map(
+      (exercise: DiaryExercise) => ({
+        name: exercise.exercise.category,
+        description: exercise.exercise.description,
+        calories: exercise.caloriesBurned,
+        ...exercise,
+      })
+    );
   }
 
   getNextDay(): void {
     this.day = new Date(this.day);
     this.day.setDate(this.day.getDate() + 1);
 
-    this.getDailyDiary();
+    this.setDayParams();
   }
 
   getPreviousDay(): void {
     this.day = new Date(this.day);
     this.day.setDate(this.day.getDate() - 1);
 
-    this.getDailyDiary();
+    this.setDayParams();
   }
 
   addMeal(mealType: string): void {
     this.sidePanelService.openSidePanel(MealsComponent, {
-      data: { 
-        day: this.day, mealType: mealType, diary: this.diary 
+      data: {
+        day: this.day,
+        mealType: mealType,
+        diary: this.diary,
       },
       pageTitle: mealType,
     });
@@ -181,7 +234,7 @@ export class DiaryComponent implements OnInit {
   }
 
   deleteExercise(row: DiaryExercise): void {
-    this.diaryService.deleteDiaryExercise(row._id!).subscribe(_ => {
+    this.diaryService.deleteDiaryExercise(row._id!).subscribe((_) => {
       this.getDailyDiary();
     });
   }

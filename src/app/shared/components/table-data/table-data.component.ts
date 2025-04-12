@@ -16,6 +16,7 @@ export class TableDataComponent<T> implements OnInit {
   @Input() searchData = true;
   @Input() displayedColumns!: Column<T>[];
   @Input() actionBtns!: void;
+  
   displayedColumnKeys!: string[];
 
   ngOnInit(): void {

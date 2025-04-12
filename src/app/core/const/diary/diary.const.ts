@@ -12,28 +12,24 @@ export const diaryMealColumns = (
     id: meal.id,
     label: meal.label,
     value: 'name',
+    openDetails: (row: Meal) => { editMeal(row) }
   },
-  {
+  /*{
     id: 'quantity',
     label: 'Quantity',
     value: 'quantity',
-  },
+  },*/
   {
     id: 'calories',
     label: '',
     value: 'calories',
+    openDetails: (row: Meal) => { editMeal(row) }
   },
   {
     id: 'action',
     label: 'action',
     value: 'action',
     actions: [
-      {
-        label: 'edit',
-        action: (row: Meal) => {
-          editMeal(row);
-        },
-      },
       {
         label: 'delete',
         action: (row: Meal) => {
@@ -52,23 +48,23 @@ export const diaryExercisesColumns = (
     id: 'description',
     label: 'Exercises',
     value: 'description',
+    openDetails: (row: DiaryExercise) => {
+      editExercise(row);
+    },
   },
   {
     id: 'calories',
     label: '',
     value: 'calories',
+    openDetails: (row: DiaryExercise) => {
+      editExercise(row);
+    },
   },
   {
     id: 'action',
     label: 'action',
     value: 'action',
     actions: [
-      {
-        label: 'edit',
-        action: (row: DiaryExercise) => {
-          editExercise(row);
-        },
-      },
       {
         label: 'delete',
         action: (row: DiaryExercise) => {

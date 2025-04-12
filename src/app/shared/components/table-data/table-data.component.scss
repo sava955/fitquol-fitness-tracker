@@ -9,3 +9,8 @@
     object-fit: cover;
   }
 }
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: var(--dsVars-background-gray-color);
+  cursor: pointer;
+}
