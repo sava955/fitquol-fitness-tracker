@@ -31,17 +31,12 @@ export class SidebarComponent {
       path: 'recipes',
       label: 'Recipes',
       icon: 'restaurant'
-    }
-    /*{
-      path: 'exercises',
-      label: 'Exercises',
-      icon: 'fitness_center'
     },
     {
-      path: 'nutrition',
-      label: 'Nutrition',
-      icon: 'restaurant'
-    }*/
+      path: 'user',
+      label: 'Profile',
+      icon: 'person'
+    }
   ];
 
   closeSidenav(): void {

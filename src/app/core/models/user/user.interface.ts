@@ -1,22 +1,24 @@
-import { Diet } from '../diet/diet';
+import { Gender, UserGoal, UnitMeasurment } from '../../enums/user/user.enum';
+import { Goal } from '../goals/goal';
 import { DiaryExercise } from '../exercises/exercise.interface';
 
 export interface UserData {
+  _id?: string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  gender: string;
+  gender: Gender.MALE | Gender.FEMALE;
   email: string;
-  password: string;
-  passwordConfirmation?: string;
   profileImage?: string;
 }
 
 export interface UserGoals {
-  measurementSystem: string;
+  measurementSystem: UnitMeasurment.METRIC | UnitMeasurment.IMPERIAL;
   weight: number;
   height: number;
-  goal: string;
+  heightFeet?: number;
+  heightInches?: number;
+  goal: UserGoal.LOSE_WEIGHT | UserGoal.REMAIN_WEIGHT | UserGoal.GAIN_WEIGHT ;
   weightPerWeek: number;
   activityLevel: string;
   caloriesRequiredPerDay?: number;
@@ -30,7 +32,21 @@ export interface Day {
   caloriesBalance: number;
 }
 
-export interface User extends UserData, UserGoals {
-  diet: Diet;
+export interface UserRequest extends UserData, UserGoals, Password {
   role: string;
 }
+
+export interface User extends UserData {
+  goals: Goal[];
+  role: string;
+}
+
+export interface Password {
+  password: string;
+  passwordConfirmation: string;
+}
+
+export interface PasswordRequest extends Password {
+  currentPassword: string;
+}
+

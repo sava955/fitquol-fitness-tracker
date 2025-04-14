@@ -32,6 +32,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Goal } from '../../core/models/goals/goal';
+import { getGoalByDate } from '../../shared/utils/get-goal-by-date';
 
 @Component({
   selector: 'app-diary',
@@ -75,6 +77,10 @@ export class DiaryComponent implements OnInit {
     this.deleteExercise.bind(this)
   );
 
+  dailyCalories!: number;
+  
+  nutrients!: Goal;
+
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params: any) => {
       if (params.get('day')) {
@@ -113,6 +119,14 @@ export class DiaryComponent implements OnInit {
       )
       .subscribe((response) => {
         this.diary = response.data;
+
+        this.nutrients = getGoalByDate(this.diary.user.goals, this.day);
+
+        this.dailyCalories = this.nutrients.caloriesRequired;
+
+        if (!this.dailyCalories) {
+          this.dailyCalories = this.diary.user.goals[0].caloriesRequired;
+        }
 
         this.handleDiaryMeals();
         this.handleDiaryExercises();
@@ -166,14 +180,12 @@ export class DiaryComponent implements OnInit {
       )
     );
 
-    this.exercises = this.diary.exercises.map(
-      (exercise: DiaryExercise) => ({
-        name: exercise.exercise.category,
-        description: exercise.exercise.description,
-        calories: exercise.caloriesBurned,
-        ...exercise,
-      })
-    );
+    this.exercises = this.diary.exercises.map((exercise: DiaryExercise) => ({
+      name: exercise.exercise.category,
+      description: exercise.exercise.description,
+      calories: exercise.caloriesBurned,
+      ...exercise,
+    }));
   }
 
   getNextDay(): void {

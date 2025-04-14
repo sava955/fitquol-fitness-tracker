@@ -1,0 +1,82 @@
+<section class="container py-4">
+  <app-page-title [pageTitle]="'Profile'" [goBackButton]="false">
+    <button mat-flat-button [routerLink]="['./edit']">
+      Profile settings <mat-icon>edit</mat-icon>
+    </button>
+  </app-page-title>
+
+  @if (user) {
+  <div class="my-4 row">
+    <div class="col-12 col-5-lg">
+      <mat-card>
+        <mat-card-content>
+          <app-user-data [user]="user" />
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-7-lg">
+      <mat-card>
+        <mat-card-content>
+          <div>
+            <div id="chart">
+              <apx-chart
+                [series]="chartOptions.series!"
+                [chart]="chartOptions.chart!"
+                [xaxis]="chartOptions.xaxis!"
+                [stroke]="chartOptions.stroke!"
+                [tooltip]="chartOptions.tooltip!"
+                [dataLabels]="chartOptions.dataLabels!"
+              ></apx-chart>
+            </div>            
+          </div>                        
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-6">
+              <div class="my-4">
+                <span class="full-name font-bold">Macronutrients</span>
+              </div>
+
+              @for (item of macronutrients; track $index) {
+              <div class="flex justify-content-between my-4">
+                <div>{{ item.name }}</div>
+
+                <div>
+                  {{ item.dailyLimit.toFixed(2) }} {{ item.unitOfMeasurement }}
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="col-6">
+              <div class="my-4">
+                <span class="full-name font-bold">Micronutrients</span>
+              </div>
+
+              @for (item of micronutrients; track $index) {
+              <div class="flex justify-content-between my-4">
+                <div>{{ item.name }}</div>
+
+                <div>
+                  {{ item.dailyLimit.toFixed(2) }} {{ item.unitOfMeasurement }}
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  } @else {
+    <app-local-spinner />
+  }
+</section>

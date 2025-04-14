@@ -2,7 +2,7 @@
 <mat-form-field class="full-col">
   <mat-label>{{ inputLabel }}</mat-label>
   <mat-select [formControl]="control">
-    @for (option of options; track $index) {
+    @for (option of options; track option) {
     <mat-option [value]="option.value">{{ option.label }}</mat-option>
     }
   </mat-select>

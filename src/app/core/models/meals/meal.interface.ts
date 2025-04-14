@@ -1,8 +1,9 @@
-import { Nutrients } from '../nutrients/nutrient.interface';
+import { Nutrients, PlainNutrients } from '../nutrients/nutrient.interface';
 import { Recipe } from '../recipes/recipes.interface';
 
 export interface MealParams {
   food?: string;
+  date?: Date;
 }
 
 export interface Meal {
@@ -20,3 +21,10 @@ export interface Meal {
   diary?: string;
 }
 
+export interface Food extends PlainNutrients {
+  food: string;
+  other_names: string;
+  comments: string;
+  source: string;
+  category: string;
+}

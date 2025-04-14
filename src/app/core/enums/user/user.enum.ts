@@ -8,7 +8,7 @@ export enum UnitMeasurment {
   IMPERIAL = 'IMPERIAL',
 }
 
-export enum Goal {
+export enum UserGoal {
   LOSE_WEIGHT = 'LOSE_WEIGHT',
   REMAIN_WEIGHT = 'REMAIN_WEIGHT',
   GAIN_WEIGHT = 'GAIN_WEIGHT',

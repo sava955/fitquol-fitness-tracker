@@ -24,6 +24,11 @@ export class DialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { title: string; message: string; onConfirm: () => void }
+    public data: {
+      title: string;
+      message: string;
+      closeBtnLabel?: string;
+      onConfirm?: () => void;
+    }
   ) {}
 }

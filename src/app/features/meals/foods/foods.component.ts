@@ -64,13 +64,14 @@ export class FoodsComponent {
 
   private readonly paginationData: PaginationData<MealParams> = {
     start: 1,
-    limit: 10,
+    limit: 10
   };
 
   private params!: PaginationData<MealParams>;
 
   ngOnInit(): void {
-    this.params = setParams(this.paginationData);
+    this.params = setParams(this.paginationData, {date: this.day });
+
     this.loadMeals();
     this.onSearchEvent();
   }
@@ -82,7 +83,7 @@ export class FoodsComponent {
       .subscribe((load) => {
         if (load) {
           if (!this.params) {
-            this.params = setParams(this.paginationData);
+            this.params = setParams(this.paginationData, {date: this.day });
           } else {
             this.params.start = this.params.start! + 1;
           }
@@ -102,7 +103,7 @@ export class FoodsComponent {
       .subscribe((value) => {
         this.meals = [];
         this.params = resetParams(this.paginationData);
-        this.params = setParams(this.params, { food: value! });
+        this.params = setParams(this.params, { date: this.day, food: value! });
         this.getMeals();
       });
   }
@@ -114,14 +115,18 @@ export class FoodsComponent {
         takeUntilDestroyed(this.destroyRef),
         withLocalAppSpinner(this.spinnerService),
         tap((response) =>
-          isMoreDataToLoad(this.drawerContentScrollService, response, this.params.limit!)
+          isMoreDataToLoad(
+            this.drawerContentScrollService,
+            response,
+            this.params.limit!
+          )
         )
       )
       .subscribe((response) => {
         this.meals = [...this.meals, ...response];
         this.meals = this.meals.map((meal: Meal) => ({
           calories: meal.nutrients.calories,
-          ...meal
+          ...meal,
         }));
       });
   }

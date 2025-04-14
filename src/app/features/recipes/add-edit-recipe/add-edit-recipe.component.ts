@@ -46,9 +46,9 @@ import { SelectBaseComponent } from '../../../shared/components/select-base/sele
 import { AutocompleteBaseComponent } from '../../../shared/components/autocomplete-base/autocomplete-base.component';
 import { TextareaBaseComponent } from '../../../shared/components/textarea-base/textarea-base.component';
 import { ImageBoxComponent } from '../../../shared/components/image-box/image-box.component';
-import { Diet } from '../../../core/models/diet/diet';
 import { Macronutrients, Micronutrients, Nutrients, PlainNutrients } from '../../../core/models/nutrients/nutrient.interface';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Goal } from '../../../core/models/goals/goal';
 
 @Component({
   selector: 'app-add-edit-recipe',
@@ -132,7 +132,7 @@ export class AddEditRecipeComponent implements OnInit {
     },
   ];
 
-  userDiet!: Diet;
+  userGoal!: Goal;
   recipe!: Recipe;
 
   mealOptions = mealTypes;
@@ -157,10 +157,10 @@ export class AddEditRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     this.dietsService
-      .getDitet()
+      .getGoals()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.userDiet = response;
+        this.userGoal = response;
 
         if (this.mode === AddEdit.EDIT) {
           this.recipe =
@@ -379,11 +379,11 @@ export class AddEditRecipeComponent implements OnInit {
       calories: caloriesTotal,
       macronutrients: setMacronutrients(
         macronutrientsTotals,
-        this.userDiet.macronutrients
+        this.userGoal.macronutrients
       ),
       micronutrients: setMicronutrients(
         micronutrientsTotals,
-        this.userDiet.micronutrients
+        this.userGoal.micronutrients
       ),
     };
 

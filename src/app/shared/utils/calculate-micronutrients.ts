@@ -1,6 +1,7 @@
 import { micronutrientsDataArr } from '../../core/const/meals/micronutrients';
+import { NutrientData } from '../../core/models/nutrients/nutrient.interface';
 
-export function setMicronutrients(nutrients: any, micronutrients: any) {
+export function setMicronutrients(nutrients: any, micronutrients: any): NutrientData[] {
   const micronutrientsKeys = new Set(Object.keys(micronutrients));
   const micronutrientsData = micronutrientsDataArr;
   let data = [];
