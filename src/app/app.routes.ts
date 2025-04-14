@@ -11,6 +11,9 @@ import { AddEditMealComponent } from './features/meals/add-edit-meal/add-edit-me
 import { RecipesComponent } from './features/recipes/recipes.component';
 import { RecipesListComponent } from './features/recipes/recipes-list/recipes-list.component';
 import { RepiceDetailsComponent } from './features/recipes/repice-details/repice-details.component';
+import { UserComponent } from './features/user/user.component';
+import { UserProfileComponent } from './features/user/user-profile/user-profile.component';
+import { EditUserComponent } from './features/user/edit-user/edit-user.component';
 
 export const routes: Routes = [
   {
@@ -27,20 +30,10 @@ export const routes: Routes = [
         { path: '', component: RecipesListComponent },
         { path: ':id', component: RepiceDetailsComponent }
       ] },
-      {
-        path: 'exercises',
-        component: ExercisesComponent,
-        children: [
-          { path: 'add-exercise/:id', component: AddExerciseComponent },
-        ],
-      },
-      {
-        path: 'nutrition',
-        component: MealsComponent,
-        children: [
-          { path: 'add-meal/:id', component: AddEditMealComponent },
-        ],
-      },
+      { path: 'user', component: UserComponent, children: [
+        { path: '', component: UserProfileComponent },
+        { path: 'edit', component: EditUserComponent }
+      ] }
     ],
     canActivate: [authGuard],
   },

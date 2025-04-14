@@ -34,7 +34,7 @@
         <button
           mat-icon-button
           matTooltip="Your daily limit of {{ macronutrient.name }} is {{
-            macronutrient.dailyLimit
+            macronutrient.dailyLimit.toFixed(2)
           }} {{ macronutrient.unitOfMeasurement }}"
           aria-label="Button that displays a tooltip when focused or hovered over"
         >
@@ -80,7 +80,7 @@
         <button
           mat-icon-button
           matTooltip="Your daily limit of {{ micronutrient.name }} is {{
-            micronutrient.dailyLimit
+            micronutrient.dailyLimit.toFixed(2)
           }} {{ micronutrient.unitOfMeasurement }}"
           aria-label="Button that displays a tooltip when focused or hovered over"
         >

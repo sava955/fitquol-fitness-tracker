@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { LoginParams } from '../../models/auth/login-params.interface';
+import { LoginParams } from '../../models/auth/auth';
 import { Observable } from 'rxjs';
 import { ResponseObj } from '../../models/http-response/http-response.interface';
 import { HttpClient } from '@angular/common/http';

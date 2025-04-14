@@ -1,5 +1,5 @@
 <app-side-panel>
-  @if (diary) {
+  @if (diary && dailyCalories) {
   <div class="row">
     <div class="col-12 col-5-lg">
       <mat-card class="day-card">
@@ -62,7 +62,7 @@
 
                 <div class="py-2">
                   <span class="font-bold calories-data">{{
-                    diary.user.diet.dailyCalories.toFixed()
+                    dailyCalories.toFixed()
                   }}</span>
                 </div>
 
@@ -135,7 +135,7 @@
                 <div class="py-2">
                   <span class="font-bold calories-data">{{
                     (
-                      diary.user.diet.dailyCalories - diary.caloriesBalance
+                      dailyCalories - diary.caloriesBalance
                     ).toFixed()
                   }}</span>
                 </div>

@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { UserDataFormComponent } from './user-data-form/user-data-form.component';
-import { UserGoalsFormComponent } from './user-goals-form/user-goals-form.component';
+import { UserDataFormComponent } from '../../../shared/components/user-data-form/user-data-form.component';
+import { UserGoalsFormComponent } from '../../../shared/components/user-goals-form/user-goals-form.component';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { Router } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -14,8 +14,6 @@ import {
 } from '../../../core/models/user/user.interface';
 import { UnitMeasurment } from '../../../core/enums/user/user.enum';
 import { withPopupAppSpinner } from '../../../shared/utils/with-popup-spinner';
-import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +30,6 @@ export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly spinnerService = inject(PopupSpinnerService);
-  private readonly dialog = inject(MatDialog);
 
   @ViewChild('stepper', { static: true }) stepper!: CdkStepper;
 
@@ -43,13 +40,13 @@ export class RegisterComponent {
     this.stepper.next();
   }
 
-  signUp(goalData: any): void {
+  signUp(goalData: UserGoals): void {
     const data: UserGoals = {
       measurementSystem: goalData.measurementSystem,
       height:
         goalData.measurementSystem === UnitMeasurment.METRIC
           ? goalData.height
-          : this.getImperialHeight(goalData.heightFeet, goalData.heightInches),
+          : this.getImperialHeight(goalData.heightFeet!, goalData.heightInches!),
       weight: goalData.weight,
       goal: goalData.goal,
       weightPerWeek: goalData.weightPerWeek,
@@ -69,7 +66,7 @@ export class RegisterComponent {
           this.router.navigateByUrl('login');
         },
         error: (err) => {
-          this.openDialog(err.error);
+          console.log(err.error);
         },
       });
   }
@@ -77,14 +74,5 @@ export class RegisterComponent {
   getImperialHeight(heightFeet: number, heightInches: number): number {
     const totalFeet = Number(heightFeet) + Number(heightInches) / 12;
     return Math.round(totalFeet * 10) / 10;
-  }
-
-  private openDialog(data: any): void {
-    this.dialog.open(DialogComponent, {
-      data: {
-        ...data,
-      },
-      width: '300px',
-    });
   }
 }

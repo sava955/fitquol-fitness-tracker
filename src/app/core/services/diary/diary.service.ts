@@ -17,7 +17,7 @@ export class DiaryService {
   private readonly _snackBar = inject(MatSnackBar);
 
   getDiaryByDay(day: Date): Observable<ResponseObj<Diary>> {
-    return this.httpClient.get<ResponseObj<Diary>>(`${this.diaryUrl}/meal/${day}`);
+    return this.httpClient.get<ResponseObj<Diary>>(`${this.diaryUrl}/${day}`);
   }
 
   addMeal(params: Meal): Observable<ResponseObj<{}>> {

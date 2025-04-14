@@ -1,7 +1,7 @@
-import { Gender, Goal, UnitMeasurment } from "../enums/user/user.enum";
+import { Gender, UserGoal, UnitMeasurment } from "../enums/user/user.enum";
 
 export const gender: Gender.MALE | Gender.FEMALE = Gender.MALE;
 
-export const goal: Goal.LOSE_WEIGHT | Goal.REMAIN_WEIGHT | Goal.GAIN_WEIGHT = Goal.LOSE_WEIGHT;
+export const goal: UserGoal.LOSE_WEIGHT | UserGoal.REMAIN_WEIGHT | UserGoal.GAIN_WEIGHT = UserGoal.LOSE_WEIGHT;
 
 export const measurementSystem: UnitMeasurment.METRIC | UnitMeasurment.IMPERIAL = UnitMeasurment.METRIC;

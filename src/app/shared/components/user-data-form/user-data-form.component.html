@@ -35,7 +35,7 @@
         }
       </mat-form-field>
 
-      <mat-radio-group formControlName="gender" class="full-col mb-4">
+      <mat-radio-group formControlName="gender" class="full-col mb-4 flex col-gap-2">
         <mat-radio-button value="MALE">Male</mat-radio-button>
         <mat-radio-button value="FEMALE">Female</mat-radio-button>
       </mat-radio-group>
@@ -49,20 +49,22 @@
       ></app-input-base>
     </div>
 
-    <div class="flex flex-column flex-row-md col-gap-2">
-      <app-input-base
-        formControlName="password"
-        inputLabel="Password"
-        type="password"
-        class="flex full-col mb-4"
-      ></app-input-base>
-
-      <app-input-base
-        formControlName="passwordConfirmation"
-        inputLabel="Password Confirmation"
-        type="password"
-        class="flex full-col mb-4"
-      ></app-input-base>
-    </div>
+    @if (!user) {
+      <div class="flex flex-column flex-row-md col-gap-2">
+        <app-input-base
+          formControlName="password"
+          inputLabel="Password"
+          type="password"
+          class="flex full-col mb-4"
+        ></app-input-base>
+  
+        <app-input-base
+          formControlName="passwordConfirmation"
+          inputLabel="Password Confirmation"
+          type="password"
+          class="flex full-col mb-4"
+        ></app-input-base>
+      </div>
+    }
   </div>
 </app-form-base>

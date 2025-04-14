@@ -13,12 +13,12 @@
       <mat-card-content class="flex flex-column p-1 p-4-md">
         <mat-stepper #stepper>
           <mat-step label="User data">
-            <app-user-data-form (onNext)="nextStep($event)" class="mt-4"></app-user-data-form>
+            <app-user-data-form (onSubmit)="nextStep($event)" class="mt-4"></app-user-data-form>
           </mat-step>
           <mat-step label="Set your goal">
             <app-user-goals-form
               (onBack)="stepper.previous()"
-              (onSignUp)="signUp($event)"
+              (onSubmit)="signUp($event)"
             ></app-user-goals-form>
           </mat-step>
         </mat-stepper>

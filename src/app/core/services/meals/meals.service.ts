@@ -18,9 +18,15 @@ export class MealsService {
   getMeals(params: PaginationData<MealParams>): Observable<Meal[]> {
     const { extraParams, ...paginationParams } = params;
 
+    const allParams = {
+      ...paginationParams,
+      ...(extraParams?.food && { food: extraParams.food }),
+      ...(extraParams?.date && { date: extraParams.date }),
+    };
+  
     const httpParams = new HttpParams({
-      fromObject: { ...paginationParams, ...extraParams },
-    });
+      fromObject: allParams as Record<string, string | number | boolean>,
+    });  
 
     return this.httpClient.get<ResponseObj<Meal[]>>(this.url, { params: httpParams }).pipe(map(response => {
       if (!response.success) {

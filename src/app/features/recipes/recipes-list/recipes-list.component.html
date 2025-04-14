@@ -47,4 +47,11 @@
   </div>
 
   <app-local-spinner />
+
+  @if (recipes.length === 0) {
+    <div class="flex justify-content-center align-items-center my-4">
+      <mat-icon fontSet="material-icons text-3xl">search_off</mat-icon>
+      <span>No data found</span>
+    </div>
+  }
 </app-side-panel>
