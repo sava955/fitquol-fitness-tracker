@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextEditorComponent } from './text-editor.component';
+import { TodayMacroCardComponent } from './today-macro-card.component';
 
-describe('TextEditorComponent', () => {
-  let component: TextEditorComponent;
-  let fixture: ComponentFixture<TextEditorComponent>;
+describe('TodayMacroCardComponent', () => {
+  let component: TodayMacroCardComponent;
+  let fixture: ComponentFixture<TodayMacroCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TextEditorComponent]
+      imports: [TodayMacroCardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TextEditorComponent);
+    fixture = TestBed.createComponent(TodayMacroCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

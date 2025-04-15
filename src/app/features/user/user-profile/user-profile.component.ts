@@ -2,8 +2,7 @@ import {
   Component,
   DestroyRef,
   inject,
-  OnInit,
-  ViewChild,
+  OnInit
 } from '@angular/core';
 import { UserService } from '../../../core/services/users/user.service';
 import { User } from '../../../core/models/user/user.interface';
@@ -20,28 +19,7 @@ import { NutrientData, PlainNutrients } from '../../../core/models/nutrients/nut
 import { setMacronutrients } from '../../../shared/utils/calculate-macronutrients';
 import { setMicronutrients } from '../../../shared/utils/calculate-micronutrients';
 import { UserDataComponent } from '../../../shared/components/user-data/user-data.component';
-import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
-import { formatDate } from '@angular/common';
-
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTooltip,
-  ApexStroke,
-  NgApexchartsModule,
-} from 'ng-apexcharts';
-
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-};
+import { WeightChartComponent } from '../../../shared/components/weight-chart/weight-chart.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -53,8 +31,7 @@ export type ChartOptions = {
     RouterLink,
     LocalSpinnerComponent,
     UserDataComponent,
-    CanvasJSAngularChartsModule,
-    NgApexchartsModule,
+    WeightChartComponent
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
@@ -69,31 +46,6 @@ export class UserProfileComponent implements OnInit {
 
   macronutrients: NutrientData[] = [];
   micronutrients: NutrientData[] = [];
-
-  @ViewChild('chart') chart!: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
-
-  constructor() {
-    this.chartOptions = {
-      series: [],
-      chart: {
-        height: 300,
-        type: 'area',
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: 'smooth',
-      },
-      xaxis: {},
-      tooltip: {
-        x: {
-          format: 'dd/MM/yy HH:mm',
-        },
-      },
-    };
-  }
 
   ngOnInit(): void {
     this.getUser();
@@ -110,21 +62,6 @@ export class UserProfileComponent implements OnInit {
         if (response) {
           this.user = response;
 
-          this.chartOptions.series = [
-            {
-              name: 'Weight progress',
-              data: this.user.goals
-                .map((goal) => {
-                  return goal.weight;
-                }),
-            },
-          ];
-
-          if (this.chartOptions.xaxis)
-            this.chartOptions.xaxis.categories = this.user.goals
-              .map((goal) => {
-                return formatDate(goal.fromDate, 'dd/MM/yyyy', 'en-US');
-              });
           this.macronutrients = setMacronutrients(
             this.user.goals[this.user.goals.length - 1].macronutrients,
             this.user.goals[this.user.goals.length - 1].macronutrients

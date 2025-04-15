@@ -136,9 +136,6 @@ export class AddExerciseFormComponent implements OnInit {
       this.minDate = this.getPreviousMonthFirstDay();
       this.maxDate = this.getNextMonthLastDay();
     } else {
-      // this.minDate = this.getPreviousMonthFirstDay();
-      // this.maxDate = this.getNextMonthLastDay();
-
       this.sets?.setValue(this.exercise.sets);
       this.setDuration?.setValue(this.exercise.setDuration);
     }

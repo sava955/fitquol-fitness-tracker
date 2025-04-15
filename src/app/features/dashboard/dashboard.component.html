@@ -1,3 +1,39 @@
-<section>
-  
+<section class="container py-4">
+  @if (dashboard) {
+  <div class="row my-4">
+    <div class="col-12 col-6-md col-5-xl">
+      <mat-card>
+        <mat-card-content>
+          <app-today-calories-card [todayCalories]="dashboard.todayCalories" />
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-6-md col-7-xl">
+      <mat-card class="day-card">
+        <mat-card-content>
+          <app-today-macro-card [todayMacros]="dashboard.todayMacros" />
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <app-calories-balance [calories]="dashboard.calories" />
+
+  <div class="row my-4">
+    <div class="col-12 col-6-lg">
+      <mat-card>
+        <mat-card-content>
+          <app-weight-chart [weight]="dashboard.weight" />
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-6-lg">
+      <app-exercises-chart [exercises]="dashboard.calories" />
+    </div>
+  </div>
+  }
+
+  <app-local-spinner />
 </section>
