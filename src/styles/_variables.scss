@@ -5,9 +5,12 @@
 
   --dsVars-primary-dark: #180f2a;
 
-  --dsVars-background-light-color: #f4f6f5;
-  --dsVars-background-gray-color: #efefef;
-  --dsVars-background-dark-color: #1b1b1b;
+  --dsVars-gray-color: #efefef;
+  --dsVars-darkGray-color: #626262;
+
+  --dsVars-carbs-color: #0fd895;
+  --dsVars-fats-color: #d80f5c;
+  --dsVars-prot-color: #ea7e2b;
 }
 
 $breakpoints: (

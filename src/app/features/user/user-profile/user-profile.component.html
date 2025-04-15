@@ -18,18 +18,7 @@
     <div class="col-12 col-7-lg">
       <mat-card>
         <mat-card-content>
-          <div>
-            <div id="chart">
-              <apx-chart
-                [series]="chartOptions.series!"
-                [chart]="chartOptions.chart!"
-                [xaxis]="chartOptions.xaxis!"
-                [stroke]="chartOptions.stroke!"
-                [tooltip]="chartOptions.tooltip!"
-                [dataLabels]="chartOptions.dataLabels!"
-              ></apx-chart>
-            </div>            
-          </div>                        
+          <app-weight-chart [weight]="user.goals" />                   
         </mat-card-content>
       </mat-card>
     </div>

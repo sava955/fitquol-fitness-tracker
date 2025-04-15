@@ -11,7 +11,7 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: var(--dsVars-background-gray-color);
+      background: var(--dsVars-gray-color);
       padding: 10px;
     }
 
@@ -25,7 +25,7 @@
   }
 
   .days-wrapper, .calendar-wrapper {
-    background-color: var(--dsVars-background-gray-color);
+    background-color: var(--dsVars-gray-color);
     border-radius: 20px;
   }
 

@@ -20,7 +20,7 @@
     .secondary {
       @include mat.button-overrides(
         (
-          filled-container-color: var(--dsVars-background-gray-color),
+          filled-container-color: var(--dsVars-gray-color),
           filled-label-text-color: var(--dsVars-primary-color),
         )
       );
