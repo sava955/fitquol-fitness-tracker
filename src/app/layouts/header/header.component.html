@@ -1,0 +1,25 @@
+<mat-toolbar class="header">
+  @if (sideNavMode === 'over') {
+  <button mat-icon-button (click)="toggleSidebar()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  }
+  <span class="spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>person</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <div class="p-4">
+      <app-user-data [user]="user" [goal]="goal" />
+
+      <button mat-flat-button [routerLink]="['./user/edit']">
+        Profile settings <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </mat-menu>
+
+  <button (click)="logout()" mat-icon-button>
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

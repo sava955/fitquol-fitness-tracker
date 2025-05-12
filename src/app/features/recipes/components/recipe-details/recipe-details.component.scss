@@ -1,0 +1,16 @@
+.blue-card {
+  background: linear-gradient(to right, rgb(29, 153, 235), rgb(0, 180, 162));
+  color: var(--dsVars-white);
+
+  mat-icon {
+    color: var(--dsVars-white);
+  }
+}
+
+.meal-type {
+  border-right: 1px solid var(--dsVars-primary-dark);
+}
+
+.category-label {
+  font-size: 16px;
+}

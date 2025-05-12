@@ -18,7 +18,7 @@
     .mat-mdc-progress-bar {
       &.danger {
         .mdc-linear-progress__bar-inner {
-          border-color: red !important;
+          border-color: var(--mat-sys-error);
         }
       }
     }

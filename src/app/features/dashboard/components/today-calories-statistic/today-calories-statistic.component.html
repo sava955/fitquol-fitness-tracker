@@ -1,0 +1,55 @@
+<div>
+  <h3>Calories</h3>
+
+  <span class="font-gray font-bold">Remaining = Goal - Food + Exercise</span>
+</div>
+
+<div class="row">
+  <div class="col-7">
+    <app-radial-chart
+      [series]="[getPercentageOfTotal()]"
+      [labels]="[
+        (todayCalories.takenCalories - todayCalories.burnedCalories).toString()
+      ]"
+      [fill]="['#2a0a89']"
+      [height]="250"
+    />
+  </div>
+
+  <div class="col-5 flex align-items-center">
+    <div class="flex flex-column">
+      <div class="flex align-items-center my-2">
+        <div>
+          <mat-icon class="goal">flag</mat-icon>
+        </div>
+  
+        <div class="flex flex-column ml-3">
+          <span class="font-gray f-14">Base Goal</span>
+          <span class="font-bold f-18 mt-1">{{ todayCalories.caloriesRequired }} kCal</span>
+        </div>
+      </div>
+  
+      <div class="flex align-items-center my-2">
+        <div>
+          <mat-icon class="food">restaurant</mat-icon>
+        </div>
+  
+        <div class="flex flex-column ml-3">
+          <span class="font-gray f-14">Food</span>
+          <span class="font-bold f-18 mt-1">{{ todayCalories.takenCalories }}</span>
+        </div>
+      </div>
+  
+      <div class="flex align-items-center my-2">
+        <div>
+          <mat-icon class="exercise">local_fire_department</mat-icon>
+        </div>
+  
+        <div class="flex flex-column ml-3">
+          <span class="font-gray f-14">Exercises</span>
+          <span class="font-bold f-18 mt-1">{{ todayCalories.burnedCalories }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

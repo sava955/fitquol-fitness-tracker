@@ -1,26 +1,17 @@
-<app-form-base [formGroup]="userGoals" [actionBtns]="actionBtns">
+<app-form
+  [formGroup]="userGoals"
+  [actionBtns]="actionBtns"
+  [error]="errorMessage"
+>
   <div class="py-4">
     @if (goals) {
     <div class="flex flex-column mb-4">
       <span class="font-semi-bold">Select date</span>
-      <mat-form-field class="full-col mt-4">
-        <mat-label>Date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          formControlName="date"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-
-        @if (date?.invalid) {
-        <mat-error>This field is mandatory</mat-error>
-        }
-      </mat-form-field>
+      <app-datepicker
+        formControlName="date"
+        inputLabel="Date"
+        class="full-col mt-4"
+      />
     </div>
     }
 
@@ -113,4 +104,4 @@
         />
       </div>
     </div></div
-></app-form-base>
+></app-form>

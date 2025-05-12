@@ -10,6 +10,7 @@ import {
   ApexTooltip,
   ApexXAxis,
   ApexYAxis,
+  ApexResponsive,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -26,4 +27,5 @@ export type ChartOptions = {
   seriesAxisSeries: ApexAxisChartSeries;
   colors: string[];
   legend: ApexLegend;
+  responsive: ApexResponsive[];
 };

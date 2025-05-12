@@ -1,0 +1,29 @@
+<app-side-panel appDsInfiniteScroll>
+  <app-page-title [pageTitle]="'Recipes'" [goBackButton]="false">
+    <button mat-flat-button (click)="addRecipe()">
+      Add Recipe <mat-icon>add</mat-icon>
+    </button>
+  </app-page-title>
+
+  <form class="search-form">
+    <app-input-base
+      [formControl]="searchControl"
+      inputLabel="Search recepies"
+      class="flex full-col mb-4"
+    />
+  </form>
+
+  <div class="row">
+    @for (recipe of items; track $index) {
+    <div class="col-3-lg col-4-sm col-6">
+      <app-recipe-card
+        [recipe]="recipe"
+        (onOpenDetails)="openDetails($event)"
+      />
+    </div>
+    }
+  </div>
+
+  <app-local-spinner />
+  <app-no-data-found />
+</app-side-panel>

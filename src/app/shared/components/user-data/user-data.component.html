@@ -1,43 +1,57 @@
 @if (user) {
-  <div class="my-4">
-    <span class="full-name font-bold"
-      >{{ user.firstName }} {{ user.lastName }}</span
-    >
-  </div>
+<div class="my-4">
+  <span class="full-name font-bold"
+    >{{ user.firstName }} {{ user.lastName }}</span
+  >
+</div>
 
-  <div class="my-4 flex align-items-center">
-    <mat-icon>cake</mat-icon>
-    <span class="ml-2">{{ user.dateOfBirth | date : "dd.MM.yyyy" }}</span>
-  </div>
+<div class="my-4 flex align-items-center">
+  <mat-icon>cake</mat-icon>
+  <span class="ml-2">{{ user.dateOfBirth | date : "dd.MM.yyyy" }}</span>
+</div>
 
-  <div class="my-4 flex align-items-center">
-    <mat-icon>email</mat-icon>
-    <span class="ml-2">{{ user.email }}</span>
-  </div>
+<div class="my-4 flex align-items-center">
+  <mat-icon>email</mat-icon>
+  <span class="ml-2">{{ user.email }}</span>
+</div>
 
-  <div class="my-4 flex align-items-center">
-    <mat-icon>height</mat-icon>
-    <span class="ml-2">{{ user.goals[user.goals.length - 1].height }} {{ user.goals[user.goals.length - 1].measurementSystem === 'METRIC' ? 'cm' : 'ft' }}</span>
-  </div>
+@if (goal) {
+<div class="my-4 flex align-items-center">
+  <mat-icon>height</mat-icon>
+  <span class="ml-2"
+    >{{ goal.height }}
+    {{ goal.measurementSystem === "METRIC" ? "cm" : "ft" }}</span
+  >
+</div>
 
-  <div class="my-4 flex align-items-center">
-    <mat-icon>monitor_weight</mat-icon>
-    <span class="ml-2">{{ user.goals[user.goals.length - 1].weight }} {{ user.goals[user.goals.length - 1].measurementSystem === 'METRIC' ? 'kg' : 'lbs' }}</span>
-  </div>
+<div class="my-4 flex align-items-center">
+  <mat-icon>monitor_weight</mat-icon>
+  <span class="ml-2"
+    >{{ goal.weight }}
+    {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }}</span
+  >
+</div>
 
-  <div class="my-4 flex align-items-center">
-    <mat-icon>flag</mat-icon>
+<div class="my-4 flex align-items-center">
+  <mat-icon>flag</mat-icon>
 
-    <span class="ml-2">{{ formatGoal(user.goals[user.goals.length - 1].goal) }}</span>
+  <span class="ml-2">{{ formatGoal(goal.goal) }}</span>
 
-    @if (user.goals[user.goals.length - 1].goal !== 'REMAIN_WEIGHT') {
-        <span>:</span>
-        <span class="font-bold ml-1">{{ user.goals[user.goals.length - 1].weightPerWeek }} {{ user.goals[user.goals.length - 1].measurementSystem === 'METRIC' ? 'kg' : 'lbs' }} per week</span>
-    }
-  </div>
+  @if (goal.goal !== 'REMAIN_WEIGHT') {
+  <span>:</span>
+  <span class="font-bold ml-1"
+    >{{ goal.weightPerWeek }}
+    {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }} per week</span
+  >
+  }
+</div>
 
-  <div class="my-4 flex align-items-center">
-    <mat-icon>restaurant</mat-icon>
-    <span class="ml-2">You need to take <span class="font-bold">{{user.goals[user.goals.length - 1].caloriesRequired}} kCal</span> per day.</span>
-  </div>
-}
+<div class="my-4 flex align-items-center">
+  <mat-icon>restaurant</mat-icon>
+  <span class="ml-2"
+    >You need to take
+    <span class="font-bold">{{ goal.caloriesRequired }} kCal</span> per
+    day.</span
+  >
+</div>
+} }

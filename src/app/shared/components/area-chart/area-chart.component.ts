@@ -1,31 +1,45 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartOptions } from '../../../core/types/chart-options';
 
 @Component({
   selector: 'app-area-chart',
+  standalone: true,
   imports: [NgApexchartsModule],
   templateUrl: './area-chart.component.html',
-  styleUrl: './area-chart.component.scss'
+  styleUrl: './area-chart.component.scss',
 })
-export class AreaChartComponent implements OnInit {
-  @Input() series!: { name: string, data: number[] }[];
-  @Input() categories!: string[];
-  @Input() height!: number;
-  @Input() fill!: string[];
+export class AreaChartComponent implements OnInit, OnChanges {
+  @Input() series: { name: string; data: number[] }[] = [];
+  @Input() categories: string[] = [];
+  @Input() height = 350;
+  @Input() fill: string[] = [];
 
   chartOptions!: Partial<ChartOptions>;
 
-  constructor() {
-    this.chartOptions = {}
-  }
-
   ngOnInit(): void {
-    this.chartOptions = this.getChartOptions();
+    this.updateChartOptions();
   }
 
-  getChartOptions(): Partial<ChartOptions> {
-    return {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['series'] ||
+      changes['categories'] ||
+      changes['height'] ||
+      changes['fill']
+    ) {
+      this.updateChartOptions();
+    }
+  }
+
+  private updateChartOptions(): void {
+    this.chartOptions = {
       seriesAxisSeries: [...this.series],
       chart: {
         height: this.height,
@@ -38,15 +52,15 @@ export class AreaChartComponent implements OnInit {
         curve: 'smooth',
       },
       xaxis: {
-        categories: [...this.categories]
+        categories: [...this.categories],
       },
       tooltip: {
         x: {
-          format: 'dd/MM/yy HH:mm',
+          format: 'dd/MM/yy',
         },
       },
       fill: {
-        colors: this.fill,
+        colors: [...this.fill],
       },
     };
   }

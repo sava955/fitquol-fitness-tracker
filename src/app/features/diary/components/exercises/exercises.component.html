@@ -1,0 +1,22 @@
+<app-side-panel appDsInfiniteScroll>
+  <app-page-title [pageTitle]="'Exercises'" (onGoBack)="goBack()" />
+
+  <form class="search-form">
+    <app-input-base
+      [formControl]="searchControl"
+      inputLabel="Search exercise"
+      class="flex full-col mb-4" />
+  </form>
+
+  <div class="table-container">
+    <mat-card class="my-4">
+      <mat-card-content>
+        <app-table-data
+          [data]="items"
+          [displayedColumns]="exercisesColumns" />
+
+        <app-local-spinner /> 
+      </mat-card-content>
+    </mat-card>
+  </div>
+</app-side-panel>

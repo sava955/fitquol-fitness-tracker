@@ -8,51 +8,49 @@ import {
 } from '@angular/core';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputBaseComponent } from '../input-base/input-base.component';
-import { FormBaseComponent } from '../form-base/form-base.component';
-import { goal, measurementSystem } from '../../../core/const/user';
-import { oneDecimalValidator } from '../../utils/one-decimal-validator';
-import { ActionButtons } from '../../../core/models/action-buttons/action.buttons.interface';
+import { InputComponent } from '../input/input.component';
+import { FormComponent } from '../form/form.component';
+import { oneDecimalValidator } from '../../../core/utils/one-decimal-validator';
+import { ActionButtons } from '../../../core/models/action.buttons.interface';
 import {
   ActivityLevel,
   UnitMeasurment,
-} from '../../../core/enums/user/user.enum';
-import { SelectBaseComponent } from '../select-base/select-base.component';
-import { SelectOptions } from '../../../core/models/select-base/selet-options.interface';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
+} from '../../../features/user/enums/user.enum';
+import { SelectComponent } from '../select/select.component';
+import { SelectOptions } from '../../../core/models/selet-options.interface';
 import { MatInputModule } from '@angular/material/input';
-import { Goal } from '../../../core/models/goals/goal';
+import { Goal } from '../../../core/models/goal';
 import { distinctUntilChanged } from 'rxjs';
-import { getGoalByDate } from '../../utils/get-goal-by-date';
-import { UserGoals } from '../../../core/models/user/user.interface';
+import { getGoalByDate } from '../../../core/utils/get-goal-by-date';
+import { UserGoals } from '../../../features/user/models/user.interface';
+import { goal, measurementSystem } from '../../../features/user/const/user.const';
+import { DatepickerComponent } from '../datepicker/datepicker.component';
 
 @Component({
   selector: 'app-user-goals-form',
   imports: [
     MatRadioGroup,
     MatRadioButton,
-    InputBaseComponent,
+    InputComponent,
     ReactiveFormsModule,
-    FormBaseComponent,
-    SelectBaseComponent,
-    MatDatepickerModule,
-    MatFormFieldModule,
+    FormComponent,
+    SelectComponent,
     MatInputModule,
+    DatepickerComponent
   ],
   templateUrl: './user-goals-form.component.html',
-  styleUrl: './user-goals-form.component.scss',
-  providers: [provideNativeDateAdapter()],
+  styleUrl: './user-goals-form.component.scss'
 })
 export class UserGoalsFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   @Input() goals!: Goal[];
-  currentGoal!: Goal;
+  @Input() errorMessage!: string;
 
   @Output() onBack = new EventEmitter();
   @Output() onSubmit = new EventEmitter<UserGoals>();
+
+  currentGoal!: Goal;
 
   userGoals = this.fb.group({
     date: [new Date(), [Validators.required]],
@@ -120,7 +118,7 @@ export class UserGoalsFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.goals) {
-      this.currentGoal = this.goals[this.goals.length - 1];
+      this.currentGoal = this.goals[0];
       this.setFormData();
 
       this.actionBtns = [
@@ -155,8 +153,7 @@ export class UserGoalsFormComponent implements OnInit {
         .subscribe((value) => {
           if (value) {
             this.currentGoal =
-              getGoalByDate(this.goals, value) ??
-              this.goals[this.goals.length - 1];
+              getGoalByDate(this.goals, value) ?? this.goals[0];
           }
 
           this.setFormData();
@@ -309,25 +306,24 @@ export class UserGoalsFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.userGoals.valid) {
-      const formValue = this.userGoals.value;
+    const formValue = this.userGoals.value;
 
-      const payload: UserGoals = {
-        measurementSystem: formValue.measurementSystem!,
-        weight: parseFloat(formValue.weight!),
-        height: parseFloat(formValue.height!),
-        goal: formValue.goal!,
-        weightPerWeek: parseFloat(formValue.weightPerWeek!),
-        activityLevel: formValue.activityLevel!,
-        ...(formValue.heightFeet && {
-          heightFeet: parseInt(formValue.heightFeet),
-        }),
-        ...(formValue.heightInches && {
-          heightInches: parseInt(formValue.heightInches),
-        }),
-      };
+    const payload = {
+      date: formValue.date!,
+      measurementSystem: formValue.measurementSystem!,
+      weight: parseFloat(formValue.weight!),
+      height: parseFloat(formValue.height!),
+      goal: formValue.goal!,
+      weightPerWeek: parseFloat(formValue.weightPerWeek!),
+      activityLevel: formValue.activityLevel!,
+      ...(formValue.heightFeet && {
+        heightFeet: parseInt(formValue.heightFeet),
+      }),
+      ...(formValue.heightInches && {
+        heightInches: parseInt(formValue.heightInches),
+      }),
+    };
 
-      this.onSubmit.emit(payload);
-    }
+    this.onSubmit.emit(payload);
   }
 }

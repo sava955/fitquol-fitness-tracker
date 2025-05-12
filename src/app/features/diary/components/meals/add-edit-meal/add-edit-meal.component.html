@@ -1,0 +1,80 @@
+<app-side-panel>
+  <app-page-title [pageTitle]="mode + ' ' + mealType" (onGoBack)="goBack()">
+    @if (meal && meal.recipe) {
+    <button mat-flat-button (click)="openRecepeDetails(meal.recipe)">
+      See recipe
+    </button>
+    }
+  </app-page-title>
+
+  @if (meal) {
+  <app-form
+    [formGroup]="formGroup"
+    [formTitle]="meal.name"
+    [actionBtns]="actionBtns"
+    [error]="errorMessage"
+  >
+    <div class="row">
+      <div class="col-12 col-8-md row macros-chart">
+        @for (macro of getMacronutrients(nutrients); track macro) {
+        <div class="col-3">
+          <app-macros-chart
+            [macro]="macro"
+            [height]="130"
+            [responsive]="responsive"
+            [fontSm]="true"
+          />
+        </div>
+        }
+      </div>
+      <div class="col-12 col-4-md">
+        <div class="flex flex-column justify-content-between input-group">
+          <div>
+            @if (meal.servings) {
+            <app-select-base
+              formControlName="served"
+              inputLabel="Servings"
+              [options]="servingsOptions"
+              class="flex full-col"
+            />
+            } @else {
+            <app-input-base
+              formControlName="quantity"
+              inputLabel="Quantity"
+              suffixValue="g"
+              type="number"
+              class="flex full-col"
+            />
+            }
+
+            <app-select-base
+              formControlName="mealType"
+              inputLabel="Meal"
+              [options]="mealOptions"
+              class="flex full-col"
+            />
+          </div>
+
+          <div class="align-self-end-md">
+            <span class="calories-title font-bold"
+              >{{ nutrients.calories.toFixed() }}kCal</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-4">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Nutrients</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-nutrients [data]="nutrients" />
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </app-form>
+  }
+</app-side-panel>

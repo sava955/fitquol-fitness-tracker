@@ -1,0 +1,25 @@
+<div class="login-form flex justify-content-center align-items-center">
+  <div class="login-form-container">
+    <app-form
+      [formTitle]="'Login'"
+      [formGroup]="formGroup"
+      [actionBtns]="actionBtns"
+      [error]="errorMessage"
+    >
+      <div class="flex flex-column justify-content-between">
+        <app-input-base
+          formControlName="email"
+          inputLabel="Email"
+          class="flex full-col mb-4"
+        ></app-input-base>
+
+        <app-input-base
+          formControlName="password"
+          inputLabel="Password"
+          type="password"
+          class="flex full-col mb-4"
+        ></app-input-base>
+      </div>
+    </app-form>
+  </div>
+</div>

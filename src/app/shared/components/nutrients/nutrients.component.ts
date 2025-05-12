@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Nutrients } from '../../../core/models/nutrients/nutrient.interface';
+import { Nutrients } from '../../../core/models/nutrient.interface';
 
 @Component({
   selector: 'app-nutrients',

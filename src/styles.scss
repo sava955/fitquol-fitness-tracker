@@ -45,12 +45,13 @@ html {
   @include mat.expansion-overrides((
     container-background-color:  var(--dsVars-white),
   ));
+
+  .btn-sm {
+    @include mat.button-overrides(
+      (
+        filled-container-height: 30px
+      )
+    );
+  }
 }
 
-.btn-sm {
-  @include mat.button-overrides(
-    (
-      filled-container-height: 30px
-    )
-  );
-}

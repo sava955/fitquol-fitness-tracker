@@ -11,7 +11,7 @@ import { ValidationErrors } from '@angular/forms';
 export class ValidationErrorsComponent {
   @Input() errors: Record<string, ValidationErrors> | null = {};
 
-  errorMessages: any = {
+  errorMessages: ValidationErrors = {
     required: 'This field is required',
     passwordMismatch: 'passwordMismatch',
     invalidNumberFormat: 'Only one decimal place is allowed (ex. 14.2)',

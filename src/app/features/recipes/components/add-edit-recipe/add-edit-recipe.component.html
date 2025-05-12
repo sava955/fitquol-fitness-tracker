@@ -1,0 +1,254 @@
+<section class="container py-4">
+  <app-page-title [pageTitle]="pageTitle" (onGoBack)="goBack()" />
+
+  <app-form
+    [formGroup]="formGroup"
+    [actionBtns]="actionBtns"
+    [error]="errorMessage"
+  >
+    <div class="row">
+      <div class="col-12 col-6-md">
+        <div class="image-box flex justify-content-center align-items-center">
+          @if (previewUrl) {
+          <app-image-box
+            [src]="previewUrl.toString()"
+            [alt]="formGroup.get('name')?.value!"
+            [height]="300"
+          />
+          }
+
+          <div class="image-upload">
+            <button
+              (click)="triggerFileInput()"
+              type="button"
+              class="flex justify-content-center align-items-center {{
+                previewUrl ? 'image-added' : ''
+              }}"
+            >
+              <div
+                class="flex flex-column justify-content-center align-items-center btn-label"
+              >
+                <mat-icon>photo</mat-icon>
+                <span class="font-bold">Add photo</span>
+              </div>
+            </button>
+          </div>
+          <input
+            #imageInput
+            hidden
+            type="file"
+            (change)="onFileSelected($event)"
+          />
+        </div>
+
+        <div>
+          <span class="error">{{imageErrorMessage}}</span>
+        </div>
+      </div>
+
+      <div class="col-12 col-6-md flex-column">
+        <app-input-base
+          formControlName="name"
+          inputLabel="Recipe name"
+          class="flex full-col mb-4"
+        />
+
+        <div class="full-col flex mb-4">
+          <app-textarea-base
+            formControlName="description"
+            inputLabel="Description"
+            class="flex full-col mb-4"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-4">
+      <div class="col-6-sm col-12">
+        <div class="flex">
+          <app-autocomplete-base
+            formControlName="category"
+            inputLabel="Category"
+            key="name"
+            [options]="filteredCategories"
+            class="flex full-col mb-4"
+          />
+        </div>
+      </div>
+
+      <div class="col-6-sm col-12">
+        <div class="flex">
+          <app-select-base
+            formControlName="mealType"
+            inputLabel="Meal"
+            [options]="mealOptions"
+            class="flex full-col"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-4">
+      <div class="col-12 col-6-sm col-4-md">
+        <div class="flex">
+          <app-input-base
+          formControlName="preparationTime"
+          inputLabel="Preparation time"
+          suffixValue="min"
+          type="number"
+          class="flex full-col"
+        />
+        </div>
+      </div>
+
+      <div class="col-12 col-6-sm col-4-md">
+        <div class="flex">
+          <app-input-base
+          formControlName="cookingTime"
+          inputLabel="Cooking time"
+          suffixValue="min"
+          type="number"
+          class="flex full-col"
+        />
+        </div>
+      </div>
+
+      <div class="col-12 col-6-sm col-4-md">
+        <div class="flex">
+          <app-input-base
+          formControlName="servings"
+          inputLabel="Servings"
+          type="number"
+          class="flex full-col"
+        />
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="ingredients">
+      <span class="font-semi-bold">Add ingredients</span>
+
+      @for (ingredient of ingredients.controls; track $index) {
+      <mat-card appearance="outlined" class="p-4 my-4">
+        <div class="flex justify-space-between align-items-center mb-4">
+          <span class="font-semi-bold full-col">Ingredient</span>
+          @if ($index !== 0 && ingredients.controls.length > 1) {
+          <button
+            mat-icon-button
+            type="button"
+            (click)="removeIngredient($index)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          }
+        </div>
+        <div class="row" [formGroupName]="$index">
+          <div class="col-12 col-8-sm">
+            <app-autocomplete-base
+              formControlName="name"
+              inputLabel="Ingredient Name"
+              key="name"
+              [options]="filteredOptions[$index]"
+              (optionSelected)="addIngredientData($event, $index)"
+              class="flex full-col"
+            />
+          </div>
+
+          <div class="col-12 col-4-sm">
+            <app-input-base
+              [formControl]="getControl($index, 'quantity')"
+              inputLabel="Quantity"
+              suffixValue="g"
+              type="number"
+              class="flex"
+            />
+          </div>
+        </div>
+
+        <div class="my-4">
+          <mat-accordion class="example-headers-align">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Nutrients</mat-panel-title>
+              </mat-expansion-panel-header>
+
+              @if (nutrientsArr[$index]) {
+              <app-nutrients [data]="nutrientsArr[$index]" />
+              }
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </mat-card>
+      }
+
+      <div class="flex justify-content-end">
+        <button
+          mat-raised-button
+          type="button"
+          class="mb-4"
+          (click)="addIngredient()"
+        >
+          Add Ingredient <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div formArrayName="instructions">
+      <span class="font-semi-bold">Add Instructions</span>
+      @for (instruction of instructions.controls; track $index) {
+      <mat-card appearance="outlined" class="p-4 my-4">
+        <div class="flex justify-space-between align-items-center mb-4">
+          <span class="font-semi-bold full-col">Step {{ $index + 1 }}</span>
+
+          @if ($index !== 0 && instructions.controls.length > 1) {
+          <button
+            mat-icon-button
+            type="button"
+            (click)="removeInstruction($index)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          }
+        </div>
+
+        <div
+          class="flex my-4 align-items-center col-gap-2"
+          [formGroupName]="$index"
+        >
+          <div class="full-col flex mb-4">
+            <app-textarea-base
+              formControlName="description"
+              inputLabel="Description"
+              class="flex full-col mb-4"
+            />
+          </div>
+        </div>
+      </mat-card>
+      }
+      <div class="flex justify-content-end">
+        <button
+          mat-raised-button
+          type="button"
+          class="mb-4"
+          (click)="addInstruction()"
+        >
+          Add next step <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="my-4">
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Nutrients per serving</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          @if (recipeNutrients) {
+          <app-nutrients [data]="recipeNutrients" />
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </app-form>
+</section>

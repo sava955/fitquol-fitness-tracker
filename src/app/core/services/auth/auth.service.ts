@@ -1,30 +1,24 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { LoginParams } from '../../models/auth/auth';
-import { Observable } from 'rxjs';
-import { ResponseObj } from '../../models/http-response/http-response.interface';
-import { HttpClient } from '@angular/common/http';
+import { LoginParams } from '../../models/auth';
 import { Router } from '@angular/router';
-import { User } from '../../models/user/user.interface';
+import { User } from '../../../features/user/models/user.interface';
+import { HttpBaseService } from '../http-base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private readonly httpClient = inject(HttpClient);
+export class AuthService extends HttpBaseService<LoginParams | string | User> {
   private readonly router = inject(Router);
-  private readonly url = environment.beUrl + '/api/auth';
   
   private token!: string;
 
-  constructor() { }
-
-  registerUser(params: User): Observable<ResponseObj<{}>> {
-    return this.httpClient.post<ResponseObj<{}>>(`${this.url}/register`, params);
+  protected override getHost(): string {
+    return environment.beUrl;
   }
 
-  login(params: LoginParams): Observable<ResponseObj<string>> {
-    return this.httpClient.post<ResponseObj<string>>(`${this.url}/login`, params);
+  protected override getBaseResourceEndpoint(): string {
+    return '/api/auth';
   }
 
   setToken(token: string): void {

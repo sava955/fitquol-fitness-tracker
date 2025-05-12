@@ -1,9 +1,16 @@
-<div class="flex flex-column flex-row-lg justify-content-between align-items-center-lg">
-  <div class="flex align-items-center"> 
+<div
+  class="flex flex-column flex-row-sm justify-content-between align-items-center-sm"
+>
+  <div class="flex align-items-center">
     @if (goBackButton) {
-      <button (click)="goBack()" mat-icon-button class="mr-2" aria-label="Go Back">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
+    <button
+      (click)="goBack()"
+      mat-icon-button
+      class="mr-2"
+      aria-label="Go Back"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
     }
     <h2 class="page-title title-underline pb-2">{{ pageTitle }}</h2>
   </div>

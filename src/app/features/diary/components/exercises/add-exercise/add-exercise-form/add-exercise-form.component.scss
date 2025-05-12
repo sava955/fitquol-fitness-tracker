@@ -1,0 +1,48 @@
+:host {
+  .ft-16 {
+    font-size: 16px;
+  }
+
+  .dialog-content {
+    margin: 30px 5px 0;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--dsVars-gray-color);
+      padding: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--dsVars-primary-color);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--dsVars-primary-light-color);
+    }
+  }
+
+  .days-wrapper, .calendar-wrapper {
+    background-color: var(--dsVars-gray-color);
+    border-radius: 20px;
+  }
+
+  ::ng-deep {
+    app-form {
+      mat-card {
+        padding: 0 !important;
+      }
+    }
+    
+    .highlight-selected-days {
+      .mat-calendar-body-cell-content {
+        background-color: var(--dsVars-primary-light-color);
+        border-radius: 50%;
+        outline: none !important;
+        color: var(--dsVars-white) !important;
+      }
+    }
+  }
+}
