@@ -1,0 +1,19 @@
+:host {
+  .goal {
+    ::ng-deep {
+      color: var(--dsVars-tertiary-color);
+    }
+  }
+  
+  .food {
+    ::ng-deep {
+      color: var(--dsVars-green);
+    }
+  }
+  
+  .exercise {
+    ::ng-deep {
+      color: var(--dsVars-orange);
+    }
+  }
+}

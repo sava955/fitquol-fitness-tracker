@@ -1,101 +1,39 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { RecipesService } from '../../../core/services/recipes/recipes.service';
-import { LocalSpinnerService } from '../../services/local-spinner/local-spinner.service';
-import {
-  Recipe,
-  RecipeCategory,
-  RecipeParams,
-} from '../../../core/models/recipes/recipes.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, Observable, tap } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { resetParams, setParams } from '../../utils/handle-params';
-import { withLocalAppSpinner } from '../../utils/with-local-spinner';
-import { isMoreDataToLoad } from '../../utils/load-data-on-scroll';
-import { DrawerContentScrollService } from '../../../core/services/drawer-content-scroll/drawer-content-scroll.service';
-import { PaginationData } from '../../../core/models/pagination/pagination-data';
-import { SidePanelService } from '../../services/side-panel/side-panel.service';
+import { Component, inject } from '@angular/core';
+import { resetParams, setParams } from '../../../core/utils/handle-params';
+import { PaginationData } from '../../../core/models/pagination-data';
+import { TableSearch } from '../table-search/table-search.component';
+import { map, Observable } from 'rxjs';
+import { mapCalories } from '../../../core/utils/map-calories';
+import { RecipesService } from '../../../features/recipes/services/recipes.service';
+import { Recipe, RecipeParams } from '../../../features/recipes/models/recipe.interface';
 
 @Component({ template: '' })
-export abstract class RecipesData implements OnInit {
+export abstract class RecipesData extends TableSearch<Recipe, RecipeParams> {
   protected readonly recipesService = inject(RecipesService);
-  protected readonly spinnerService = inject(LocalSpinnerService);
-  protected readonly drawerContentScrollService = inject(
-    DrawerContentScrollService
-  );
-  protected readonly destroyRef = inject(DestroyRef);
-  protected readonly sidePanelService = inject(SidePanelService);
 
-  recipes: Recipe[] = [];
-
-  protected params!: PaginationData<RecipeParams>;
-  searchRecipe = new FormControl('');
-
-  filteredCategories!: Observable<RecipeCategory[]>;
-
-  protected readonly paginationData: PaginationData<RecipeParams> = {
+  protected override paginationData: PaginationData<RecipeParams> = {
     start: 1,
     limit: 12,
   };
 
-  ngOnInit(): void {
-    this.params = setParams(this.paginationData);
-    this.onSearchEvent();
-    this.loadRecipes();
+  protected override fetchItems(
+    params: PaginationData<RecipeParams>
+  ): Observable<Recipe[]> {
+    return this.recipesService.getAll(params).pipe(
+      map(({ data }) => data.map(mapCalories))
+    );
   }
 
-  protected onSearchEvent(): void {
-    this.searchRecipe.valueChanges
-      ?.pipe(
-        takeUntilDestroyed(this.destroyRef),
-        debounceTime(500),
-        distinctUntilChanged()
-      )
-      .subscribe((value) => {
-        this.recipes = [];
-        this.params = resetParams(this.paginationData);
-        this.params = setParams(this.params, { name: value! });
-        this.getRecipes();
-      });
+  protected override mapResponse(response: Recipe[]): Recipe[] {
+    return response;
   }
 
-  protected loadRecipes(): void {
-    this.drawerContentScrollService
-      .onLoadMore()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((load) => {
-        if (load) {
-          if (!this.params) {
-            this.params = setParams(this.paginationData);
-          } else {
-            this.params.start = this.params.start! + 1;
-          }
-
-          this.getRecipes();
-        }
-      });
-  }
-
-  protected getRecipes(): void {
-    this.recipesService
-      .getRecipes(this.params)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        withLocalAppSpinner(this.spinnerService),
-        tap((response) =>
-          isMoreDataToLoad(
-            this.drawerContentScrollService,
-            response,
-            this.params.limit!
-          )
-        )
-      )
-      .subscribe((response) => {
-        this.recipes = [...this.recipes, ...response];
-        this.recipes = this.recipes.map((recipe: Recipe) => ({
-          calories: recipe.nutrients.calories.toFixed(),
-          ...recipe
-        }))
-      });
+  protected override buildSearchParams(
+    value: string
+  ): PaginationData<RecipeParams> {
+    const base = resetParams(this.paginationData);
+    return setParams(base, {
+      name: value,
+    });
   }
 }

@@ -1,0 +1,1 @@
+type HttpParamsObject = { [param: string]: string | number | boolean | readonly (string | number | boolean)[] };

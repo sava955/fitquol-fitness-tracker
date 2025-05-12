@@ -1,39 +1,55 @@
 <section class="container py-4">
   @if (dashboard) {
+  <h2>Today</h2>
+
   <div class="row my-4">
     <div class="col-12 col-6-md col-5-xl">
       <mat-card>
         <mat-card-content>
-          <app-today-calories-card [todayCalories]="dashboard.todayCalories" />
+          <app-today-calories-statistic [todayCalories]="dashboard.todayCalories" />
         </mat-card-content>
       </mat-card>
     </div>
 
     <div class="col-12 col-6-md col-7-xl">
-      <mat-card class="day-card">
+      <mat-card>
         <mat-card-content>
-          <app-today-macro-card [todayMacros]="dashboard.todayMacros" />
+          <app-today-macro-statistic [todayMacros]="dashboard.todayMacros" />
         </mat-card-content>
       </mat-card>
     </div>
   </div>
 
-  <app-calories-balance [calories]="dashboard.calories" />
+  <h2>Period</h2>
+
+  <div class="row my-4">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-content>
+          <app-calories-statistic [caloriesStatistic]="dashboard.caloriesStatistic" />
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 
   <div class="row my-4">
     <div class="col-12 col-6-lg">
       <mat-card>
         <mat-card-content>
-          <app-weight-chart [weight]="dashboard.weight" />
+          <app-weight-chart [weightStatistic]="dashboard.weightStatistic" />
         </mat-card-content>
       </mat-card>
     </div>
 
     <div class="col-12 col-6-lg">
-      <app-exercises-chart [exercises]="dashboard.calories" />
+      <mat-card>
+        <mat-card-content>
+          <app-exercises-statistic [exercisesStatistic]="dashboard.exercisesStatistic" />
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
-  }
+  } 
 
   <app-local-spinner />
 </section>

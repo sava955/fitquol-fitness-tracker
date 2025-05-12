@@ -1,0 +1,15 @@
+<h3>Calories Statistic</h3>
+<app-period-form (onPeriodSelected)="getCaloriesByPeriod($event)" />
+
+@if (!loading) {
+<app-area-chart
+  [series]="series"
+  [categories]="categories"
+  [height]="height"
+  [fill]="fill"
+/>
+} @else {
+<div [style.height.px]="height">
+  <mat-spinner></mat-spinner>
+</div>
+}

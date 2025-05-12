@@ -1,0 +1,99 @@
+<div class="row mx-0">
+    <div class="col-3">
+      <mat-card class="calories-data-card goal-calories full-col">
+        <mat-card-content>
+          <div
+            class="calory-wrapper flex flex-column align-items-center justify-content-center"
+          >
+            <div>
+              <span class="calories-label">Goal</span>
+            </div>
+
+            <div class="py-2">
+              <span class="font-bold calories-data">{{
+                caloriesRequired.toFixed()
+              }}</span>
+            </div>
+
+            <div>
+              <span class="calories-label">kCal</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-3">
+      <mat-card class="calories-data-card food-calories full-col">
+        <mat-card-content>
+          <div
+            class="calory-wrapper flex flex-column align-items-center justify-content-center"
+          >
+            <div>
+              <span class="calories-label">Food</span>
+            </div>
+
+            <div class="py-2">
+              <span class="font-bold calories-data"
+                >+{{ diary.takenCalories.toFixed() }}</span
+              >
+            </div>
+
+            <div>
+              <span class="calories-label">kCal</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-3">
+      <mat-card class="calories-data-card exercise-calories full-col">
+        <mat-card-content>
+          <div
+            class="calory-wrapper flex flex-column align-items-center justify-content-center"
+          >
+            <div>
+              <span class="calories-label">Exercise</span>
+            </div>
+
+            <div class="py-2">
+              <span class="font-bold calories-data"
+                >-{{ diary.burnedCalories.toFixed() }}</span
+              >
+            </div>
+
+            <div>
+              <span class="calories-label">kCal</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-3">
+      <mat-card class="calories-data-card remaining-calories full-col">
+        <mat-card-content>
+          <div
+            class="calory-wrapper flex flex-column align-items-center justify-content-center"
+          >
+            <div>
+              <span class="calories-label">Remaining</span>
+            </div>
+
+            <div class="py-2">
+              <span class="font-bold calories-data">{{
+                (
+                  caloriesRequired - (diary.takenCalories - diary.burnedCalories)
+                ).toFixed()
+              }}</span>
+            </div>
+
+            <div>
+              <span class="calories-label">kCal</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

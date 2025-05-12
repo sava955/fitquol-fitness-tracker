@@ -8,6 +8,7 @@
       *matHeaderCellDef
       mat-sort-header
       class="text-capitalize"
+      [style.width]="col.width ?? 'auto'"
     >
       {{ col.label }}
     </th>
@@ -23,6 +24,7 @@
       *matCellDef="let element"
       (click)="col?.openDetails(element)"
       class="{{ col.id === 'image' ? 'image-td' : '' }}"
+      [style.width]="col.width ?? 'auto'"
     >
       @if (col.id === 'image') {
       <app-image-box
@@ -32,7 +34,7 @@
         class="p-1"
       />
       } @else {
-        {{ element[col.value] }}
+      {{ element[col.value] }}
       }
     </td>
     } @else {
@@ -53,9 +55,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumnKeys"></tr>
 </table>
 
-@if (searchData && data.length === 0) {
-<div class="flex justify-content-center align-items-center my-4">
-  <mat-icon fontSet="material-icons text-3xl">search_off</mat-icon>
-  <span>No data found</span>
-</div>
+@if (searchData) {
+<app-no-data-found />
 }

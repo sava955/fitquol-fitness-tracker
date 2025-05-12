@@ -8,40 +8,38 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { Router } from '@angular/router';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { FormBaseComponent } from '../form-base/form-base.component';
-import { gender } from '../../../core/const/user';
-import { passwordConfirmationValidator } from '../../utils/password-confirmation-validator';
-import { ActionButtons } from '../../../core/models/action-buttons/action.buttons.interface';
-import { InputBaseComponent } from '../input-base/input-base.component';
-import { User } from '../../../core/models/user/user.interface';
+import { FormComponent } from '../form/form.component';
+import { passwordConfirmationValidator } from '../../../core/utils/password-confirmation-validator';
+import { ActionButtons } from '../../../core/models/action.buttons.interface';
+import { InputComponent } from '../input/input.component';
+import { User, UserData } from '../../../features/user/models/user.interface';
+import { gender } from '../../../features/user/const/user.const';
+import { DatepickerComponent } from '../datepicker/datepicker.component';
 
 @Component({
   selector: 'app-user-data-form',
   imports: [
-    InputBaseComponent,
+    InputComponent,
     MatDatepickerModule,
-    MatFormField,
     MatInputModule,
     MatRadioGroup,
     MatRadioButton,
     ReactiveFormsModule,
-    FormBaseComponent,
+    FormComponent,
+    DatepickerComponent
   ],
   templateUrl: './user-data-form.component.html',
-  styleUrl: './user-data-form.component.scss',
-  providers: [provideNativeDateAdapter()],
+  styleUrl: './user-data-form.component.scss'
 })
 export class UserDataFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
 
   @Input() user!: User;
-  @Output() onSubmit = new EventEmitter();
+  @Output() onSubmit = new EventEmitter<UserData>();
 
   userData = this.fb.group({
     firstName: ['', Validators.required],
@@ -69,7 +67,7 @@ export class UserDataFormComponent implements OnInit {
       this.actionBtns = [
         {
           label: 'Save',
-          action: () => this.onSubmit.emit(this.userData.value)
+          action: () => this.onSubmit.emit(this.userData.value as UserData)
         },
       ]
     } else {
@@ -81,7 +79,7 @@ export class UserDataFormComponent implements OnInit {
         },
         {
           label: 'Next',
-          action: () => this.onSubmit.emit(this.userData.value)
+          action: () => this.onSubmit.emit(this.userData.value as UserData)
         },
       ];
     }

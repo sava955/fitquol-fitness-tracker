@@ -1,0 +1,51 @@
+@use "../../../../../styles/mixins" as *;
+
+.date-controller-card {
+  background: linear-gradient(
+    to right,
+    var(--dsVars-tertiary-color),
+    var(--dsVars-light-green)
+  );
+  color: var(--dsVars-white);
+
+  .day-wrapper {
+    input {
+      visibility: hidden;
+      width: 0;
+    }
+
+    ::ng-deep {
+      .mat-mdc-icon-button {
+        color: var(--dsVars-white) !important;
+      }
+
+      .mat-mdc-button-disabled {
+        opacity: 0.5;
+      }
+    }
+
+    .day {
+      font-size: 20px;
+
+      @include responsive(xl) {
+        font-size: 20px;
+      }
+
+      @include responsive(xxl) {
+        font-size: 30px;
+      }
+    }
+
+    mat-icon {
+      color: var(--dsVars-white);
+    }
+  }
+}
+
+.day-wrapper {
+  min-height: auto;
+
+  @include responsive(md) {
+    min-height: 120px;
+  }
+}

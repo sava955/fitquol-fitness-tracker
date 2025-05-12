@@ -1,4 +1,4 @@
-<app-form-base [formGroup]="userData" [actionBtns]="actionBtns">
+<app-form [formGroup]="userData" [actionBtns]="actionBtns">
   <div class="py-4">
     <div class="flex flex-column flex-row-md col-gap-2">
       <app-input-base
@@ -15,27 +15,17 @@
     </div>
 
     <div class="flex flex-column flex-row-md col-gap-2">
-      <mat-form-field class="full-col mb-4">
-        <mat-label>Date of birth</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          [max]="getMaxDate()"
-          formControlName="dateOfBirth"
-        />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="picker"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+      <app-datepicker
+        formControlName="dateOfBirth"
+        inputLabel="Date of birth"
+        [max]="getMaxDate()"
+        class="full-col mb-4"
+      />
 
-        @if (dateOfBirth?.invalid) {
-        <mat-error>This field is mandatory</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-radio-group formControlName="gender" class="full-col mb-4 flex col-gap-2">
+      <mat-radio-group
+        formControlName="gender"
+        class="full-col mb-4 flex col-gap-2"
+      >
         <mat-radio-button value="MALE">Male</mat-radio-button>
         <mat-radio-button value="FEMALE">Female</mat-radio-button>
       </mat-radio-group>
@@ -50,21 +40,21 @@
     </div>
 
     @if (!user) {
-      <div class="flex flex-column flex-row-md col-gap-2">
-        <app-input-base
-          formControlName="password"
-          inputLabel="Password"
-          type="password"
-          class="flex full-col mb-4"
-        ></app-input-base>
-  
-        <app-input-base
-          formControlName="passwordConfirmation"
-          inputLabel="Password Confirmation"
-          type="password"
-          class="flex full-col mb-4"
-        ></app-input-base>
-      </div>
+    <div class="flex flex-column flex-row-md col-gap-2">
+      <app-input-base
+        formControlName="password"
+        inputLabel="Password"
+        type="password"
+        class="flex full-col mb-4"
+      ></app-input-base>
+
+      <app-input-base
+        formControlName="passwordConfirmation"
+        inputLabel="Password Confirmation"
+        type="password"
+        class="flex full-col mb-4"
+      ></app-input-base>
+    </div>
     }
   </div>
-</app-form-base>
+</app-form>

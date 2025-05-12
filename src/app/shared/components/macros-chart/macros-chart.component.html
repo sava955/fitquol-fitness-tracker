@@ -1,0 +1,35 @@
+<div class="flex flex-column align-items-center">
+  <span
+    class="font-bold {{ macro.key }} {{
+      fontSm ? 'nutrient-description-sm' : 'f-18'
+    }}"
+    [style.color]="getMacroColors(macro.key)"
+    >{{ !shortNames ? macro.name : getShortNames(macro.key) }}</span
+  >
+
+  <div class="flex">
+    <app-radial-chart
+      [series]="[getPercentageOfTotal(macro.percentageOfTotal)]"
+      [labels]="[macro.value.toFixed() + macro.unitOfMeasurement]"
+      [fill]="[getMacroColors(macro.key)]"
+      [height]="height"
+      [size]="size"
+      [showValue]="showValue"
+      [nameSize]="nameSize"
+      [nameOffsetY]="nameOffsetY"
+      [responsive]="responsive"
+    />
+  </div>
+
+  @if (showGoal) {
+  <div class="flex flex-column align-items-center">
+    <span class="font-gray {{ fontSm ? 'base-goal-sm' : 'f-14' }}"
+      >Base Goal</span
+    >
+    <span
+      class="font-bold {{ fontSm ? 'nutrient-description-sm' : 'f-18' }} mt-1"
+      >{{ macro.dailyLimit.toFixed() }} {{ macro.unitOfMeasurement }}</span
+    >
+  </div>
+  }
+</div>

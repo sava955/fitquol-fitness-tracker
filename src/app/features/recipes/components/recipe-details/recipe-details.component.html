@@ -1,0 +1,151 @@
+<app-side-panel>
+  @if (recipe) {
+  <app-page-title [pageTitle]="'Recipe'" (onGoBack)="goBack()">
+    @if (!recipeData && currentUser._id === recipe.createdBy) {
+    <div class="flex col-gap-1">
+      <button mat-flat-button (click)="editRecipe()">
+        Edit Recipe <mat-icon>edit</mat-icon>
+      </button>
+
+      <button mat-raised-button (click)="onDeleteRecipe()">
+        Delete Recipe <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    }
+  </app-page-title>
+
+  <section>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-12 col-6-lg">
+            <app-image-box
+              [src]="recipe.image?.toString()!"
+              [alt]="recipe.name"
+              [height]="400"
+            />
+          </div>
+
+          <div class="col-12 col-6-lg flex flex-column justify-content-between">
+            <span class="section-title font-bold">{{ recipe.name }}</span>
+
+            <div class="flex flex-column full-col mt-4">
+              <span class="section-subtitle font-bold">{{
+                recipe.category.name
+              }}</span>
+
+              <span class="mt-2">{{ recipe.mealType }}</span>
+
+              <div class="full-col flex mt-2">
+                <p>{{ recipe.description }}</p>
+              </div>
+            </div>
+            @if (nutrients) {
+            <div class="row macros-chart">
+              @for (macro of getMacronutrients(nutrients); track $index) {
+              <div class="col-3">
+                <app-macros-chart
+                  [macro]="macro"
+                  [height]="130"
+                  [nameOffsetY]="1"
+                  [responsive]="responsive"
+                  [fontSm]="true"
+                />
+              </div>
+              }
+            </div>
+            }
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="my-4 px-4-md blue-card">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-4">
+            <div
+              class="flex flex-column flex-row-lg justify-content-center-md align-items-center"
+            >
+              <div>
+                <mat-icon>timer</mat-icon>
+              </div>
+              <span class="ml-2">Prep: {{ recipe.preparationTime }} min</span>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="flex flex-column flex-row-lg justify-content-center-md align-items-center"
+            >
+              <div>
+                <mat-icon>microwave_gen</mat-icon>
+              </div>
+              <span class="ml-2-md"
+                >Cook: {{ recipe.preparationTime }} min</span
+              >
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div
+              class="flex flex-column flex-row-lg justify-content-center-md align-items-center"
+            >
+              <div>
+                <mat-icon>soup_kitchen</mat-icon>
+              </div>
+              <span class="ml-2">Serves: {{ recipe.servings }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="my-4">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-4-lg col-12">
+            <h3 class="section-title mb-4">Ingredients</h3>
+
+            <div class="my-4">
+              @for (indrigent of recipe.ingredients; track $index) {
+              <p>{{ indrigent.name }} - {{ indrigent.quantity }}g</p>
+              }
+            </div>
+          </div>
+
+          <div class="col-8-lg col-12">
+            <div class="instructions">
+              <h3 class="section-title mb-4">Instructions</h3>
+
+              @for (instruction of recipe.instructions; track $index) {
+              <div class="instruction my-4">
+                <div class="my-4">
+                  <span
+                    class="section-subtitle title-underline font-semibold py-2"
+                    >Step {{ $index + 1 }}</span
+                  >
+                </div>
+                <p>{{ instruction.description }}</p>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="my-4">
+      <mat-card-content>
+        <h3 class="mb-4 section-title">Nutrients</h3>
+
+        <div class="my-4">
+          <app-nutrients [data]="nutrients" />
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+  }
+
+  <app-local-spinner />
+</app-side-panel>

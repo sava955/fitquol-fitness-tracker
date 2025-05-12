@@ -1,10 +1,10 @@
-import { Directive, effect, EventEmitter, inject, Output } from '@angular/core';
+import { Directive, effect, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { DrawerContentScrollService } from '../services/drawer-content-scroll/drawer-content-scroll.service';
 
 @Directive({
   selector: '[appDsInfiniteScroll]'
 })
-export class DsInfiniteScrollDirective {
+export class DsInfiniteScrollDirective implements OnInit {
   @Output() scrolled = new EventEmitter<boolean>(false);
 
   private readonly drawerContentScroll = inject(DrawerContentScrollService);
@@ -22,5 +22,9 @@ export class DsInfiniteScrollDirective {
         this.drawerContentScroll.setLoadMore(false);
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.drawerContentScroll.scrollOffset.set(0);
   }
 }

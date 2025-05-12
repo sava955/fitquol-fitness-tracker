@@ -1,0 +1,29 @@
+<div class="register-form flex justify-content-center">
+  <div class="register-form-container p-2">
+    <mat-card
+      class="card flex flex-column justify-content-between p-1 p-4-md"
+      appearance="outlined"
+    >
+      <mat-card-header>
+        <mat-card-title>
+          <span class="title title-underline pb-2">Register</span>
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content class="flex flex-column p-1 p-4-md">
+        <mat-stepper #stepper>
+          <mat-step label="User data">
+            <app-user-data-form (onSubmit)="nextStep($event)" class="mt-4"></app-user-data-form>
+          </mat-step>
+          <mat-step label="Set your goal">
+            <app-user-goals-form
+              (onBack)="stepper.previous()"
+              (onSubmit)="signUp($event)"
+              [errorMessage]="errorMessage"
+            ></app-user-goals-form>
+          </mat-step>
+        </mat-stepper>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

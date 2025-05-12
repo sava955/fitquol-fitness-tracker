@@ -1,6 +1,7 @@
 :root {
   --dsVars-primary-color: #2a0a89;
   --dsVars-tertiary-color: #20aff6;
+
   --dsVars-white: #ffffff;
 
   --dsVars-primary-dark: #180f2a;
@@ -8,9 +9,12 @@
   --dsVars-gray-color: #efefef;
   --dsVars-darkGray-color: #626262;
 
-  --dsVars-carbs-color: #0fd895;
-  --dsVars-fats-color: #d80f5c;
-  --dsVars-prot-color: #ea7e2b;
+  --dsVars-light-green: #00b4a2;
+
+  --dsVars-green: #0fd895;
+  --dsVars-orange: #ea7e2b;
+  --dsVars-blue: #266ad0;
+  --dsVars-blue: #9f1288;
 }
 
 $breakpoints: (

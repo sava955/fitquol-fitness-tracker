@@ -1,0 +1,17 @@
+@use "../../../../styles/mixins" as *;
+
+.base-goal-sm {
+  font-size: 10px !important;
+
+  @include responsive(sm) {
+    font-size: 12px !important;
+  }
+}
+
+.nutrient-description-sm {
+  font-size: 12px !important;
+
+  @include responsive(sm) {
+    font-size: 14px !important;
+  }
+}

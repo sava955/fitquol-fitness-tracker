@@ -1,153 +1,12 @@
 <app-side-panel>
-  @if (diary && dailyCalories) {
+  @if (diary) {
   <div class="row">
     <div class="col-12 col-5-lg">
-      <mat-card class="day-card">
-        <mat-card-content>
-          <div class="day-wrapper flex align-items-center">
-            <div class="full-col flex justify-content-center align-items-center">
-              <span class="font-bold day"
-                >{{ day | date : "EEEE, MMM.dd" }}
-              </span>
-
-              <div>
-                <input
-                  matInput
-                  [matDatepicker]="picker"
-                  [formControl]="dayCtrl"
-                />
-                <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </div>
-            </div>
-
-            <div>
-              <button
-                (click)="getNextDay()"
-                mat-icon-button
-                aria-label="Next day"
-              >
-                <mat-icon>arrow_back_ios</mat-icon>
-              </button>
-            </div>
-
-            <div>
-              <button
-                (click)="getPreviousDay()"
-                mat-icon-button
-                aria-label="Previous day"
-              >
-                <mat-icon>arrow_forward_ios</mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <app-date-controller-card [day]="day" [startDate]="startDate" (onSetDayParams)="setDayParams($event)" />
     </div>
 
     <div class="col-12 col-7-lg">
-      <div class="row mx-0">
-        <div class="col-3">
-          <mat-card class="calories-data-card goal-calories full-col">
-            <mat-card-content>
-              <div
-                class="calory-wrapper flex flex-column align-items-center justify-content-center"
-              >
-                <div>
-                  <span class="calories-label">Goal</span>
-                </div>
-
-                <div class="py-2">
-                  <span class="font-bold calories-data">{{
-                    dailyCalories.toFixed()
-                  }}</span>
-                </div>
-
-                <div>
-                  <span class="calories-label">kCal</span>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <div class="col-3">
-          <mat-card class="calories-data-card food-calories full-col">
-            <mat-card-content>
-              <div
-                class="calory-wrapper flex flex-column align-items-center justify-content-center"
-              >
-                <div>
-                  <span class="calories-label">Food</span>
-                </div>
-
-                <div class="py-2">
-                  <span class="font-bold calories-data"
-                    >+{{ diary.takenCalories.toFixed() }}</span
-                  >
-                </div>
-
-                <div>
-                  <span class="calories-label">kCal</span>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <div class="col-3">
-          <mat-card class="calories-data-card exercise-calories full-col">
-            <mat-card-content>
-              <div
-                class="calory-wrapper flex flex-column align-items-center justify-content-center"
-              >
-                <div>
-                  <span class="calories-label">Exercise</span>
-                </div>
-
-                <div class="py-2">
-                  <span class="font-bold calories-data"
-                    >-{{ diary.burnedCalories.toFixed() }}</span
-                  >
-                </div>
-
-                <div>
-                  <span class="calories-label">kCal</span>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <div class="col-3">
-          <mat-card class="calories-data-card remaining-calories full-col">
-            <mat-card-content>
-              <div
-                class="calory-wrapper flex flex-column align-items-center justify-content-center"
-              >
-                <div>
-                  <span class="calories-label">Remaining</span>
-                </div>
-
-                <div class="py-2">
-                  <span class="font-bold calories-data">{{
-                    (
-                      dailyCalories - diary.caloriesBalance
-                    ).toFixed()
-                  }}</span>
-                </div>
-
-                <div>
-                  <span class="calories-label">kCal</span>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
+      <app-calories-balance [diary]="diary" [caloriesRequired]="diary.goal.caloriesRequired" />
     </div>
   </div>
 
@@ -167,9 +26,9 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row mb-4">
     <div class="col-12 col-6-md">
-      <mat-card appearance="raised" class="my-4">
+      <mat-card appearance="raised">
         <mat-card-content>
           @for (item of meals; track $index) { @if (item.columns.length > 0) {
           <div class="mb-4">
@@ -193,7 +52,7 @@
     </div>
 
     <div class="col-12 col-6-md">
-      <mat-card appearance="raised" class="my-4">
+      <mat-card appearance="raised">
         <mat-card-content>
           <app-table-data
             [data]="exercises"

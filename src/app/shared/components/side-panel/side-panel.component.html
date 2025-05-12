@@ -1,10 +1,6 @@
-<mat-drawer-container
-  class="drawer-container"
-  autosize
->
+<mat-drawer-container (backdropClick)="onClose()" class="drawer-container" autosize>
   <mat-drawer
     #drawer
-    (closedStart)="onClose()"
     class="sidenav"
     [position]="'end'"
     [attr.inert]="!drawer.opened ? '' : null"
