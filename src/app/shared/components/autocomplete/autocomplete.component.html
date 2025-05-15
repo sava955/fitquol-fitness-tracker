@@ -1,11 +1,12 @@
-@if (control) {
-<mat-form-field class="flex full-col">
+@if (control) { 
+<mat-form-field class="flex full-col" appearance="outline">
   <mat-label>{{ inputLabel }}</mat-label>
   <input
     type="text"
     matInput
     [formControl]="control"
     [matAutocomplete]="auto"
+    (blur)="validateSelection()"
   />
   <mat-autocomplete
     #auto="matAutocomplete"

@@ -31,7 +31,8 @@ export const diaryMealColumns = (
     value: 'action',
     actions: [
       {
-        label: 'delete',
+        label: 'Delete',
+        value: 'delete',
         action: (row: Meal) => {
           deleteMeal(row);
         },
@@ -67,7 +68,8 @@ export const diaryExercisesColumns = (
     value: 'action',
     actions: [
       {
-        label: 'delete',
+        label: 'Delete',
+        value: 'delete',
         action: (row: DiaryExercise) => {
           deleteExercise(row);
         },

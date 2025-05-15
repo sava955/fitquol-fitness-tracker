@@ -17,6 +17,7 @@ import { UserDataComponent } from '../../shared/components/user-data/user-data.c
 import { RouterLink } from '@angular/router';
 import { Goal } from '../../core/models/goal';
 import { UserService } from '../../features/user/services/user.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ import { UserService } from '../../features/user/services/user.service';
     MatMenuModule,
     UserDataComponent,
     RouterLink,
+    MatTooltipModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

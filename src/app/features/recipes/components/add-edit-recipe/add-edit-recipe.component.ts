@@ -27,7 +27,6 @@ import { MealsService } from '../../../diary/services/meals/meals.service';
 import { Meal } from '../../../diary/models/meal.interface';
 import { MatCardModule } from '@angular/material/card';
 import { NutrientsComponent } from '../../../../shared/components/nutrients/nutrients.component';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { calculateNutritientsForQuantity } from '../../../../core/utils/calculate-nutrients-for-quantity';
 import { setMacronutrients } from '../../../../core/utils/calculate-macronutrients';
 import { setMicronutrients } from '../../../../core/utils/calculate-micronutrients';
@@ -64,7 +63,6 @@ import { Recipe, RecipeCategory } from '../../models/recipe.interface';
     MatIcon,
     MatCardModule,
     NutrientsComponent,
-    MatExpansionModule,
     SelectComponent,
     AutocompleteComponent,
     TextareaComponent,
@@ -76,7 +74,7 @@ import { Recipe, RecipeCategory } from '../../models/recipe.interface';
 })
 export class AddEditRecipeComponent extends FormBaseComponent<Recipe> {
   private readonly mealsService = inject(MealsService);
-  private readonly dietsService = inject(GoalsService);
+  private readonly goalsService = inject(GoalsService);
   private readonly recipesService = inject(RecipesService);
   private readonly recepeCategories = inject(RecipeCategoriesService);
   private readonly router = inject(Router);
@@ -151,11 +149,11 @@ export class AddEditRecipeComponent extends FormBaseComponent<Recipe> {
       this.addInstruction();
     }
 
-    this.dietsService
-      .getGoals()
+    this.goalsService
+      .getOne({}, 'current-goal')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.userGoal = response;
+        this.userGoal = response.data;
 
         if (this.mode === AddEdit.EDIT) {
           this.setFormData();
@@ -317,6 +315,16 @@ export class AddEditRecipeComponent extends FormBaseComponent<Recipe> {
       .pipe(map((response) => response.data || []));
   }
 
+  validateMealSelection(index: number) {
+    const control = this.ingredients.at(index).get('name');
+    if (typeof control?.value !== 'object' || !control.value?._id) {
+      control?.setValue(null);
+      control?.markAsTouched();
+      
+      this.removeIngredientsFromArray(index);
+    }
+  }
+
   addIngredient(): void {
     this.ingredients.push(this.createIngredient());
     this.setupIngredientAutocomplete();
@@ -325,6 +333,11 @@ export class AddEditRecipeComponent extends FormBaseComponent<Recipe> {
   removeIngredient(index: number): void {
     this.ingredients.removeAt(index);
     this.filteredOptions.splice(index, 1);
+    
+    this.removeIngredientsFromArray(index);
+  }
+
+  removeIngredientsFromArray(index: number): void {
     this.selectedIndrigents.splice(index, 1);
     this.nutrientsArr.splice(index, 1);
     this.calculateRecipeNutrients();
@@ -344,7 +357,10 @@ export class AddEditRecipeComponent extends FormBaseComponent<Recipe> {
 
   addIngredientData(event: Meal, i: number): void {
     this.selectedIndrigents[i] = event;
+    const name = this.ingredients.controls[i].get('name');
     const quantity = this.ingredients.controls[i].get('quantity');
+
+    name?.setValue(event);
     quantity?.setValue(this.selectedIndrigents[i].quantity);
   }
 
@@ -362,10 +378,6 @@ export class AddEditRecipeComponent extends FormBaseComponent<Recipe> {
   }
 
   calculateRecipeNutrients(): void {
-    if (this.selectedIndrigents.length === 0) {
-      return;
-    }
-
     const macronutrientsTotals: Macronutrients = {};
     const micronutrientsTotals: Micronutrients = {};
 

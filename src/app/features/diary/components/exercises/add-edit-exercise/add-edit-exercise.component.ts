@@ -1,9 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { FormComponent } from '../../../../../shared/components/form/form.component';
 import { ActionButtons } from '../../../../../core/models/action.buttons.interface';
 import { AddEdit } from '../../../../../core/enums/add-edit.enum';
@@ -21,17 +18,14 @@ import { UserService } from '../../../../user/services/user.service';
 @Component({
   selector: 'app-add-edit-exercise',
   imports: [
-    MatButtonModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
     CommonModule,
     FormComponent,
     InputComponent,
     PageTitleComponent,
   ],
   templateUrl: './add-edit-exercise.component.html',
-  styleUrl: './add-edit-exercise.component.scss',
+  styleUrl: './add-edit-exercise.component.scss'
 })
 export class AddEditExerciseComponent extends FormBaseComponent<DiaryExercise> {
   private readonly diaryService = inject(DiaryService);

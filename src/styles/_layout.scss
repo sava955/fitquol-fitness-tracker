@@ -5,6 +5,13 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.auth {
+  background-image: url('../assets/images/auth-bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .title-underline {
   position: relative;
 
@@ -15,7 +22,7 @@ body {
     height: 5px;
     left: 0;
     bottom: 0;
-    background-color: var(--dsVars-primary-color);
+    background: var(--dsVars-primary-color),
   }
 }
 
@@ -83,6 +90,24 @@ body {
   }
 }
 
+.gradient-card {
+  background: linear-gradient(
+    to right,
+    var(--dsVars-green),
+    var(--dsVars-tertiary-color)
+  );
+
+  color: var(--dsVars-white);
+
+  mat-icon {
+    color: var(--dsVars-white);
+  }
+}
+
 .macros-chart {
   overflow: hidden;
+}
+
+.primary {
+  color: var(--dsVars-primary-color) !important;
 }

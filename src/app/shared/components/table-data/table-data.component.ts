@@ -3,8 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { Column } from '../../../core/models/table';
-import { ImageBoxComponent } from '../../../features/recipes/components/image-box/image-box.component';
 import { NoDataFoundComponent } from '../no-data-found/no-data-found.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-table-data',
@@ -13,8 +13,8 @@ import { NoDataFoundComponent } from '../no-data-found/no-data-found.component';
     MatButtonModule,
     MatIconModule,
     MatIconModule,
-    ImageBoxComponent,
     NoDataFoundComponent,
+    MatTooltipModule
   ],
   templateUrl: './table-data.component.html',
   styleUrl: './table-data.component.scss',

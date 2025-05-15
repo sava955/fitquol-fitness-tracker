@@ -50,6 +50,7 @@ export class AutocompleteComponent<
   @Input() suffixValue: string = '';
   
   @Output() optionSelected = new EventEmitter<T>();
+  @Output() onValidateSelection = new EventEmitter<T>();
 
   displayFn(item?: T): string {
     return item && this.key && item[this.key] != null
@@ -60,5 +61,11 @@ export class AutocompleteComponent<
   selectOption(event: MatAutocompleteSelectedEvent): void {
     const selectedValue = event.option.value as T;
     this.optionSelected.emit(selectedValue);
+  }
+
+  validateSelection(): void {
+    setTimeout(() => {
+      this.onValidateSelection.emit();
+    }, 200);
   }
 }

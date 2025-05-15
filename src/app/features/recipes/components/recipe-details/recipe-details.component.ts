@@ -24,6 +24,7 @@ import { RecipesService } from '../../services/recipes.service';
 import { Recipe } from '../../models/recipe.interface';
 import { MacrosChartComponent } from '../../../../shared/components/macros-chart/macros-chart.component';
 import { recipeMealResponsiveChart } from '../../../../core/const/recipe-meal-responsive-chart';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-repice-details',
@@ -37,7 +38,8 @@ import { recipeMealResponsiveChart } from '../../../../core/const/recipe-meal-re
     LocalSpinnerComponent,
     MatListModule,
     ImageBoxComponent,
-    MacrosChartComponent
+    MacrosChartComponent,
+    MatTooltipModule
 ],
   templateUrl: './recipe-details.component.html',
   styleUrl: './recipe-details.component.scss',

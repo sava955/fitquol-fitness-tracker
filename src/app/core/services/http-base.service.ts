@@ -26,7 +26,7 @@ export abstract class HttpBaseService<T> {
     return this.httpClient.get<ResponseObj<T>>(`${this.getFullUrl()}/${id}`);
   }
 
-  getAll(params?: any, path = ''): Observable<ResponseObj<T[]>> {
+  getAll(params: any, path = ''): Observable<ResponseObj<T[]>> {
     const httpParams = new HttpParams({
       fromObject: params,
     });

@@ -42,7 +42,7 @@
         </div>
 
         <div>
-          <span class="error">{{imageErrorMessage}}</span>
+          <span class="error">{{ imageErrorMessage }}</span>
         </div>
       </div>
 
@@ -92,35 +92,35 @@
       <div class="col-12 col-6-sm col-4-md">
         <div class="flex">
           <app-input-base
-          formControlName="preparationTime"
-          inputLabel="Preparation time"
-          suffixValue="min"
-          type="number"
-          class="flex full-col"
-        />
+            formControlName="preparationTime"
+            inputLabel="Preparation time"
+            suffixValue="min"
+            type="number"
+            class="flex full-col"
+          />
         </div>
       </div>
 
       <div class="col-12 col-6-sm col-4-md">
         <div class="flex">
           <app-input-base
-          formControlName="cookingTime"
-          inputLabel="Cooking time"
-          suffixValue="min"
-          type="number"
-          class="flex full-col"
-        />
+            formControlName="cookingTime"
+            inputLabel="Cooking time"
+            suffixValue="min"
+            type="number"
+            class="flex full-col"
+          />
         </div>
       </div>
 
       <div class="col-12 col-6-sm col-4-md">
         <div class="flex">
           <app-input-base
-          formControlName="servings"
-          inputLabel="Servings"
-          type="number"
-          class="flex full-col"
-        />
+            formControlName="servings"
+            inputLabel="Servings"
+            type="number"
+            class="flex full-col"
+          />
         </div>
       </div>
     </div>
@@ -150,6 +150,7 @@
               key="name"
               [options]="filteredOptions[$index]"
               (optionSelected)="addIngredientData($event, $index)"
+              (onValidateSelection)="validateMealSelection($index)"
               class="flex full-col"
             />
           </div>
@@ -165,19 +166,9 @@
           </div>
         </div>
 
-        <div class="my-4">
-          <mat-accordion class="example-headers-align">
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>Nutrients</mat-panel-title>
-              </mat-expansion-panel-header>
-
-              @if (nutrientsArr[$index]) {
-              <app-nutrients [data]="nutrientsArr[$index]" />
-              }
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
+        @if (nutrientsArr[$index]) {
+        <app-nutrients [data]="nutrientsArr[$index]" />
+        }
       </mat-card>
       }
 
@@ -237,18 +228,8 @@
       </div>
     </div>
 
-    <div class="my-4">
-      <mat-accordion class="example-headers-align">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Nutrients per serving</mat-panel-title>
-          </mat-expansion-panel-header>
-
-          @if (recipeNutrients) {
-          <app-nutrients [data]="recipeNutrients" />
-          }
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
+    @if (recipeNutrients) {
+    <app-nutrients [data]="recipeNutrients" />
+    }
   </app-form>
 </section>

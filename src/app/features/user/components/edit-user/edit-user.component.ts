@@ -4,7 +4,12 @@ import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { UserGoalsFormComponent } from '../../../../shared/components/user-goals-form/user-goals-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { PasswordRequest, User, UserData, UserGoals } from '../../models/user.interface';
+import {
+  PasswordRequest,
+  User,
+  UserData,
+  UserGoals,
+} from '../../models/user.interface';
 import { UserDataFormComponent } from '../../../../shared/components/user-data-form/user-data-form.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { AuthService } from '../../../../core/services/auth/auth.service';
@@ -14,6 +19,7 @@ import { Goal } from '../../../../core/models/goal';
 import { PopupSpinnerService } from '../../../../core/services/popup-spinner/popup-spinner-service.service';
 import { withPopupAppSpinner } from '../../../../core/utils/with-popup-spinner';
 import { UserService } from '../../services/user.service';
+import { goalsColumns } from '../../const/goal.const';
 
 @Component({
   selector: 'app-edit-user',
@@ -22,7 +28,7 @@ import { UserService } from '../../services/user.service';
     MatTabsModule,
     UserGoalsFormComponent,
     UserDataFormComponent,
-    ChangePasswordComponent,
+    ChangePasswordComponent
   ],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss',
@@ -37,6 +43,10 @@ export class EditUserComponent implements OnInit {
 
   user!: User;
   goals!: Goal[];
+
+  goalsColumns = goalsColumns(this.openDetails.bind(this));
+
+  errorMessage!: string;
 
   ngOnInit(): void {
     this.userService
@@ -68,7 +78,7 @@ export class EditUserComponent implements OnInit {
           this.router.navigateByUrl('user');
         },
         error: (err) => {
-          // this.errorMessage = err.error.message;
+          this.errorMessage = err.error.message;
         },
       });
   }
@@ -86,7 +96,7 @@ export class EditUserComponent implements OnInit {
           this.onConfirmationPopup(response.message);
         },
         error: (err) => {
-          // this.errorMessage = err.error.message;
+          this.errorMessage = err.error.message;
         },
       });
   }
@@ -101,4 +111,6 @@ export class EditUserComponent implements OnInit {
       width: '500px',
     });
   }
+
+  openDetails(): void {}
 }

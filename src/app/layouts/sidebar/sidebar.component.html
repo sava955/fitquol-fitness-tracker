@@ -1,27 +1,25 @@
 <nav class="side-nav">
-  <div class="logo flex justify-content-center align-items-center mb-4">
-    <span class="app-title">DS FITNESS</span>
-  </div>
+  <app-logo />
   <mat-list role="list p-0">
-    <mat-list-item role="listitem" *ngFor="let item of navItems" class="px-0 mb-4">
+    <mat-list-item
+      role="listitem"
+      *ngFor="let item of navItems"
+      class="px-0 mb-4"
+    >
       <a
         mat-button
         class="nav-btn p-4"
         [routerLink]="item.path"
         routerLinkActive="active-link"
       >
-        <mat-icon>{{ item.icon }}</mat-icon>
+        <mat-icon class="primary">{{ item.icon }}</mat-icon>
         {{ item.label }}
       </a>
     </mat-list-item>
 
     <mat-list-item class="px-0 mb-4">
-      <button
-        mat-button
-        class="nav-btn p-4"
-        (click)="logout()"
-      >
-      <mat-icon>logout</mat-icon>
+      <button mat-button class="nav-btn p-4" (click)="logout()">
+        <mat-icon class="primary">logout</mat-icon>
         Logout
       </button>
     </mat-list-item>

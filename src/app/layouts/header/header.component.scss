@@ -4,6 +4,14 @@
   border-bottom: 1px solid;
   border-color: var(--dsVars-gray-color);
 
+  .welcome {
+    display: none;
+
+    @include responsive(sm) {
+      display: block;
+    }
+  }
+
   .spacer {
     flex: 1 1 auto;
   }  

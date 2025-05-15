@@ -23,26 +23,21 @@
       mat-cell
       *matCellDef="let element"
       (click)="col?.openDetails(element)"
-      class="{{ col.id === 'image' ? 'image-td' : '' }}"
       [style.width]="col.width ?? 'auto'"
     >
-      @if (col.id === 'image') {
-      <app-image-box
-        [src]="element[col.value]"
-        [alt]="element[col.value]"
-        [height]="150"
-        class="p-1"
-      />
-      } @else {
       {{ element[col.value] }}
-      }
     </td>
     } @else {
     <td mat-cell *matCellDef="let element">
       <div class="flex">
         @for(action of col.actions; track action) {
-        <button mat-icon-button class="accent" (click)="action.action(element)">
-          <mat-icon>{{ action.label }}</mat-icon>
+        <button
+          mat-icon-button
+          class="accent"
+          [matTooltip]="action.label"
+          (click)="action.action(element)"
+        >
+          <mat-icon>{{ action.value }}</mat-icon>
         </button>
         }
       </div>

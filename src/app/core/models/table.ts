@@ -9,5 +9,6 @@ export interface Column<T> {
 
 export interface ColumnAction<T> {
   label: string;
+  value: string;
   action: (item: T) => void;
 }

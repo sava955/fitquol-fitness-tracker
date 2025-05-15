@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -19,7 +19,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './date-controller-card.component.html',
   styleUrl: './date-controller-card.component.scss',
 })
-export class DateControllerCardComponent implements OnInit {
+export class DateControllerCardComponent implements OnInit, OnChanges {
   @Input() day: Date = new Date();
   @Input() startDate: Date = new Date();
   @Output() onSetDayParams = new EventEmitter<Date>();
@@ -34,6 +34,12 @@ export class DateControllerCardComponent implements OnInit {
         this.setDayParams();
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['day'] && changes['day'].currentValue) {
+      this.dayCtrl.setValue(new Date(this.day), { emitEvent: false });
+    }
   }
 
   isNextDisabled(): boolean {
