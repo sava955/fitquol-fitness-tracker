@@ -29,7 +29,7 @@ export class SidePanelComponent<T extends object> extends DrawerScrollComponent 
   @ViewChild('componentContainer', { read: ViewContainerRef })
   container!: ViewContainerRef;
 
-  activeComponent!: { component: Type<T>; data?: Partial<T> } | null;
+  //activeComponent!: { component: Type<T>; data?: Partial<T> } | null;
 
   private activeComponentRef: ComponentRef<T> | null = null;
 
@@ -52,7 +52,7 @@ export class SidePanelComponent<T extends object> extends DrawerScrollComponent 
         }
 
         this.drawer.close();
-        this.activeComponent = null;
+        // this.activeComponent = null;
       }
     });
   }
@@ -63,7 +63,7 @@ export class SidePanelComponent<T extends object> extends DrawerScrollComponent 
     if (!this.container || !entry) return;
 
     if (!this.activeComponentRef) {
-      this.activeComponent = entry;
+      // this.activeComponent = entry;
       this.container.clear();
       this.drawer.open();
 
@@ -77,7 +77,7 @@ export class SidePanelComponent<T extends object> extends DrawerScrollComponent 
   }
 
   onClose(): void {
-    this.activeComponent = null;
+    // this.activeComponent = null;
 
     if (this.activeComponentRef) {
       this.activeComponentRef.destroy();

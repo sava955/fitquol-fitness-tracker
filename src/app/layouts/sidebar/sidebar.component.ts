@@ -6,12 +6,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterLink, MatListModule, MatButtonModule, RouterLinkActive, MatIcon],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatListModule,
+    MatButtonModule,
+    RouterLinkActive,
+    MatIcon,
+    LogoComponent,
+  ],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
   private readonly authService = inject(AuthService);
@@ -22,25 +31,25 @@ export class SidebarComponent {
     {
       path: 'dashboard',
       label: 'Dashboard',
-      icon: 'dashboard'
+      icon: 'dashboard',
     },
     {
       path: 'diary',
       label: 'Diary',
-      icon: 'local_library'
+      icon: 'local_library',
     },
     {
       path: 'recipes',
       label: 'Recipes',
-      icon: 'restaurant'
+      icon: 'restaurant',
     },
     {
       path: 'user',
       label: 'Profile',
-      icon: 'person'
+      icon: 'person',
     },
   ];
-  
+
   logout(): void {
     this.authService.logout();
   }

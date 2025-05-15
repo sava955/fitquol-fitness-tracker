@@ -36,25 +36,25 @@
   
     &.goal-calories {
       .calories-data {
-        color: var(--dsVars-green);
+        color: var(--dsVars-blue);
       }
     }
   
     &.food-calories {
       .calories-data {
-        color: var(--dsVars-orange)
+        color: var(--dsVars-green)
       }
     }
   
     &.exercise-calories {
       .calories-data {
-        color: var(--dsVars-blue)
+        color: var(--dsVars-orange)
       }
     }
   
     &.remaining-calories {
       .calories-data {
-        color: var(--dsVars-tertiary-color);
+        color: var(--dsVars-purple);
       }
     }
   }

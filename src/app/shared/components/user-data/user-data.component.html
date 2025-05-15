@@ -6,18 +6,18 @@
 </div>
 
 <div class="my-4 flex align-items-center">
-  <mat-icon>cake</mat-icon>
+  <mat-icon class="primary">cake</mat-icon>
   <span class="ml-2">{{ user.dateOfBirth | date : "dd.MM.yyyy" }}</span>
 </div>
 
 <div class="my-4 flex align-items-center">
-  <mat-icon>email</mat-icon>
+  <mat-icon class="primary">email</mat-icon>
   <span class="ml-2">{{ user.email }}</span>
 </div>
 
 @if (goal) {
 <div class="my-4 flex align-items-center">
-  <mat-icon>height</mat-icon>
+  <mat-icon class="primary">height</mat-icon>
   <span class="ml-2"
     >{{ goal.height }}
     {{ goal.measurementSystem === "METRIC" ? "cm" : "ft" }}</span
@@ -25,7 +25,7 @@
 </div>
 
 <div class="my-4 flex align-items-center">
-  <mat-icon>monitor_weight</mat-icon>
+  <mat-icon class="primary">monitor_weight</mat-icon>
   <span class="ml-2"
     >{{ goal.weight }}
     {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }}</span
@@ -33,7 +33,7 @@
 </div>
 
 <div class="my-4 flex align-items-center">
-  <mat-icon>flag</mat-icon>
+  <mat-icon class="primary">flag</mat-icon>
 
   <span class="ml-2">{{ formatGoal(goal.goal) }}</span>
 
@@ -47,7 +47,7 @@
 </div>
 
 <div class="my-4 flex align-items-center">
-  <mat-icon>restaurant</mat-icon>
+  <mat-icon class="primary">restaurant</mat-icon>
   <span class="ml-2"
     >You need to take
     <span class="font-bold">{{ goal.caloriesRequired }} kCal</span> per

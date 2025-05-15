@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { InputComponent } from '../../../../../shared/components/input/input.component';
 import { Meal } from '../../../models/meal.interface';
 import { AddEdit } from '../../../../../core/enums/add-edit.enum';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { PageTitleComponent } from '../../../../../shared/components/page-title/page-title.component';
 import { NutrientsComponent } from '../../../../../shared/components/nutrients/nutrients.component';
 import { calculateNutritientsForQuantity } from '../../../../../core/utils/calculate-nutrients-for-quantity';
@@ -39,7 +38,6 @@ import { recipeMealResponsiveChart } from '../../../../../core/const/recipe-meal
     MatInputModule,
     InputComponent,
     ReactiveFormsModule,
-    MatExpansionModule,
     PageTitleComponent,
     NutrientsComponent,
     SelectComponent,
@@ -47,7 +45,7 @@ import { recipeMealResponsiveChart } from '../../../../../core/const/recipe-meal
     MacrosChartComponent,
   ],
   templateUrl: './add-edit-meal.component.html',
-  styleUrl: './add-edit-meal.component.scss',
+  styleUrl: './add-edit-meal.component.scss'
 })
 export class AddEditMealComponent extends FormBaseComponent<Meal> {
   private readonly diaryService = inject(DiaryService);

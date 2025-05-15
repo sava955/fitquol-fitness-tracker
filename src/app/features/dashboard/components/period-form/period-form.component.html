@@ -3,7 +3,7 @@
     <div class="flex">
       <form [formGroup]="period">
         <div class="flex">
-          <mat-form-field>
+          <mat-form-field appearance="outline"> 
             <mat-label>Select period</mat-label>
             <mat-date-range-input [rangePicker]="rangePicker" [min]="getMinDate()" [max]="getMaxDate()">
               <input

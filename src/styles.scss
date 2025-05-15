@@ -8,16 +8,16 @@
 @use "./styles/typography";
 
 
-$azure-palette: map.set(mat.$azure-palette, 40, var(--dsVars-primary-color));
-$violet-palette: map.set(mat.$violet-palette, 40, var(--dsVars-tertiary-color));
+$primary-palette: map.set(mat.$blue-palette, 40, var(--dsVars-primary-color));
+$tertiary-palette: map.set(mat.$blue-palette, 40, var(--dsVars-tertiary-color));
 
 html {
   @include mat.theme(
     (
       color: (
         theme-type: light,
-        primary: $azure-palette,
-        tertiary: $violet-palette,
+        primary: $primary-palette,
+        tertiary: $tertiary-palette,
       ),
       typography: Roboto,
       density: 0,
@@ -28,6 +28,7 @@ html {
 :root {
   @include mat.toolbar-overrides((
     container-background-color: var(--dsVars-white),
+    // container-background-color: #040621,
   ));
 
   @include mat.stepper-overrides((
@@ -36,6 +37,7 @@ html {
 
   @include mat.card-overrides((
     elevated-container-color: var(--dsVars-white),
+    // elevated-container-color: #040621,
   ));
 
   @include mat.table-overrides((

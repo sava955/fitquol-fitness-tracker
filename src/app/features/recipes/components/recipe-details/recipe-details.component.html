@@ -2,13 +2,23 @@
   @if (recipe) {
   <app-page-title [pageTitle]="'Recipe'" (onGoBack)="goBack()">
     @if (!recipeData && currentUser._id === recipe.createdBy) {
-    <div class="flex col-gap-1">
-      <button mat-flat-button (click)="editRecipe()">
-        Edit Recipe <mat-icon>edit</mat-icon>
+    <div class="flex">
+      <button
+        mat-icon-button
+        matTooltip="Edit recipe"
+        class="primary"
+        (click)="editRecipe()"
+      >
+        <mat-icon class="primary">edit</mat-icon>
       </button>
 
-      <button mat-raised-button (click)="onDeleteRecipe()">
-        Delete Recipe <mat-icon>delete</mat-icon>
+      <button
+        mat-icon-button
+        matTooltip="Delete recipe"
+        class="ml-2"
+        (click)="onDeleteRecipe()"
+      >
+        <mat-icon>delete</mat-icon>
       </button>
     </div>
     }
@@ -27,12 +37,12 @@
           </div>
 
           <div class="col-12 col-6-lg flex flex-column justify-content-between">
-            <span class="section-title font-bold">{{ recipe.name }}</span>
+            <h2 class="section-title font-bold m-0">{{ recipe.name }}</h2>
 
             <div class="flex flex-column full-col mt-4">
-              <span class="section-subtitle font-bold">{{
-                recipe.category.name
-              }}</span>
+              <h3 class="section-subtitle font-bold">
+                {{ recipe.category.name }}
+              </h3>
 
               <span class="mt-2">{{ recipe.mealType }}</span>
 
@@ -41,7 +51,8 @@
               </div>
             </div>
             @if (nutrients) {
-            <div class="row macros-chart">
+            <span class="font-bold mt-4">Per serving:</span>
+            <div class="row macros-chart mt-4">
               @for (macro of getMacronutrients(nutrients); track $index) {
               <div class="col-3">
                 <app-macros-chart
@@ -57,47 +68,49 @@
             }
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
 
-    <mat-card class="my-4 px-4-md blue-card">
-      <mat-card-content>
-        <div class="row">
-          <div class="col-4">
-            <div
-              class="flex flex-column flex-row-lg justify-content-center-md align-items-center"
-            >
-              <div>
-                <mat-icon>timer</mat-icon>
+        <mat-card class="my-4 px-4-md gradient-card">
+          <mat-card-content>
+            <div class="row">
+              <div class="col-4">
+                <div
+                  class="flex flex-column flex-row-lg justify-content-center-md align-items-center f-18"
+                >
+                  <div>
+                    <mat-icon>timer</mat-icon>
+                  </div>
+                  <span class="ml-2"
+                    >Prep: {{ recipe.preparationTime }} min</span
+                  >
+                </div>
               </div>
-              <span class="ml-2">Prep: {{ recipe.preparationTime }} min</span>
-            </div>
-          </div>
 
-          <div class="col-4">
-            <div
-              class="flex flex-column flex-row-lg justify-content-center-md align-items-center"
-            >
-              <div>
-                <mat-icon>microwave_gen</mat-icon>
+              <div class="col-4">
+                <div
+                  class="flex flex-column flex-row-lg justify-content-center-md align-items-center f-18"
+                >
+                  <div>
+                    <mat-icon>microwave_gen</mat-icon>
+                  </div>
+                  <span class="ml-2-md"
+                    >Cook: {{ recipe.preparationTime }} min</span
+                  >
+                </div>
               </div>
-              <span class="ml-2-md"
-                >Cook: {{ recipe.preparationTime }} min</span
-              >
-            </div>
-          </div>
 
-          <div class="col-4">
-            <div
-              class="flex flex-column flex-row-lg justify-content-center-md align-items-center"
-            >
-              <div>
-                <mat-icon>soup_kitchen</mat-icon>
+              <div class="col-4">
+                <div
+                  class="flex flex-column flex-row-lg justify-content-center-md align-items-center f-18"
+                >
+                  <div>
+                    <mat-icon>soup_kitchen</mat-icon>
+                  </div>
+                  <span class="ml-2">Serves: {{ recipe.servings }}</span>
+                </div>
               </div>
-              <span class="ml-2">Serves: {{ recipe.servings }}</span>
             </div>
-          </div>
-        </div>
+          </mat-card-content>
+        </mat-card>
       </mat-card-content>
     </mat-card>
 
@@ -105,7 +118,7 @@
       <mat-card-content>
         <div class="row">
           <div class="col-4-lg col-12">
-            <h3 class="section-title mb-4">Ingredients</h3>
+            <h2 class="section-title mb-4">Ingredients</h2>
 
             <div class="my-4">
               @for (indrigent of recipe.ingredients; track $index) {
@@ -116,7 +129,7 @@
 
           <div class="col-8-lg col-12">
             <div class="instructions">
-              <h3 class="section-title mb-4">Instructions</h3>
+              <h2 class="section-title mb-4">Instructions</h2>
 
               @for (instruction of recipe.instructions; track $index) {
               <div class="instruction my-4">
@@ -137,7 +150,7 @@
 
     <mat-card class="my-4">
       <mat-card-content>
-        <h3 class="mb-4 section-title">Nutrients</h3>
+        <h2 class="mb-4 section-title">Nutrients per serving</h2>
 
         <div class="my-4">
           <app-nutrients [data]="nutrients" />

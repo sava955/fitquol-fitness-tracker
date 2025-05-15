@@ -42,9 +42,9 @@ export class MacrosChartComponent {
 
   getMacroColors(key: string): string {
     const colors = [
-      { key: Macros.CALORIES, value: Colors.PURPLE },
+      { key: Macros.CALORIES, value: Colors.BLUE },
       { key: Macros.CARBS, value: Colors.GREEN },
-      { key: Macros.PROTEIN, value: Colors.BLUE },
+      { key: Macros.PROTEIN, value: Colors.PURPLE },
       { key: Macros.FATS, value: Colors.ORANGE },
     ];
 

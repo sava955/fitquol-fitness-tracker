@@ -107,7 +107,10 @@ export class DiaryComponent implements OnInit {
   }
 
   setDayParams(event: Date): void {
-    const formattedDay = event.toISOString().split('T')[0];
+    const year = event.getFullYear();
+    const month = String(event.getMonth() + 1).padStart(2, '0');
+    const day = String(event.getDate()).padStart(2, '0');
+    const formattedDay = `${year}-${month}-${day}`;
     this.router.navigate(['diary'], { queryParams: { day: formattedDay } });
   }
 

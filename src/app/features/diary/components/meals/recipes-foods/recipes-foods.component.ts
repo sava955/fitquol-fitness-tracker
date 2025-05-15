@@ -5,7 +5,6 @@ import { AddEdit } from '../../../../../core/enums/add-edit.enum';
 import { MatCardModule } from '@angular/material/card';
 import { InputComponent } from '../../../../../shared/components/input/input.component';
 import { LocalSpinnerComponent } from '../../../../../shared/components/local-spinner/local-spinner.component';
-import { recipeColumns } from '../../../../recipes/const/recipes.const';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Nutrients } from '../../../../../core/models/nutrient.interface';
 import { Recipe } from '../../../../recipes/models/recipe.interface';
@@ -27,7 +26,6 @@ export class RecipesFoodsComponent extends RecipesData {
   @Input() day!: Date;
   @Input() mealType!: string;
 
-  recipeColumns = recipeColumns(this.openDetails.bind(this));
   nutrients!: Nutrients;
 
   openDetails(row: Recipe): void {

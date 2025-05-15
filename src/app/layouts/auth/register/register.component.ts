@@ -14,6 +14,7 @@ import {
 } from '../../../features/user/models/user.interface';
 import { UnitMeasurment } from '../../../features/user/enums/user.enum';
 import { withPopupAppSpinner } from '../../../core/utils/with-popup-spinner';
+import { LogoComponent } from '../../../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +23,7 @@ import { withPopupAppSpinner } from '../../../core/utils/with-popup-spinner';
     MatStepperModule,
     UserDataFormComponent,
     UserGoalsFormComponent,
+    LogoComponent
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',

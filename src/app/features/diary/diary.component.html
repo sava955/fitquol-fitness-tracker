@@ -2,29 +2,24 @@
   @if (diary) {
   <div class="row">
     <div class="col-12 col-5-lg">
-      <app-date-controller-card [day]="day" [startDate]="startDate" (onSetDayParams)="setDayParams($event)" />
+      <app-date-controller-card
+        [day]="day"
+        [startDate]="startDate"
+        (onSetDayParams)="setDayParams($event)"
+      />
     </div>
 
     <div class="col-12 col-7-lg">
-      <app-calories-balance [diary]="diary" [caloriesRequired]="diary.goal.caloriesRequired" />
+      <app-calories-balance
+        [diary]="diary"
+        [caloriesRequired]="diary.goal.caloriesRequired"
+      />
     </div>
   </div>
 
-  <div class="my-4 row">
-    <div class="col-12">
-      <mat-accordion class="example-headers-align">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Nutrients</mat-panel-title>
-          </mat-expansion-panel-header>
-  
-          @if (diary.nutrients) {
-          <app-nutrients [data]="diary.nutrients" />
-          }
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-  </div>
+  @if (diary.nutrients) {
+  <app-nutrients [data]="diary.nutrients" />
+  }
 
   <div class="row mb-4">
     <div class="col-12 col-6-md">

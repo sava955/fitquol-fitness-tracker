@@ -1,11 +1,6 @@
 @use "../../../../../styles/mixins" as *;
 
 .date-controller-card {
-  background: linear-gradient(
-    to right,
-    var(--dsVars-tertiary-color),
-    var(--dsVars-light-green)
-  );
   color: var(--dsVars-white);
 
   .day-wrapper {

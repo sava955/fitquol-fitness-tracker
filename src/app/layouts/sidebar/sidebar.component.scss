@@ -4,23 +4,12 @@
   border-right: 1px solid;
   border-color: var(--dsVars-gray-color);
 
-  .logo {
-    min-height: 64px;
-    font-family: "Venus rising", "Helvetica Neue", sans-serif;
-    font-size: 20px;
-    color: var(--dsVars-primary-color);
-  }
-
   .nav-btn {
     width: 100%;
     display: flex;
     justify-content: start;
     border-radius: 0;
     color: var(--dsVars-darkGray-color);
-
-    mat-icon {
-        color: var(--dsVars-primary-color);  
-    }
 
     &.active-link {
         position: relative;

@@ -15,7 +15,7 @@
 
   <div class="row">
     @for (recipe of items; track $index) {
-    <div class="col-3-lg col-4-sm col-6">
+    <div class="col-2-xxl col-3-lg col-4-sm col-6">
       <app-recipe-card
         [recipe]="recipe"
         (onOpenDetails)="openDetails($event)"
