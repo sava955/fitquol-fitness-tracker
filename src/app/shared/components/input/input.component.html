@@ -1,0 +1,13 @@
+@if (control) {
+<mat-form-field class="full-col" appearance="outline">
+  <mat-label>{{ inputLabel }}</mat-label>
+  <input matInput [type]="type" [formControl]="control" />
+
+  @if (suffixValue) {
+  <span matTextSuffix>{{ suffixValue }}</span>
+  }
+  <mat-error>
+    <app-validation-errors [errors]="control.errors"></app-validation-errors>
+  </mat-error>
+</mat-form-field>
+}

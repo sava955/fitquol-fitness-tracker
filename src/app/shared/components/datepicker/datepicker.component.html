@@ -1,0 +1,19 @@
+@if (control) {
+<mat-form-field class="full-col" appearance="outline">
+  <mat-label>{{ inputLabel }}</mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [formControl]="control"
+    [min]="min"
+    [max]="max"
+  />
+  <mat-hint>MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+
+  <mat-error>
+    <app-validation-errors [errors]="control.errors"></app-validation-errors>
+  </mat-error>
+</mat-form-field>
+}

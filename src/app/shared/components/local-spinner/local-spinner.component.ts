@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { LocalSpinnerService } from '../../services/local-spinner/local-spinner.service';
+import { LocalSpinnerService } from '../../../core/services/local-spinner/local-spinner.service';
 
 @Component({
   selector: 'app-local-spinner',

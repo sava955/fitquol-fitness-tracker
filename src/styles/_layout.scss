@@ -1,7 +1,15 @@
+@use "./mixins" as *;
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.auth {
+  background-image: url('../assets/images/auth-bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .title-underline {
@@ -14,27 +22,40 @@ body {
     height: 5px;
     left: 0;
     bottom: 0;
-    background-color: var(--dsVars-primary-color);
+    background: var(--dsVars-primary-color),
   }
 }
 
 .container {
   max-width: 100%;
-  padding: 30px;
+  padding: 10px;
   margin-left: auto;
   margin-right: auto;
+
+  @include responsive(md) {
+    padding: 30px;
+  }
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px; 
   row-gap: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
+
+  @include responsive(lg) {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
 }
 
 .full-col {
   flex: 1;
+}
+
+.col-gap-1 {
+  column-gap: 1em;
 }
 
 .col-gap-2 {
@@ -43,4 +64,50 @@ body {
 
 .text-capitalize {
   text-transform: capitalize;
+}
+
+.font-gray {
+  color: var(--dsVars-darkGray-color) !important;
+}
+
+.f-14 {
+  font-size: 12px;
+
+  @include responsive(xxl) {
+    font-size: 14px;
+  }
+}
+
+.f-18 {
+  font-size: 12px;
+
+  @include responsive(sm) {
+    font-size: 14px;
+  }
+
+  @include responsive(xxl) {
+    font-size: 18px;
+  }
+}
+
+.gradient-card {
+  background: linear-gradient(
+    to right,
+    var(--dsVars-green),
+    var(--dsVars-tertiary-color)
+  );
+
+  color: var(--dsVars-white);
+
+  mat-icon {
+    color: var(--dsVars-white);
+  }
+}
+
+.macros-chart {
+  overflow: hidden;
+}
+
+.primary {
+  color: var(--dsVars-primary-color) !important;
 }

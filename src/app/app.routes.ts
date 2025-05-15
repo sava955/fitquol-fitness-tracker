@@ -1,43 +1,89 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { ExercisesComponent } from './features/exercises/exercises.component';
-import { AddExerciseComponent } from './features/exercises/add-exercise/add-exercise.component';
-import { LoginComponent } from './layouts/auth-layout/login/login.component';
-import { RegisterComponent } from './layouts/auth-layout/register/register.component';
 import { authGuard } from './core/guards/auth.guard';
-import { MealsComponent } from './features/meals/meals.component';
-import { DiaryComponent } from './features/diary/diary.component';
-import { AddEditMealComponent } from './features/meals/add-edit-meal/add-edit-meal.component';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./layouts/main-layout/main-layout.component').then(
-        (c) => c.MainLayoutComponent
+      import('./layouts/main/main.component').then(
+        (c) => c.MainComponent
       ),
     children: [
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'diary', component: DiaryComponent },
       {
-        path: 'exercises',
-        component: ExercisesComponent,
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/dashboard.component').then(
+            (c) => c.DashboardComponent
+          ),
+      },
+      {
+        path: 'diary',
+        loadComponent: () =>
+          import('./features/diary/diary.component').then(
+            (c) => c.DiaryComponent
+          ),
+      },
+      {
+        path: 'recipes',
+        loadComponent: () =>
+          import('./features/recipes/recipes.component').then(
+            (c) => c.RecipesComponent
+          ),
         children: [
-          { path: 'add-exercise/:id', component: AddExerciseComponent },
+          {
+            path: '',
+            loadComponent: () =>
+              import(
+                './features/recipes/components/recipes-list/recipes-list.component'
+              ).then((c) => c.RecipesListComponent),
+          },
+          {
+            path: ':id',
+            loadComponent: () =>
+              import(
+                './features/recipes/components/recipe-details/recipe-details.component'
+              ).then((c) => c.RecipeDetailsComponent),
+          },
         ],
       },
       {
-        path: 'nutrition',
-        component: MealsComponent,
+        path: 'user',
+        loadComponent: () =>
+          import('./features/user/user.component').then((c) => c.UserComponent),
         children: [
-          { path: 'add-meal/:id', component: AddEditMealComponent },
+          {
+            path: '',
+            loadComponent: () =>
+              import(
+                './features/user/components/user-profile/user-profile.component'
+              ).then((c) => c.UserProfileComponent),
+          },
+          {
+            path: 'edit',
+            loadComponent: () =>
+              import('./features/user/components/edit-user/edit-user.component').then(
+                (c) => c.EditUserComponent
+              ),
+          },
         ],
       },
     ],
     canActivate: [authGuard],
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./layouts/auth/login/login.component').then(
+        (c) => c.LoginComponent
+      ),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./layouts/auth/register/register.component').then(
+        (c) => c.RegisterComponent
+      ),
+  },
   { path: '', redirectTo: '/', pathMatch: 'full' },
 ];

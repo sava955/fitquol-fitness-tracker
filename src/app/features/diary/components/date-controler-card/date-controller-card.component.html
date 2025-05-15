@@ -1,0 +1,46 @@
+<mat-card class="date-controller-card gradient-card">
+  <mat-card-content>
+    <div class="day-wrapper flex align-items-center">
+      <div class="full-col flex justify-content-center align-items-center">
+        <span class="font-bold day">{{ day | date : "EEEE, MMM.dd" }} </span>
+
+        <div>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="dayCtrl"
+            [min]="startDate"
+            [max]="getMaxDate()"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+      </div>
+
+      <div>
+        <button
+          (click)="getPreviousDay()"
+          mat-icon-button
+          aria-label="Next day"
+          [disabled]="day < startDate"
+        >
+          <mat-icon>arrow_back_ios</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <button
+          (click)="getNextDay()"
+          mat-icon-button
+          aria-label="Previous day"
+          [disabled]="isNextDisabled()"
+        >
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

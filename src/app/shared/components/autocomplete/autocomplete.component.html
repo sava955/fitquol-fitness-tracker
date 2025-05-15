@@ -1,0 +1,30 @@
+@if (control) { 
+<mat-form-field class="flex full-col" appearance="outline">
+  <mat-label>{{ inputLabel }}</mat-label>
+  <input
+    type="text"
+    matInput
+    [formControl]="control"
+    [matAutocomplete]="auto"
+    (blur)="validateSelection()"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn.bind(this)"
+    (optionSelected)="selectOption($event)"
+  >
+    <mat-option *ngFor="let option of options | async" [value]="option">
+      {{ option ? option[key] : "" }}
+    </mat-option>
+  </mat-autocomplete>
+
+  @if (suffixValue) {
+  <span matTextSuffix
+    ><mat-icon>{{ suffixValue }}</mat-icon></span
+  >
+  }
+  <mat-error>
+    <app-validation-errors [errors]="control.errors"></app-validation-errors>
+  </mat-error>
+</mat-form-field>
+}

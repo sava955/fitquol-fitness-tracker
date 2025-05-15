@@ -1,0 +1,21 @@
+<app-form
+  [formGroup]="formGroup"
+  [actionBtns]="actionBtns"
+  [error]="errorMessage"
+>
+  <app-logo />
+  <div class="flex flex-column justify-content-between">
+    <app-input-base
+      formControlName="email"
+      inputLabel="Email"
+      class="flex full-col mb-4"
+    ></app-input-base>
+
+    <app-input-base
+      formControlName="password"
+      inputLabel="Password"
+      type="password"
+      class="flex full-col mb-4"
+    ></app-input-base>
+  </div>
+</app-form>

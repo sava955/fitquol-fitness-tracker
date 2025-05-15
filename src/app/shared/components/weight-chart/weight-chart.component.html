@@ -1,0 +1,22 @@
+<div>
+  <h2>Weight</h2>
+</div>
+
+<div class="load-more-wrapper">
+  <button mat-button (click)="loadMore()">
+    Load more <mat-icon>sync</mat-icon>
+  </button>
+</div>
+
+@if (!loading) {
+<app-area-chart
+  [series]="series"
+  [categories]="categories"
+  [height]="300"
+  [fill]="fill"
+/>
+} @else {
+<div style="height: 300px">
+  <mat-spinner />
+</div>
+}

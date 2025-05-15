@@ -1,0 +1,86 @@
+@use "../../../../../styles/mixins" as *;
+
+.card {
+  overflow: hidden;
+  cursor: pointer;
+
+  .image {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    overflow: hidden;
+
+    @include responsive(sm) {
+      height: 200px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      );
+      z-index: 1;
+    }
+
+    .category {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      border-radius: 10px;
+      background-color: var(--dsVars-primary-color);
+      color: var(--dsVars-white);
+    }
+
+    .title-box {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 2;
+
+      .card-title {
+        color: var(--dsVars-white);
+        text-shadow: 2px 2px 4px #000;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .card-content {
+    font-size: 12px;
+
+    @include responsive(sm) {
+      font-size: 14px;
+    }
+
+    .category-label {
+      font-size: 16px;
+    }
+
+    .carbs-value {
+      color: var(--dsVars-green);
+    }
+
+    .fats-value {
+      color: var(--dsVars-orange);
+    }
+
+    .proteins-value {
+      color: var(--dsVars-blue);
+    }
+  }
+}

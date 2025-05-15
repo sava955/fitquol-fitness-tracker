@@ -1,0 +1,47 @@
+<div class="row mb-4">
+  <div class="col-6 col-4-lg">
+    <div class="flex">
+      <form [formGroup]="period">
+        <div class="flex">
+          <mat-form-field appearance="outline"> 
+            <mat-label>Select period</mat-label>
+            <mat-date-range-input [rangePicker]="rangePicker" [min]="getMinDate()" [max]="getMaxDate()">
+              <input
+                matStartDate
+                formControlName="startDate"
+                placeholder="Start date"
+                
+              />
+              <input
+                matEndDate
+                formControlName="endDate"
+                placeholder="End date"
+              />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="rangePicker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #rangePicker>
+              <mat-date-range-picker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button
+                  (click)="submit()"
+                  mat-raised-button
+                  matDateRangePickerApply
+                >
+                  Apply
+                </button>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
+
+          <button mat-icon-button (click)="reset()" class="mt-2">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

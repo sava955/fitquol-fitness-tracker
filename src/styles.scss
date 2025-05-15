@@ -8,16 +8,16 @@
 @use "./styles/typography";
 
 
-$orange-palette: map.set(mat.$orange-palette, 40, var(--dsVars-primary-color));
-$violet-palette: map.set(mat.$violet-palette, 40, var(--dsVars-tertiary-color));
+$primary-palette: map.set(mat.$blue-palette, 40, var(--dsVars-primary-color));
+$tertiary-palette: map.set(mat.$blue-palette, 40, var(--dsVars-tertiary-color));
 
 html {
   @include mat.theme(
     (
       color: (
         theme-type: light,
-        primary: $orange-palette,
-        tertiary: $violet-palette,
+        primary: $primary-palette,
+        tertiary: $tertiary-palette,
       ),
       typography: Roboto,
       density: 0,
@@ -25,10 +25,35 @@ html {
   );
 }
 
-.btn-sm {
-  @include mat.button-overrides(
-    (
-      filled-container-height: 30px
-    )
-  );
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: var(--dsVars-white),
+    // container-background-color: #040621,
+  ));
+
+  @include mat.stepper-overrides((
+    header-icon-foreground-color: var(--dsVars-white),
+  ));
+
+  @include mat.card-overrides((
+    elevated-container-color: var(--dsVars-white),
+    // elevated-container-color: #040621,
+  ));
+
+  @include mat.table-overrides((
+    background-color: var(--dsVars-white),
+  ));
+
+  @include mat.expansion-overrides((
+    container-background-color:  var(--dsVars-white),
+  ));
+
+  .btn-sm {
+    @include mat.button-overrides(
+      (
+        filled-container-height: 30px
+      )
+    );
+  }
 }
+

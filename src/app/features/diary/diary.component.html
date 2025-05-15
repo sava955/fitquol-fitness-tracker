@@ -1,70 +1,72 @@
 <app-side-panel>
-  <section class="container py-4">
-    <mat-card appearance="outlined">
-      <mat-card-content>
-        <div class="day-wrapper flex align-items-center">
-          <div>
-            <button (click)="getNextDay()" mat-icon-button aria-label="Next day">
-              <mat-icon>arrow_back</mat-icon>
-            </button>
-          </div>
-    
-          <div class="full-col flex justify-content-center">
-            <span>{{ day | date : "EEE, dd.MMM" }} </span>
-          </div>
-    
-          <div>
-            <button
-              (click)="getPreviousDay()"
-              mat-icon-button
-              aria-label="Previous day"
-            >
-              <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    
-    <div class="row">
-      <div class="col col-6-lg">
-        @for (item of meals; track $index) {
-          @if (item.columns.length > 0) {
-            <mat-card appearance="outlined" class="my-4">
-              <mat-card-content>
-                <app-table-data
-                  [data]="item.data"
-                  [displayedColumns]="item.columns"
-                ></app-table-data>
-                <button
-                  (click)="addMeal(item.meal)"
-                  class="accent btn-sm mt-2"
-                  mat-flat-button
-                >
-                  Add food
-                </button>
-              </mat-card-content>
-            </mat-card>
-          }
-        }
-      </div>
+  @if (diary) {
+  <div class="row">
+    <div class="col-12 col-5-lg">
+      <app-date-controller-card
+        [day]="day"
+        [startDate]="startDate"
+        (onSetDayParams)="setDayParams($event)"
+      />
+    </div>
 
-      <div class="col col-6-lg">
-        <mat-card appearance="outlined" class="my-4">
-          <mat-card-content>
+    <div class="col-12 col-7-lg">
+      <app-calories-balance
+        [diary]="diary"
+        [caloriesRequired]="diary.goal.caloriesRequired"
+      />
+    </div>
+  </div>
+
+  @if (diary.nutrients) {
+  <app-nutrients [data]="diary.nutrients" />
+  }
+
+  <div class="row mb-4">
+    <div class="col-12 col-6-md">
+      <mat-card appearance="raised">
+        <mat-card-content>
+          @for (item of meals; track $index) { @if (item.columns.length > 0) {
+          <div class="mb-4">
             <app-table-data
-              [data]="exercises"
-              [displayedColumns]="exercisesColumns"
-            ></app-table-data>
+              [data]="item.data"
+              [displayedColumns]="item.columns"
+              [searchData]="false"
+            />
             <button
-              class="accent btn-sm mt-2"
-              mat-flat-button
+              (click)="addMeal(item.meal)"
+              class="btn-sm mt-4"
+              mat-raised-button
             >
-              Add Exercise
+              <span>Add</span>
+              <mat-icon>add</mat-icon>
             </button>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>  
-  </section>
+          </div>
+          } }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-6-md">
+      <mat-card appearance="raised">
+        <mat-card-content>
+          <app-table-data
+            [data]="exercises"
+            [displayedColumns]="exercisesColumns"
+            [searchData]="false"
+          />
+          <button
+            (click)="addExercises()"
+            class="btn-sm mt-4"
+            mat-raised-button
+          >
+            <span>Add</span>
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  }
+
+  <app-local-spinner />
 </app-side-panel>

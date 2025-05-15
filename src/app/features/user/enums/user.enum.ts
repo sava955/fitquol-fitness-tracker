@@ -1,0 +1,23 @@
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
+
+export enum UnitMeasurment {
+  METRIC = 'METRIC',
+  IMPERIAL = 'IMPERIAL',
+}
+
+export enum UserGoal {
+  LOSE_WEIGHT = 'LOSE_WEIGHT',
+  REMAIN_WEIGHT = 'REMAIN_WEIGHT',
+  GAIN_WEIGHT = 'GAIN_WEIGHT',
+}
+
+export enum ActivityLevel {
+  SEDENTARY = 'SEDENTARY',
+  LIGHTLY_ACTIVE = 'LIGHTLY_ACTIVE',
+  MODERATELY_ACTIVE = 'MODERATELY_ACTIVE',
+  VERY_ACTIVE = 'VERY_ACTIVE',
+  SUPER_ACTIVE = 'SUPER_ACTIVE'
+}

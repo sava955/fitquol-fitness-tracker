@@ -1,0 +1,61 @@
+@use '../../../../../styles/mixins' as *;
+
+.calory-wrapper {
+    min-height: auto;
+  
+    @include responsive (md) {
+      min-height: 120px;
+    }
+  }
+  
+
+.calories-data-card {
+    .calories-label {
+      font-size: 12px;
+
+      @include responsive(md) {
+        font-size: 14px;
+      }
+  
+      @include responsive(xl) {
+        font-size: 16px;
+      }
+    }
+  
+    .calories-data {
+      font-size: 16px;
+
+      @include responsive(md) {
+        font-size: 25px;
+      }
+  
+      @include responsive(xl) {
+        font-size: 30px;
+      }
+    }
+  
+    &.goal-calories {
+      .calories-data {
+        color: var(--dsVars-blue);
+      }
+    }
+  
+    &.food-calories {
+      .calories-data {
+        color: var(--dsVars-green)
+      }
+    }
+  
+    &.exercise-calories {
+      .calories-data {
+        color: var(--dsVars-orange)
+      }
+    }
+  
+    &.remaining-calories {
+      .calories-data {
+        color: var(--dsVars-purple);
+      }
+    }
+  }
+  

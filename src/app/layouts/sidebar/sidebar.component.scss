@@ -1,0 +1,30 @@
+.side-nav {
+  padding: 0;
+  height: 100%;
+  border-right: 1px solid;
+  border-color: var(--dsVars-gray-color);
+
+  .nav-btn {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    border-radius: 0;
+    color: var(--dsVars-darkGray-color);
+
+    &.active-link {
+        position: relative;
+        color: var(--dsVars-primary-color);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 10px;
+        height: 100%;
+        background-color: var(--dsVars-primary-color);
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+    }
+  }
+}

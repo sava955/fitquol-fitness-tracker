@@ -1,0 +1,16 @@
+<div>
+  <h2>Exercises</h2>
+</div>
+
+<app-period-form (onPeriodSelected)="getExercisesByPeriod($event)" />
+
+@if (!loading) {<app-area-chart
+  [series]="series"
+  [categories]="categories"
+  [height]="300"
+  [fill]="fill"
+/>}@else {
+<div style="height: 300px">
+  <mat-spinner />
+</div>
+}

@@ -1,0 +1,107 @@
+<app-form
+  [formGroup]="userGoals"
+  [actionBtns]="actionBtns"
+  [error]="errorMessage"
+>
+  <div class="py-4">
+    @if (goals) {
+    <div class="flex flex-column mb-4">
+      <span class="font-semi-bold">Select date</span>
+      <app-datepicker
+        formControlName="date"
+        inputLabel="Date"
+        class="full-col mt-4"
+      />
+    </div>
+    }
+
+    <div class="flex flex-column mb-4">
+      <span class="font-semi-bold">Measurement system</span>
+      <mat-radio-group
+        formControlName="measurementSystem"
+        class="full-col mt-4 flex col-gap-2"
+      >
+        <mat-radio-button value="METRIC">Metric (kg, cm)</mat-radio-button>
+        <mat-radio-button value="IMPERIAL">Imperial (ft, lb)</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="flex flex-column flex-row-xl col-gap-2">
+      @if (measurementSystem?.value === "METRIC") {
+      <app-input-base
+        formControlName="height"
+        inputLabel="Height"
+        suffixValue="cm"
+        type="number"
+        class="flex full-col mb-4"
+      ></app-input-base>
+      } @else {
+      <app-input-base
+        formControlName="heightFeet"
+        inputLabel="Feet"
+        suffixValue="ft"
+        step="0.1"
+        type="number"
+        class="flex full-col mb-4"
+      ></app-input-base>
+
+      <app-input-base
+        formControlName="heightInches"
+        inputLabel="Inches"
+        suffixValue="in"
+        step="0.1"
+        type="number"
+        class="flex full-col mb-4"
+      ></app-input-base>
+      }
+
+      <app-input-base
+        formControlName="weight"
+        inputLabel="Weight"
+        [suffixValue]="measurementSystem?.value === 'METRIC' ? 'kg' : 'lbs'"
+        step="0.1"
+        type="number"
+        class="flex full-col mb-4"
+      ></app-input-base>
+    </div>
+
+    <div class="flex flex-column mb-4">
+      <span class="font-semi-bold">Select your goal</span>
+      <mat-radio-group
+        formControlName="goal"
+        class="full-col flex col-gap-2 mt-4"
+      >
+        <mat-radio-button value="LOSE_WEIGHT">Lose weight</mat-radio-button>
+        <mat-radio-button value="REMAIN_WEIGHT">Remain weight</mat-radio-button>
+        <mat-radio-button value="GAIN_WEIGHT">Gain weight</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="flex flex-column flex-row-md col-gap-2">
+      @if (goal?.value !== 'REMAIN_WEIGHT') {
+      <div class="flex full-col mb-4">
+        <app-select-base
+          formControlName="weightPerWeek"
+          [inputLabel]="
+            'How much ' +
+            (measurementSystem?.value === 'METRIC' ? 'kg' : 'lbs') +
+            ' per week do you wish to ' +
+            (goal?.value === 'LOSE_WEIGHT' ? 'lose' : 'gain') +
+            '?'
+          "
+          [options]="weightOptions"
+          class="flex full-col"
+        />
+      </div>
+      }
+
+      <div class="flex full-col mb-4">
+        <app-select-base
+          formControlName="activityLevel"
+          inputLabel="Activity level"
+          [options]="activityLevelOptions"
+          class="flex full-col"
+        />
+      </div>
+    </div></div
+></app-form>

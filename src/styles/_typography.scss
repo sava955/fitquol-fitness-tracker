@@ -3,12 +3,16 @@
   src: url("../assets/fonts/Venus\ Rising\ Rg.otf");
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.title {
+.page-title {
   font-family: "Venus rising", "Helvetica Neue", sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6, p, span {
+  // color: var(--dsVars-primary-dark);
+}
+
+.section-title,
+.section-subtitle {
+  margin: 0;
+}
+

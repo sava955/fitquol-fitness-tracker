@@ -1,0 +1,31 @@
+<div class="form container">
+  @if (formTitle) {
+    <div class="title-box mb-4">
+      <div class="mb-4">
+        <h2 class="font-bold">{{ formTitle }}</h2>
+      </div>
+  
+      <div class="my-4">
+        <span class="subtitle">{{ formSubtitle }}</span>
+      </div>
+    </div>
+  }
+
+  <div class="form mb-4">
+    <form [formGroup]="formGroup">
+      <ng-content></ng-content>
+    </form>
+
+    <div class="error-message mt-2">
+      <span>{{error}}</span>
+    </div>
+  </div>
+
+  <div class="form-action flex justify-content-between">
+    @for (btn of actionBtns; track $index) {
+    <button (click)="btn.action()" mat-flat-button class="{{ btn.style }}">
+      {{ btn.label }}
+    </button>
+    }
+  </div>
+</div>

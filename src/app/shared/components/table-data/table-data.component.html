@@ -8,23 +8,36 @@
       *matHeaderCellDef
       mat-sort-header
       class="text-capitalize"
+      [style.width]="col.width ?? 'auto'"
     >
       {{ col.label }}
     </th>
     } @else {
     <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 1%">
       <div class="p-2 class flex justify-content-end">
-        <mat-icon>settings</mat-icon>
+        <ng-content></ng-content>
       </div>
     </th>
     } @if (col.id !== 'action') {
-    <td mat-cell *matCellDef="let element">{{ element[col.value] }}</td>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (click)="col?.openDetails(element)"
+      [style.width]="col.width ?? 'auto'"
+    >
+      {{ element[col.value] }}
+    </td>
     } @else {
     <td mat-cell *matCellDef="let element">
       <div class="flex">
         @for(action of col.actions; track action) {
-        <button mat-icon-button class="accent" (click)="action.action(element)">
-          <mat-icon>{{ action.label }}</mat-icon>
+        <button
+          mat-icon-button
+          class="accent"
+          [matTooltip]="action.label"
+          (click)="action.action(element)"
+        >
+          <mat-icon>{{ action.value }}</mat-icon>
         </button>
         }
       </div>
@@ -37,9 +50,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumnKeys"></tr>
 </table>
 
-@if (data.length === 0) {
-<div class="flex justify-content-center align-items-center my-4">
-  <mat-icon fontSet="material-icons text-3xl">search_off</mat-icon>
-  <span>No data found</span>
-</div>
+@if (searchData) {
+<app-no-data-found />
 }

@@ -1,0 +1,57 @@
+@if (user) {
+<div class="my-4">
+  <span class="full-name font-bold"
+    >{{ user.firstName }} {{ user.lastName }}</span
+  >
+</div>
+
+<div class="my-4 flex align-items-center">
+  <mat-icon class="primary">cake</mat-icon>
+  <span class="ml-2">{{ user.dateOfBirth | date : "dd.MM.yyyy" }}</span>
+</div>
+
+<div class="my-4 flex align-items-center">
+  <mat-icon class="primary">email</mat-icon>
+  <span class="ml-2">{{ user.email }}</span>
+</div>
+
+@if (goal) {
+<div class="my-4 flex align-items-center">
+  <mat-icon class="primary">height</mat-icon>
+  <span class="ml-2"
+    >{{ goal.height }}
+    {{ goal.measurementSystem === "METRIC" ? "cm" : "ft" }}</span
+  >
+</div>
+
+<div class="my-4 flex align-items-center">
+  <mat-icon class="primary">monitor_weight</mat-icon>
+  <span class="ml-2"
+    >{{ goal.weight }}
+    {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }}</span
+  >
+</div>
+
+<div class="my-4 flex align-items-center">
+  <mat-icon class="primary">flag</mat-icon>
+
+  <span class="ml-2">{{ formatGoal(goal.goal) }}</span>
+
+  @if (goal.goal !== 'REMAIN_WEIGHT') {
+  <span>:</span>
+  <span class="font-bold ml-1"
+    >{{ goal.weightPerWeek }}
+    {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }} per week</span
+  >
+  }
+</div>
+
+<div class="my-4 flex align-items-center">
+  <mat-icon class="primary">restaurant</mat-icon>
+  <span class="ml-2"
+    >You need to take
+    <span class="font-bold">{{ goal.caloriesRequired }} kCal</span> per
+    day.</span
+  >
+</div>
+} }

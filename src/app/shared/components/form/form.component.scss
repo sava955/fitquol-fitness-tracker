@@ -1,0 +1,22 @@
+@use "@angular/material" as mat;
+
+:host {
+  .form {
+    background-color: var(--dsVars-white);
+    border-radius: 10px;
+
+    .error-message {
+      font-size: 14px;
+      color: var(--mat-sys-error);
+    }
+
+    .secondary {
+      @include mat.button-overrides(
+        (
+          filled-container-color: var(--dsVars-gray-color),
+          filled-label-text-color: var(--dsVars-primary-color),
+        )
+      );
+    }
+  }
+}

@@ -1,19 +1,18 @@
 :root {
-  --dsVars-primary-color: #f06b46;
-  --dsVars-tertiary-color: #8e58fb;
-  --dsVars-tertiary-color-light: #ffe6c6;
+  --dsVars-primary-color: #2a0a89;
+  --dsVars-tertiary-color: #3a75e2;
+  
   --dsVars-white: #ffffff;
 
   --dsVars-primary-dark: #180f2a;
 
-  --dsVars-background-light-color: #f4f6f5;
-  --dsVars-background-gray-color: #efefef;
-  --dsVars-background-dark-color: #1b1b1b;
+  --dsVars-gray-color: #efefef;
+  --dsVars-darkGray-color: #626262;
 
-  --dsVars-primary-light-color: #f8af8a;
-  --dsVars-mandatory-element: #fde5d4;
-
-  --dsVars-icon-inactive-color: #cbcbcb;
+  --dsVars-green: #0fd895;
+  --dsVars-orange: #ea7e2b;
+  --dsVars-blue: #266ad0;
+  --dsVars-purple: #9f1288;
 }
 
 $breakpoints: (
@@ -28,14 +27,10 @@ $breakpoints: (
 $spacers: (
   0: 0,
   1: 0.25rem,
-  // 4px
   2: 0.5rem,
-  // 8px
   3: 1rem,
-  // 16px
   4: 1.5rem,
-  // 24px
-  5: 3rem // 48px,,,,,
+  5: 3rem
 );
 
 $directions: (
@@ -85,9 +80,8 @@ $alignment-postions: (
 
 $font-weights: (
   "normal": 400,
-  "semi-bold": 500,
+  "semi-bold": 600,
   "bold": 700
 );
 
-// Grid System
 $grid-columns: 12;
