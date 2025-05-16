@@ -10,12 +10,16 @@ RUN npm run build
 
 FROM nginx:1.23-alpine
 
-WORKDIR /usr/share/nginx/html
+# Remove default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
 
+# Add custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 COPY --from=build /app/dist/fitquol/browser ./
 
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
-
