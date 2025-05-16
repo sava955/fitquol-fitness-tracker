@@ -14,7 +14,7 @@ WORKDIR /usr/share/nginx/html
 
 RUN rm -rf ./*
 
-COPY --from=build /app/dist/fitquol ./
+COPY --from=build /app/dist/fitquol/browser ./
 
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
