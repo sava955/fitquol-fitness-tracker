@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # serve the angular app with nginx
-FROM nginx:1.23-alipine
+FROM nginx:1.23-alpine
 WORKDIR /user/share/nginx/html
 RUN rm -rf *
 
