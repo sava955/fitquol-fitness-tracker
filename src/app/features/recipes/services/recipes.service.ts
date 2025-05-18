@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { HttpBaseService } from '../../../core/services/http-base.service';
 import { Recipe } from '../models/recipe.interface';
 

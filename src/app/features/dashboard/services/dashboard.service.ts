@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { HttpBaseService } from '../../../core/services/http-base.service';
 import { CaloriesStatistic, Dashboard, ExercisesStatistic } from '../models/dashboard.interface';
 import { Goal } from '../../../core/models/goal';

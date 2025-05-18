@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { LoginParams } from '../../models/auth';
 import { Router } from '@angular/router';
 import { User } from '../../../features/user/models/user.interface';
