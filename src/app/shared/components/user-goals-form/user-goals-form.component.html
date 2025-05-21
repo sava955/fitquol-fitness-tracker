@@ -19,21 +19,30 @@
       <span class="font-semi-bold">Measurement system</span>
       <mat-radio-group
         formControlName="measurementSystem"
-        class="full-col mt-4 flex col-gap-2"
+        class="full-col mt-4 flex-column flex-row-sm col-gap-2"
       >
         <mat-radio-button value="METRIC">Metric (kg, cm)</mat-radio-button>
         <mat-radio-button value="IMPERIAL">Imperial (ft, lb)</mat-radio-button>
       </mat-radio-group>
     </div>
 
-    <div class="flex flex-column flex-row-xl col-gap-2">
+    <div class="row">
       @if (measurementSystem?.value === "METRIC") {
       <app-input-base
         formControlName="height"
         inputLabel="Height"
         suffixValue="cm"
         type="number"
-        class="flex full-col mb-4"
+        class="col-6 flex full-col mb-4 flex-wrap"
+      ></app-input-base>
+
+      <app-input-base
+        formControlName="weight"
+        inputLabel="Weight"
+        suffixValue="kg"
+        step="0.1"
+        type="number"
+        class="col-6 flex full-col mb-4 flex-wrap"
       ></app-input-base>
       } @else {
       <app-input-base
@@ -42,7 +51,7 @@
         suffixValue="ft"
         step="0.1"
         type="number"
-        class="flex full-col mb-4"
+        class="col-4-xl col-6 flex full-col mb-4 flex-wrap"
       ></app-input-base>
 
       <app-input-base
@@ -51,25 +60,25 @@
         suffixValue="in"
         step="0.1"
         type="number"
-        class="flex full-col mb-4"
+        class="col-4-xl col-6 flex full-col mb-4 flex-wrap"
       ></app-input-base>
-      }
 
       <app-input-base
-        formControlName="weight"
+        formControlName="weightLbs"
         inputLabel="Weight"
-        [suffixValue]="measurementSystem?.value === 'METRIC' ? 'kg' : 'lbs'"
+        suffixValue="lbs"
         step="0.1"
         type="number"
-        class="flex full-col mb-4"
+        class="col-4-xl col-6 flex full-col mb-4 flex-wrap"
       ></app-input-base>
+      }
     </div>
 
     <div class="flex flex-column mb-4">
       <span class="font-semi-bold">Select your goal</span>
       <mat-radio-group
         formControlName="goal"
-        class="full-col flex col-gap-2 mt-4"
+        class="full-column flex-row-md col-gap-2 mt-4"
       >
         <mat-radio-button value="LOSE_WEIGHT">Lose weight</mat-radio-button>
         <mat-radio-button value="REMAIN_WEIGHT">Remain weight</mat-radio-button>

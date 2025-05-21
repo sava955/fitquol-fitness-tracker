@@ -10,7 +10,6 @@ import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../input/input.component';
 import { FormComponent } from '../form/form.component';
-import { oneDecimalValidator } from '../../../core/utils/one-decimal-validator';
 import { ActionButtons } from '../../../core/models/action.buttons.interface';
 import {
   ActivityLevel,
@@ -23,8 +22,17 @@ import { Goal } from '../../../core/models/goal';
 import { distinctUntilChanged } from 'rxjs';
 import { getGoalByDate } from '../../../core/utils/get-goal-by-date';
 import { UserGoals } from '../../../features/user/models/user.interface';
-import { goal, measurementSystem } from '../../../features/user/const/user.const';
+import {
+  goal,
+  measurementSystem,
+} from '../../../features/user/const/user.const';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
+import {
+  convertCmToImperial,
+  convertImperialToCm,
+  convertKgToPounds,
+  convertPoundsToKg
+} from '../../../core/utils/get-by-measurment-system';
 
 @Component({
   selector: 'app-user-goals-form',
@@ -36,10 +44,10 @@ import { DatepickerComponent } from '../datepicker/datepicker.component';
     FormComponent,
     SelectComponent,
     MatInputModule,
-    DatepickerComponent
+    DatepickerComponent,
   ],
   templateUrl: './user-goals-form.component.html',
-  styleUrl: './user-goals-form.component.scss'
+  styleUrl: './user-goals-form.component.scss',
 })
 export class UserGoalsFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -58,10 +66,8 @@ export class UserGoalsFormComponent implements OnInit {
     height: ['', [Validators.required, Validators.max(300)]],
     heightFeet: ['', [Validators.max(10)]],
     heightInches: ['', [Validators.max(11)]],
-    weight: [
-      '',
-      [Validators.required, Validators.max(999), oneDecimalValidator()],
-    ],
+    weight: ['', [Validators.required, Validators.max(999)]],
+    weightLbs: ['', [Validators.required, Validators.max(2202)]],
     goal: [goal, Validators.required],
     weightPerWeek: ['', Validators.required],
     activityLevel: ['', Validators.required],
@@ -106,6 +112,10 @@ export class UserGoalsFormComponent implements OnInit {
 
   get weight() {
     return this.userGoals.get('weight');
+  }
+
+  get weightLbs() {
+    return this.userGoals.get('weightLbs');
   }
 
   get goal() {
@@ -160,13 +170,15 @@ export class UserGoalsFormComponent implements OnInit {
         });
     }
 
-    this.measurementSystem?.valueChanges.subscribe((system) => {
+    this.measurementSystem?.valueChanges.subscribe((value) => {
+      const system = value!;
+
       if (system === UnitMeasurment.METRIC) {
         if (this.heightFeet?.value && this.heightInches?.value) {
           const heightFeetValue = Number(this.heightFeet.value);
           const heightInchesValue = Number(this.heightInches.value);
 
-          const metricValue = this.convertImperialToCm(
+          const metricValue = convertImperialToCm(
             heightFeetValue,
             heightInchesValue
           );
@@ -176,27 +188,20 @@ export class UserGoalsFormComponent implements OnInit {
           });
         }
 
-        if (this.weight?.value) {
-          const weightValue = Number(this.weight.value);
-          const metricValue = this.convertPoundsToKg(weightValue);
+        if (this.weightLbs?.value) {
+          const weightValue = Number(this.weightLbs.value);
+          const metricValue = convertPoundsToKg(weightValue);
 
-          this.weight.patchValue(metricValue.toString());
-        }
-
-        if (this.weightPerWeek?.value) {
-          const weightPerWeekValue = Number(this.weightPerWeek?.value);
-          const metricValue = this.convertPoundsToKg(weightPerWeekValue);
-
-          this.weightPerWeek.patchValue(metricValue.toString());
+          this.weight?.patchValue(metricValue.toString());
         }
 
         this.heightFeet?.clearValidators();
         this.heightInches?.clearValidators();
-        this.height?.setValidators([Validators.required, Validators.max(999)]);
+        this.weightLbs?.clearValidators();
       } else {
         if (this.height?.value) {
           const heightValue = Number(this.height.value);
-          const imperialValue = this.convertCmToImperial(heightValue);
+          const imperialValue = convertCmToImperial(heightValue);
 
           this.userGoals.patchValue({
             heightFeet: imperialValue.feet.toString(),
@@ -206,16 +211,9 @@ export class UserGoalsFormComponent implements OnInit {
 
         if (this.weight?.value) {
           const weightValue = Number(this.weight.value);
-          const imperialValue = this.convertKgToPounds(weightValue);
+          const imperialValue = convertKgToPounds(weightValue);
 
-          this.weight.patchValue(imperialValue.toString());
-        }
-
-        if (this.weightPerWeek?.value) {
-          const weightPerWeekValue = Number(this.weightPerWeek?.value);
-          const imperialValue = this.convertKgToPounds(weightPerWeekValue);
-
-          this.weightPerWeek.patchValue(imperialValue.toString());
+          this.weightLbs?.patchValue(imperialValue.toString());
         }
 
         this.heightFeet?.setValidators([
@@ -226,7 +224,10 @@ export class UserGoalsFormComponent implements OnInit {
           Validators.required,
           Validators.max(10),
         ]);
-        this.height?.clearValidators();
+        this.weightLbs?.setValidators([
+          Validators.required,
+          Validators.max(2202),
+        ]);
       }
 
       this.heightFeet?.updateValueAndValidity();
@@ -237,8 +238,6 @@ export class UserGoalsFormComponent implements OnInit {
   }
 
   private setFormData(): void {
-    this.measurementSystem?.setValue(this.currentGoal.measurementSystem);
-
     this.userGoals.get('weight')?.setValue(this.currentGoal.weight.toString());
     this.userGoals.get('goal')?.setValue(this.currentGoal.goal);
     this.userGoals
@@ -247,28 +246,8 @@ export class UserGoalsFormComponent implements OnInit {
     this.userGoals
       .get('activityLevel')
       ?.setValue(this.currentGoal.activityLevel);
-
-    if (this.measurementSystem?.value === UnitMeasurment.METRIC) {
-      this.userGoals
-        .get('height')
-        ?.setValue(this.currentGoal.height.toString());
-
-      this.heightFeet?.clearValidators();
-      this.heightInches?.clearValidators();
-    } else {
-      this.userGoals
-        .get('heightFeet')
-        ?.setValue(this.currentGoal.height.toString());
-      this.userGoals
-        .get('heightInches')
-        ?.setValue(this.currentGoal.height.toString());
-
-      this.height?.clearValidators();
-    }
-
-    this.heightFeet?.updateValueAndValidity();
-    this.heightInches?.updateValueAndValidity();
-    this.height?.updateValueAndValidity();
+    this.userGoals.get('height')?.setValue(this.currentGoal.height.toString());
+    this.measurementSystem?.setValue(this.currentGoal.measurementSystem);
   }
 
   getMaxDate(): Date {
@@ -276,31 +255,12 @@ export class UserGoalsFormComponent implements OnInit {
     return maxDate;
   }
 
-  private convertImperialToCm(feet: number, inches: number) {
-    return Math.round((feet * 12 + inches) * 2.54);
-  }
-
-  private convertCmToImperial(cm: number) {
-    const totalInches = cm / 2.54;
-    const feet = Math.floor(totalInches / 12);
-    const inches = Math.round(totalInches % 12);
-    return { feet, inches };
-  }
-
-  private convertKgToPounds(kg: number): number {
-    return Math.round(kg * 2.20462 * 10) / 10;
-  }
-
-  private convertPoundsToKg(pounds: number): number {
-    return Math.round((pounds / 2.20462) * 10) / 10;
-  }
-
   private updateWeightOptions(system: string) {
     this.weightOptions =
       system === UnitMeasurment.IMPERIAL
         ? this.weightOptionsKg.map((option) => ({
-            label: this.convertKgToPounds(Number(option.label)).toString(),
-            value: this.convertKgToPounds(Number(option.value)).toString(),
+            ...option,
+            label: convertKgToPounds(Number(option.label)).toString(),
           }))
         : [...this.weightOptionsKg];
   }
@@ -316,12 +276,6 @@ export class UserGoalsFormComponent implements OnInit {
       goal: formValue.goal!,
       weightPerWeek: parseFloat(formValue.weightPerWeek!),
       activityLevel: formValue.activityLevel!,
-      ...(formValue.heightFeet && {
-        heightFeet: parseInt(formValue.heightFeet),
-      }),
-      ...(formValue.heightInches && {
-        heightInches: parseInt(formValue.heightInches),
-      }),
     };
 
     this.onSubmit.emit(payload);

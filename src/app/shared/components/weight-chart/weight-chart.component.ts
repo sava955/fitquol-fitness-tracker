@@ -8,6 +8,8 @@ import { MatIcon } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseStatisticChartComponent } from '../statistic-chart-base/statistic-chart-base.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UnitMeasurment } from '../../../features/user/enums/user.enum';
+import { convertKgToPounds } from '../../../core/utils/get-by-measurment-system';
 
 @Component({
   selector: 'app-weight-chart',
@@ -15,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AreaChartComponent,
     MatButtonModule,
     MatIcon,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './weight-chart.component.html',
   styleUrl: './weight-chart.component.scss',
@@ -47,7 +49,11 @@ export class WeightChartComponent
     return [
       {
         name: 'Weight',
-        data: data.map((goal) => goal.weight),
+        data: data.map((goal) =>
+          goal.measurementSystem === UnitMeasurment.METRIC
+            ? goal.weight
+            : convertKgToPounds(goal.weight)
+        ),
       },
     ];
   }

@@ -46,10 +46,10 @@ export class RegisterComponent {
   signUp(goalData: UserGoals): void {
     const data = {
       measurementSystem: goalData.measurementSystem,
-      height:
-        goalData.measurementSystem === UnitMeasurment.METRIC
-          ? goalData.height
-          : this.getImperialHeight(goalData.heightFeet!, goalData.heightInches!),
+      height: goalData.height,
+        // goalData.measurementSystem === UnitMeasurment.METRIC
+        //   ? goalData.height
+        //   : this.getImperialHeight(goalData.heightFeet!, goalData.heightInches!),
       weight: goalData.weight,
       goal: goalData.goal,
       weightPerWeek: goalData.weightPerWeek,
