@@ -18,17 +18,20 @@
 @if (goal) {
 <div class="my-4 flex align-items-center">
   <mat-icon class="primary">height</mat-icon>
-  <span class="ml-2"
-    >{{ goal.height }}
-    {{ goal.measurementSystem === "METRIC" ? "cm" : "ft" }}</span
-  >
+  <span class="ml-2">
+    @if (isMetric()) {
+    {{ goal.height }} kg } @else {
+    {{ getImperialHeight() }}
+    }
+  </span>
 </div>
 
 <div class="my-4 flex align-items-center">
   <mat-icon class="primary">monitor_weight</mat-icon>
-  <span class="ml-2"
-    >{{ goal.weight }}
-    {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }}</span
+  <span class="ml-2">
+    @if (isMetric()) {
+    {{ goal.weight }} kg } @else { {{ getImperialWeight(goal.weight) }} lbs
+    }</span
   >
 </div>
 
@@ -39,10 +42,11 @@
 
   @if (goal.goal !== 'REMAIN_WEIGHT') {
   <span>:</span>
-  <span class="font-bold ml-1"
-    >{{ goal.weightPerWeek }}
-    {{ goal.measurementSystem === "METRIC" ? "kg" : "lbs" }} per week</span
-  >
+  <span class="font-bold ml-1">
+    @if (isMetric()) {
+    {{ goal.weightPerWeek }} kg } @else {
+    {{ getImperialWeight(goal.weightPerWeek) }} lbs } per week
+  </span>
   }
 </div>
 

@@ -26,12 +26,21 @@
       </mat-radio-group>
     </div>
 
-    <div class="flex flex-column flex-row-xl col-gap-2">
+    <div class="flex flex-column flex-row-xl col-gap-2 full-col">
       @if (measurementSystem?.value === "METRIC") {
       <app-input-base
         formControlName="height"
         inputLabel="Height"
         suffixValue="cm"
+        type="number"
+        class="flex full-col mb-4"
+      ></app-input-base>
+
+      <app-input-base
+        formControlName="weight"
+        inputLabel="Weight"
+        suffixValue="kg"
+        step="0.1"
         type="number"
         class="flex full-col mb-4"
       ></app-input-base>
@@ -53,16 +62,16 @@
         type="number"
         class="flex full-col mb-4"
       ></app-input-base>
-      }
 
       <app-input-base
-        formControlName="weight"
+        formControlName="weightLbs"
         inputLabel="Weight"
-        [suffixValue]="measurementSystem?.value === 'METRIC' ? 'kg' : 'lbs'"
+        suffixValue="lbs"
         step="0.1"
         type="number"
         class="flex full-col mb-4"
       ></app-input-base>
+      }
     </div>
 
     <div class="flex flex-column mb-4">
